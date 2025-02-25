@@ -37,10 +37,12 @@ export const NavContainer = styled.nav`
   a {
     color: black;
   }
-  .navIcons {
-    font-size: 1.5rem;
+    .nav-icon {
+    color:rgb(8, 137, 135); 
+    width: 30px; 
+    height: 30px;
+    margin: 0 5px; 
   }
-
   @media (min-width: 769px) {
     position: static;
     padding: 0;

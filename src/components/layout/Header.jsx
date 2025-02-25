@@ -43,11 +43,11 @@ const Header = () => {
         {/* For mobile: Always visible links */}
         <div className="d-lg-none fixed-bottom w-100 bg-none d-flex justify-content-around align-items-center p-2">
           <Nav className="navIcons" >
-            <Nav.Link href="/">
-              <FaHome />
+          <Nav.Link href="/">
+              <FaHome className="nav-icon" /> {/* Legg til klasse her */}
             </Nav.Link>
             <Nav.Link href="/dogs">
-              <FaDog />
+              <FaDog className="nav-icon" /> {/* Legg til klasse her */}
             </Nav.Link>
           </Nav>
         </div>
