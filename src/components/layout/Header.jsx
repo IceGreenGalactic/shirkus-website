@@ -13,7 +13,7 @@ const Header = () => {
           alt="Hero Image of five poodles sitting in the grass"
           className="hero-image"
         />
-        <HeroText>Kennel Shirkus</HeroText>
+        <HeroText className="col-12 m-auto text-center">Kennel Shirkus</HeroText>
       </HeaderContainer>
       <NavContainer>
         <Navbar
@@ -29,7 +29,7 @@ const Header = () => {
             <Navbar.Toggle aria-controls="navbar-nav" />
 
             <Navbar.Collapse id="navbar-nav">
-              <Nav className="w-100 d-lg-flex justify-content-between">
+              <Nav className="w-100 d-lg-flex justify-content-between fs-5">
                 <Nav.Link href="/">Home</Nav.Link>
                 <Nav.Link href="/dogs">Our Dogs</Nav.Link>
                 <Nav.Link href="/litters">Litters</Nav.Link>
@@ -44,10 +44,10 @@ const Header = () => {
         <div className="d-lg-none fixed-bottom w-100 bg-none d-flex justify-content-around align-items-center p-2">
           <Nav className="navIcons" >
           <Nav.Link href="/">
-              <FaHome className="nav-icon" /> {/* Legg til klasse her */}
+              <FaHome className="nav-icon" /> 
             </Nav.Link>
             <Nav.Link href="/dogs">
-              <FaDog className="nav-icon" /> {/* Legg til klasse her */}
+              <FaDog className="nav-icon" /> 
             </Nav.Link>
           </Nav>
         </div>

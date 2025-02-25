@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 
 export const FooterContainer = styled.footer`
-  background-color: ${(props) => props.theme.colors.footer};
+  background-color: ${(props) => props.theme.colors.primary};
   color: white;
   padding: 1rem;
   text-align: center;

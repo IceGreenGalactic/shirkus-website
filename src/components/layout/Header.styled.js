@@ -18,16 +18,18 @@ export const HeaderContainer = styled.header`
 
 export const HeroText = styled.h1`
   position: absolute;
-  bottom: 2%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  bottom: 0%;
   font-size: 3rem;
-  color: white;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  color: ${(props) => props.theme.colors.white};
+  text-shadow: ${(props) => props.theme.shadows.textShadow};
+  background-color: rgba(95,158,160, 0.5);
+  @media (max-width: 500px) {
+    font-size: 2.8rem;
+  }
 `;
 
 export const NavContainer = styled.nav`
-  background: rgba(255, 255, 255, 0.9);
+  background: ${(props) => props.theme.colors.background};
   width: 100%;
   position: fixed;
   bottom: 0;
@@ -35,15 +37,18 @@ export const NavContainer = styled.nav`
   display: flex;
 
   a {
-    color: black;
+    color: ${(props) => props.theme.colors.primary};
+    font-family: ${(props) => props.theme.fonts.heading};
   }
-    .nav-icon {
-    color:rgb(8, 137, 135); 
-    width: 30px; 
+
+  .nav-icon {
+    color: ${(props) => props.theme.colors.accent};
+    width: 30px;
     height: 30px;
-    margin: 0 5px; 
+    margin: 0 5px;
   }
-  @media (min-width: 769px) {
+
+  @media (min-width: 992px) {
     position: static;
     padding: 0;
     width: 100%;
