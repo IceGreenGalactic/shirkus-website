@@ -30,11 +30,11 @@ const Header = () => {
 
             <Navbar.Collapse id="navbar-nav">
               <Nav className="w-100 d-lg-flex justify-content-between fs-5">
-                <Nav.Link href="/">Home</Nav.Link>
-                <Nav.Link href="/dogs">Our Dogs</Nav.Link>
-                <Nav.Link href="/litters">Litters</Nav.Link>
-                <Nav.Link href="/about">About Us</Nav.Link>
-                <Nav.Link href="/contact">Contact</Nav.Link>
+                <Nav.Link href="/">Hjem</Nav.Link>
+                <Nav.Link href="/dogs">Våre hunder</Nav.Link>
+                <Nav.Link href="/litters">Valpe kull</Nav.Link>
+                <Nav.Link href="/about">Om oss</Nav.Link>
+                <Nav.Link href="/contact">Kontakt</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>
