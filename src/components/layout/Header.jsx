@@ -42,10 +42,9 @@ const Header = () => {
 
         {/* For mobile: Always visible links */}
         <div className="d-lg-none fixed-bottom w-100 bg-none d-flex justify-content-around align-items-center p-2">
-          <Nav>
+          <Nav className="navIcons" >
             <Nav.Link href="/">
-              {" "}
-              <FaHome />{" "}
+              <FaHome />
             </Nav.Link>
             <Nav.Link href="/dogs">
               <FaDog />

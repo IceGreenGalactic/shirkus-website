@@ -37,10 +37,13 @@ export const NavContainer = styled.nav`
   a {
     color: black;
   }
+  .navIcons {
+    font-size: 1.5rem;
+  }
 
   @media (min-width: 769px) {
     position: static;
     padding: 0;
-    width:100%
+    width: 100%;
   }
 `;
