@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // Bruker Link til å navigere til detaljside senere
+import { Link } from "react-router-dom";
 import sanityClient from "../sanityClient";
-import { DogsGrid, DogCard } from "./OurDogs.styled";
+import { DogCard } from "./OurDogs.styled"; // Beholder DogCard hvis du fortsatt bruker det til styling
 
 const OurDogs = () => {
   const [dogs, setDogs] = useState([]);
@@ -17,24 +17,27 @@ const OurDogs = () => {
         }`
       )
       .then((data) => {
-        // Fjerne duplisering
-        setDogs(data); // Sett inn data direkte uten duplisering
+        setDogs(data);
       })
       .catch(console.error);
   }, []);
 
   return (
-    <DogsGrid>
-      {dogs.map((dog) => (
-        <DogCard key={dog._id}>
-          <Link to={`/dogs/${dog._id}`}>
-            <img src={dog.imageUrl} alt={dog.name} />
-            <h3>{dog.nickname}</h3>
-            <h4>{dog.name}</h4>
-          </Link>
-        </DogCard>
-      ))}
-    </DogsGrid>
+    <div className="container mt-4 col-lg-10"> {/* Bootstrap container */}
+      <div className="row g-4"> {/* Bootstrap grid-system */}
+        {dogs.map((dog) => (
+          <div key={dog._id} className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto">  
+            <DogCard> {/* Beholder DogCard for eksisterende styling */}
+              <Link to={`/dogs/${dog._id}`}>
+                <img src={dog.imageUrl} alt={dog.name} />
+                <h3>{dog.nickname}</h3>
+                <h4>{dog.name}</h4>
+              </Link>
+            </DogCard>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

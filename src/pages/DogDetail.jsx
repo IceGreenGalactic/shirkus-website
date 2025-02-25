@@ -50,37 +50,42 @@ const DogDetail = () => {
   }
 
   return (
-    <DetailContainer>
-      <DogName>{dog.nickname}</DogName>
-      <DogImage src={dog.imageUrl} alt={dog.name} />
+    <DetailContainer className="col-10">
+      <DogName className="text-center">{dog.nickname}</DogName>
+      <div className="col-12 col-md-10 col-lg-8 col-xl-6 m-auto">
+      <DogImage
+        className="w-100"
+        src={dog.imageUrl}
+        alt={dog.name}
+      /></div>
       <h3 className="mb-5 text-center">{dog.name}</h3>
       <div className="row m-auto">
         <div className="col-12 col-md-4 mx-auto h-100">
           {dog.breed && (
             <DogInfo>
-              <strong>Breed: </strong>
+              <strong>Rase: </strong>
               {dog.breed}
             </DogInfo>
           )}
           {dog.color && (
             <DogInfo>
-              <strong>Color: </strong> {dog.color}
+              <strong>Farge: </strong> {dog.color}
             </DogInfo>
           )}
           {dog.gender && (
             <DogInfo>
-              <strong>Gender: </strong>
+              <strong>Kjønn: </strong>
               {dog.gender}
             </DogInfo>
           )}
           {dog.dateOfBirth && (
             <DogInfo>
-              <strong>Date of Birth: </strong> {dog.dateOfBirth}
+              <strong>Fødselsdato: </strong> {dog.dateOfBirth}
             </DogInfo>
           )}
           {dog.registrationNumber && (
             <DogInfo>
-              <strong>Registration Number: </strong>
+              <strong>RegNr: </strong>
               {dog.registrationNumber}
             </DogInfo>
           )}
@@ -94,7 +99,7 @@ const DogDetail = () => {
         <div className="col-12 col-md-4 mx-auto h-100">
           {dog.healthResults && dog.healthResults.length > 0 && (
             <HealthResults className="mt-4 mt-md-0">
-              <h4>Helse resultater:</h4>
+              <h5>Helse resultater:</h5>
               <ul>
                 {dog.healthResults.map((result, index) => (
                   <HealthResultItem key={index}>

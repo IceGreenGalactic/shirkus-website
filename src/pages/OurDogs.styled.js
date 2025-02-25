@@ -5,15 +5,7 @@ export const DogsGrid = styled.section`
   gap: 1rem;
   padding: 2rem;
 
-  grid-template-columns: 1fr;
 
-  @media (min-width: 600px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (min-width: 900px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
 `;
 
 export const DogCard = styled.div`

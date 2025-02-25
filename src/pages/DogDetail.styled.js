@@ -2,14 +2,11 @@ import styled from "styled-components";
 
 export const DetailContainer = styled.div`
   padding: 2rem;
-  max-width: 800px;
   margin: auto;
 `;
 
 export const DogImage = styled.img`
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
+
   box-shadow: ${(props) => props.theme.shadows.boxShadow};
 `;
 
