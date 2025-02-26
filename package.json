@@ -12,6 +12,7 @@
   "dependencies": {
     "@portabletext/react": "^3.2.1",
     "@sanity/client": "^6.28.1",
+    "@sanity/image-url": "^1.1.0",
     "bootstrap": "^5.3.3",
     "dotenv": "^16.4.7",
     "react": "^19.0.0",
