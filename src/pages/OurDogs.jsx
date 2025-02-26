@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import sanityClient from "../sanityClient";
-import { DogCard } from "./OurDogs.styled"; // Beholder DogCard hvis du fortsatt bruker det til styling
+import { DogCard } from "./OurDogs.styled"; 
 
 const OurDogs = () => {
   const [dogs, setDogs] = useState([]);
@@ -23,11 +23,11 @@ const OurDogs = () => {
   }, []);
 
   return (
-    <div className="container mt-4 col-lg-10"> {/* Bootstrap container */}
-      <div className="row g-4"> {/* Bootstrap grid-system */}
+    <div className="container mt-4 col-lg-10">
+      <div className="row g-4"> 
         {dogs.map((dog) => (
           <div key={dog._id} className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto">  
-            <DogCard> {/* Beholder DogCard for eksisterende styling */}
+            <DogCard>
               <Link to={`/dogs/${dog._id}`}>
                 <img src={dog.imageUrl} alt={dog.name} />
                 <h3>{dog.nickname}</h3>
