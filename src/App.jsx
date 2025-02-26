@@ -8,6 +8,7 @@ import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import OurDogs from "./pages/OurDogs";
 import DogDetail from "./pages/DogDetail";
+import Litters from "./pages/Litters";
 
 const App = () => {
   return (
@@ -19,6 +20,8 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/dogs" element={<OurDogs />} />
             <Route path="/dogs/:id" element={<DogDetail />} /> 
+            <Route path="/litters" element={<Litters />} />
+
           </Routes>
         </Layout>
       </Router>
