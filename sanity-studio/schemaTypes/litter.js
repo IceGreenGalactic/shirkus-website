@@ -64,14 +64,23 @@ export default {
       ],
     },
     {
-      name: 'puppyCount',
-      title: 'Antall valper',
-      type: 'number',
+      name: 'dateOfBirth',
+      title: 'Fødselsdato',
+      type: 'date', // Kalender for valg av dato
+      options: {
+        dateFormat: 'DD.MM.YYYY', // Formaterer dato til ønsket format
+      },
+      description: 'Velg dato for fødsel.',
     },
     {
-      name: 'expectedPuppies',
-      title: 'Forventede valper',
-      type: 'text', // Her kan hun skrive tekst om forventede valper.
+      name: 'expectedDateOfBirth',
+      title: 'Forventet fødselsdato',
+      type: 'date', // Kalender for valg av dato, men kan begrenses til måned og år.
+      options: {
+        dateFormat: 'MM.YYYY', // Viser måned og år
+        calendarTodayLabel: 'Forventet dato',
+      },
+      description: 'Velg forventet dato for fødsel (måned og år).',
     },
     {
       name: 'puppyDetails',
@@ -96,25 +105,23 @@ export default {
               name: 'color',
               title: 'Farge',
               type: 'string',
+              options: {
+                list: [
+                  { title: 'Hvit', value: 'white' },
+                  { title: 'Grå', value: 'gray' },
+                  { title: 'Sort', value: 'black' },
+                ],
+              },
             },
             {
               name: 'count',
               title: 'Antall',
               type: 'number',
+              description: 'Antall valper av denne typen.',
             },
           ],
         },
       ],
-    },
-    {
-      name: 'dateOfBirth',
-      title: 'Dato født',
-      type: 'string',
-      description: 'Skriv dato som dd.mm.åå eller måned og år (f.eks. 05.03.23 eller mars 2023)',
-      validation: (Rule) => Rule.regex(/^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.(\d{2})$|^([A-Za-z]+)\s\d{4}$/, {
-        name: 'date or month and year', // Custom error message
-        message: 'Må være i formatet dd.mm.åå eller måned år (f.eks. 05.03.23 eller mars 2023)',
-      }),
     },
     {
       name: 'mainImage',
@@ -125,15 +132,30 @@ export default {
       },
     },
     {
-      name: 'additionalImages',
-      title: 'Ekstra bilder',
+      name: 'galleryImages',
+      title: 'Galleri bilder',
       type: 'array',
       of: [{ type: 'image' }],
     },
     {
-      name: 'textUnderImages',
-      title: 'Tekst under bilder',
-      type: 'text', // Fri tekst for beskrivelser under bildene.
+      name: 'textUnderMainImage',
+      title: 'Tekst under hovedbilde',
+      type: 'text', // Beskrivelse under hovedbilde.
+    },
+    {
+      name: 'textUnderGallery',
+      title: 'Tekst under galleri',
+      type: 'text', // Beskrivelse under galleribilder.
+    },
+    {
+      name: 'freeText1',
+      title: 'Fritekst 1',
+      type: 'text', // Mulighet for fri tekst.
+    },
+    {
+      name: 'freeText2',
+      title: 'Fritekst 2',
+      type: 'text', // Mulighet for fri tekst.
     },
   ],
 };

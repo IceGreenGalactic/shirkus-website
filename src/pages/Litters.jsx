@@ -24,15 +24,15 @@ const Litters = () => {
           },
           expectedPuppies,
           puppyCount,
-          dateOfBirth
+          dateOfBirth,
+          expectedDateOfBirth // Legg til dette feltet
         }`
       )
       .then((data) => {
-        // Sort litters: upcoming first, then others
         const upcomingLitters = data.filter(litter => !litter.dateOfBirth);
         const pastLitters = data.filter(litter => litter.dateOfBirth);
         const sortedLitters = [...upcomingLitters, ...pastLitters];
-        
+
         setLitters(sortedLitters);
         setLoading(false);
       })
@@ -63,6 +63,9 @@ const Litters = () => {
                 )}
                 {litter.dateOfBirth && (
                   <p>Dato født: {new Date(litter.dateOfBirth).toLocaleDateString()}</p>
+                )}
+                {!litter.dateOfBirth && litter.expectedDateOfBirth && (
+                  <p>Forventet fødselsdato: {new Date(litter.expectedDateOfBirth).toLocaleDateString('no-NO', { year: 'numeric', month: 'long' })}</p>
                 )}
               </Link>
             </LitterCard>
