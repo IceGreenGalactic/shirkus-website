@@ -1,24 +1,16 @@
-// functions/sanity.js
-
-import { createClient } from 'sanity';
+import { createClient } from "@sanity/client";
 
 const sanityClient = createClient({
   projectId: process.env.SANITY_STUDIO_PROJECT_ID,
   dataset: process.env.SANITY_STUDIO_DATASET,
-  useCdn: true, 
+  useCdn: true,
+  apiVersion: process.env.SANITY_API_VERSION,
 });
 
 export async function handler(event) {
-  try {
-    const data = await sanityClient.fetch('*[_type == "dog"]'); // Juster spørringen etter behov
-    return {
-      statusCode: 200,
-      body: JSON.stringify(data),
-    };
-  } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Could not fetch data' }),
-    };
-  }
+  const data = await sanityClient.fetch('*[_type == "yourDocumentType"]');
+  return {
+    statusCode: 200,
+    body: JSON.stringify(data),
+  };
 }
