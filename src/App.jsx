@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import OurDogs from "./pages/OurDogs";
 import DogDetail from "./pages/DogDetail";
 import Litters from "./pages/Litters";
+import LittersDetail from "./pages/LittersDetail";
 
 const App = () => {
   return (
@@ -19,9 +20,9 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/dogs" element={<OurDogs />} />
-            <Route path="/dogs/:id" element={<DogDetail />} /> 
+            <Route path="/dogs/:id" element={<DogDetail />} />
             <Route path="/litters" element={<Litters />} />
-
+            <Route path="/litters/:id" element={<LittersDetail />} />
           </Routes>
         </Layout>
       </Router>

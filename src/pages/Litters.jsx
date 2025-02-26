@@ -1,54 +1,75 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import sanityClient from "../sanityClient";
-import { LittersContainer, LitterCard, UpcomingLitter } from "./Litters.styled";
+import { LitterCard, LitterContainer } from "./Litters.styled";
 
 const Litters = () => {
   const [litters, setLitters] = useState([]);
-  const [upcomingLitter, setUpcomingLitter] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     sanityClient
       .fetch(
-        `*[_type == "litter"] | order(date desc){
+        `*[_type == "litter"]{
           _id,
-          parents,
-          status,
-          "imageUrl": image.asset->url
+          mother {
+            name,
+            nickname,
+            "imageUrl": image.asset->url
+          },
+          father {
+            name,
+            nickname,
+            "imageUrl": image.asset->url
+          },
+          expectedPuppies,
+          puppyCount,
+          dateOfBirth
         }`
       )
       .then((data) => {
-        const upcoming = data.find((litter) => litter.status === "upcoming");
-        setUpcomingLitter(upcoming);
-        setLitters(data.filter((litter) => litter.status !== "upcoming"));
+        // Sort litters: upcoming first, then others
+        const upcomingLitters = data.filter(litter => !litter.dateOfBirth);
+        const pastLitters = data.filter(litter => litter.dateOfBirth);
+        const sortedLitters = [...upcomingLitters, ...pastLitters];
+        
+        setLitters(sortedLitters);
+        setLoading(false);
       })
       .catch(console.error);
   }, []);
 
+  if (loading) {
+    return <div>Laster...</div>;
+  }
+
   return (
-    <LittersContainer>
-      {upcomingLitter && (
-        <UpcomingLitter>
-          <h2>Kommende Kull</h2>
-          <Link to={`/litters/${upcomingLitter._id}`}>
-            <img src={upcomingLitter.imageUrl} alt={upcomingLitter.parents} />
-            <h3>{upcomingLitter.parents}</h3>
-            <p>Valper ventes snart!</p>
-          </Link>
-        </UpcomingLitter>
-      )}
-      <h2>Tidligere Kull</h2>
-      <div className="litters-grid">
+    <LitterContainer className="container mt-4">
+      <h2>Kull</h2>
+      <div className="row g-4">
         {litters.map((litter) => (
-          <LitterCard key={litter._id}>
-            <Link to={`/litters/${litter._id}`}>
-              <img src={litter.imageUrl} alt={litter.parents} />
-              <h4>{litter.parents}</h4>
-            </Link>
-          </LitterCard>
+          <div key={litter._id} className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto">  
+            <LitterCard>
+              <Link to={`/litters/${litter._id}`}>
+                <h3>{litter.mother.nickname} & {litter.father.nickname}</h3>
+                {litter.mother.imageUrl && (
+                  <img src={litter.mother.imageUrl} alt={`${litter.mother.nickname} & ${litter.father.nickname}`} />
+                )}
+                {litter.expectedPuppies && (
+                  <p>Forventede valper: {litter.expectedPuppies}</p>
+                )}
+                {litter.puppyCount && (
+                  <p>Antall valper: {litter.puppyCount}</p>
+                )}
+                {litter.dateOfBirth && (
+                  <p>Dato født: {new Date(litter.dateOfBirth).toLocaleDateString()}</p>
+                )}
+              </Link>
+            </LitterCard>
+          </div>
         ))}
       </div>
-    </LittersContainer>
+    </LitterContainer>
   );
 };
 
