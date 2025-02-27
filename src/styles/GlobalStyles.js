@@ -8,7 +8,7 @@ export const GlobalStyles = createGlobalStyle`
     --accent-color: #6a994e; 
     --header-font: 'Playfair Display', serif; 
     --text-font: 'Roboto', sans-serif; 
-    --special-header-font: 'Great Vibes', cursive; 
+    --accent-font: "'Tangerine', cursive, sans-serif"
   }
 
   body {
