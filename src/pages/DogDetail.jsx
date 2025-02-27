@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import sanityClient from "../sanityClient";
-import Lightbox from "yet-another-react-lightbox";
-import "yet-another-react-lightbox/styles.css";
+import Modal from "../utils/modal"; // Import the custom Modal component
 import {
   DetailContainer,
   DogImage,
@@ -12,13 +11,16 @@ import {
   HealthResultItem,
   InfoWrapper,
   PedigreeImage,
+  GalleryContainer,
+  GalleryImage,
 } from "./DogDetail.styled";
 
 const DogDetail = () => {
   const { id } = useParams();
   const [dog, setDog] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for the custom modal
+  const [currentImage, setCurrentImage] = useState(null); // State for the current image
 
   useEffect(() => {
     sanityClient
@@ -31,10 +33,17 @@ const DogDetail = () => {
           color,
           gender,
           dateOfBirth,
+          dateOfDeath,
           registrationNumber,
           healthResults,
           "imageUrl": image.asset->url,
           "pedigreeUrl": pedigree.asset->url,
+          "gallery": gallery[] {
+            asset-> {
+              _id,
+              url
+            }
+          },
           description
         }`,
         { id }
@@ -84,6 +93,16 @@ const DogDetail = () => {
                     <strong>Fødselsdato:</strong> {dog.dateOfBirth}
                   </DogInfo>
                 )}
+                {dog.dogType === 'deceased' && dog.dateOfDeath && (
+                  <DogInfo>
+                    <strong>Dødsdato:</strong> {dog.dateOfDeath}
+                  </DogInfo>
+                )}
+                {dog.dogType === 'breeding' && (
+                  <DogInfo>
+                    <strong>Avlshund:</strong> Ja
+                  </DogInfo>
+                )}
                 {dog.registrationNumber && (
                   <DogInfo>
                     <strong>Registreringsnummer:</strong>{" "}
@@ -118,30 +137,49 @@ const DogDetail = () => {
           <strong>Beskrivelse:</strong> {dog.description}
         </DogInfo>
       )}
+
+      {/* Gallery Section */}
+      {dog.gallery && dog.gallery.length > 0 && (
+        <GalleryContainer className="mt-4">
+          <h4>Galleri:</h4>
+          <div className="row">
+            {dog.gallery.map((image, index) => (
+              image.asset ? ( // Check if asset exists
+                <GalleryImage
+                  key={index}
+                  src={image.asset.url} // Now safe to access asset.url
+                  alt={`Galleri bilde ${index + 1}`}
+                  onClick={() => {
+                    setCurrentImage(image.asset.url);
+                    setIsModalOpen(true); // Open the custom modal
+                  }}
+                />
+              ) : null // Return null if asset is not available
+            ))}
+          </div>
+        </GalleryContainer>
+      )}
+
+      {/* Pedigree Section */}
       {dog.pedigreeUrl && (
         <div className="mt-5 text-center">
           <h4>Stamtavle:</h4>
           <PedigreeImage
             src={dog.pedigreeUrl}
             alt="Stamtavle"
-            onClick={() => setIsLightboxOpen(true)}
+            onClick={() => {
+              setCurrentImage(dog.pedigreeUrl);
+              setIsModalOpen(true); // Open the custom modal
+            }}
             style={{ cursor: "pointer" }}
           />
         </div>
       )}
 
-      {/* Lightbox for Pedigree */}
-      <Lightbox
-        slides={[{ src: dog.pedigreeUrl }]}
-        open={isLightboxOpen}
-        close={() => setIsLightboxOpen(false)}
-        onClose={() => setIsLightboxOpen(false)}
-        styles={{
-          container: {
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-          },
-        }}
-      />
+      {/* Modal for displaying images */}
+      {isModalOpen && (
+        <Modal imageUrl={currentImage} onClose={() => setIsModalOpen(false)} />
+      )}
     </DetailContainer>
   );
 };
