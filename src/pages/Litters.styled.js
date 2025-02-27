@@ -4,6 +4,10 @@ export const LitterContainer = styled.div`
   max-width: 900px;
   margin: auto;
   padding: 2rem;
+
+  h2{
+    font-family: ${(props) => props.theme.fonts.specialHeading};
+}
 `;
 
 export const LitterCard = styled.div`
@@ -20,7 +24,7 @@ export const LitterCard = styled.div`
 
   img {
     width: 100%;
-    height: 15rem; /* Adjust height for litters */
+    height: 15rem; 
     object-fit: cover;
     object-position: center;
   }
@@ -33,8 +37,9 @@ export const LitterCard = styled.div`
 
   p {
     margin: 5px 0;
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: ${(props) => props.theme.colors.secondary};
+    
   }
 
   a {
@@ -42,3 +47,6 @@ export const LitterCard = styled.div`
     color: inherit;
   }
 `;
+
+
+
