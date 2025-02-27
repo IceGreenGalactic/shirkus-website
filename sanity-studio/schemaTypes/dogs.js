@@ -101,6 +101,12 @@ export default {
       type: 'image',
     },
     {
+      name: 'gallery',
+      title: 'Gallery',
+      type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
+    },
+    {
       name: 'description',
       title: 'Description',
       type: 'text', // Generelt felt for fri tekst
