@@ -22,19 +22,20 @@ export const HeroText = styled.h1`
   font-size: 3rem;
   color: ${(props) => props.theme.colors.white};
   text-shadow: ${(props) => props.theme.shadows.textShadow};
-  background-color: rgba(95,158,160, 0.5);
+  background-color: rgba(95, 158, 160, 0.5);
   @media (max-width: 500px) {
     font-size: 2.8rem;
   }
 `;
 
 export const NavContainer = styled.nav`
-  background: ${(props) => props.theme.colors.background};
+  background: ${(props) => props.theme.colors.accent};
   width: 100%;
   position: fixed;
   bottom: 0;
   z-index: 1000;
   display: flex;
+  padding: 10px 0px;
 
   a {
     color: ${(props) => props.theme.colors.primary};
@@ -42,7 +43,7 @@ export const NavContainer = styled.nav`
   }
 
   .nav-icon {
-    color: ${(props) => props.theme.colors.accent};
+    color: ${(props) => props.theme.colors.primary};
     width: 30px;
     height: 30px;
     margin: 0 5px;
@@ -52,5 +53,6 @@ export const NavContainer = styled.nav`
     position: static;
     padding: 0;
     width: 100%;
+    background: ${(props) => props.theme.colors.background};
   }
 `;
