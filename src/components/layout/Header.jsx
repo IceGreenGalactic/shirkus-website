@@ -1,5 +1,10 @@
 import React from "react";
-import { HeaderContainer, HeroText, NavContainer } from "./Header.styled";
+import {
+  HeaderContainer,
+  HeroText,
+  NavContainer,
+  MenueLineBottom,
+} from "./Header.styled";
 import backgroundImage from "../../assets/images/poodleHero.jpg";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaHome, FaDog } from "react-icons/fa";
@@ -20,7 +25,7 @@ const Header = () => {
       <NavContainer>
         <Navbar
           expand="lg"
-          className="navbar col-3 col-lg-12"
+          className="navbar col-4 col-lg-12"
           style={{
             background: "transparent",
             position: "relative",
@@ -31,19 +36,19 @@ const Header = () => {
             <Navbar.Toggle aria-controls="navbar-nav" />
 
             <Navbar.Collapse id="navbar-nav">
-              <Nav className="w-100 d-lg-flex justify-content-between fs-5">
-                <Nav.Link href="/">Hjem</Nav.Link>
-                <Nav.Link href="/dogs">Våre hunder</Nav.Link>
-                <Nav.Link href="/litters">Valpe kull</Nav.Link>
-                <Nav.Link href="/about">Om oss</Nav.Link>
-                <Nav.Link href="/contact">Kontakt</Nav.Link>
+              <Nav className="w-100 d-lg-flex justify-content-between fs-5 mb-5 ">
+                <Nav.Link className="bottom-border" href="/">Hjem</Nav.Link>
+                <Nav.Link className="bottom-border" href="/dogs">Våre hunder</Nav.Link>
+                <Nav.Link className="bottom-border" href="/litters">Valpe kull</Nav.Link>
+                <Nav.Link className="bottom-border" href="/about">Om oss</Nav.Link>
+                <Nav.Link className="bottom-border" href="/contact">Kontakt</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>
         </Navbar>
 
         {/* For mobile: Always visible links */}
-        <div className="d-lg-none fixed-bottom mb-2 w-100 bg-none d-flex justify-content-around align-items-center p-2">
+        <MenueLineBottom className="d-lg-none fixed-bottom p-3 w-100 bg-none d-flex justify-content-around align-items-center p-2 navIcons">
           <Nav className="navIcons">
             <Nav.Link href="/">
               <FaHome className="nav-icon" />
@@ -52,7 +57,7 @@ const Header = () => {
               <FaDog className="nav-icon" />
             </Nav.Link>
           </Nav>
-        </div>
+        </MenueLineBottom>
       </NavContainer>
     </>
   );
