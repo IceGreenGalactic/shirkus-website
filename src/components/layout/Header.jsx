@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   HeaderContainer,
   HeroText,
@@ -8,9 +8,17 @@ import {
 import backgroundImage from "../../assets/images/ShirkusHeader2.jpg";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaHome, FaDog } from "react-icons/fa";
-import { NavLink } from "react-router-dom"; // Import NavLink
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const handleLinkClick = () => {
+    if (isNavOpen) {
+      setIsNavOpen(false);
+    }
+  };
+
   return (
     <>
       <HeaderContainer>
@@ -33,24 +41,67 @@ const Header = () => {
             zIndex: 2000,
           }}
         >
-          <Container className="d-flex justify-content-between align-items-center ">
-            <Navbar.Toggle aria-controls="navbar-nav" />
+          <Container className="d-flex justify-content-between align-items-center">
+            <Navbar.Toggle
+              aria-controls="navbar-nav"
+              onClick={() => setIsNavOpen(!isNavOpen)}
+            />
 
-            <Navbar.Collapse id="navbar-nav">
+            <Navbar.Collapse id="navbar-nav" in={isNavOpen}>
               <Nav className="w-100 d-lg-flex justify-content-between fs-5 mb-5 mb-lg-1">
-                <NavLink to="/" className={({ isActive }) => (isActive ? "bottom-border active nav-link" : "bottom-border nav-link")}>
+                <NavLink
+                  to="/"
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "bottom-border active nav-link"
+                      : "bottom-border nav-link"
+                  }
+                >
                   Hjem
                 </NavLink>
-                <NavLink to="/dogs" className={({ isActive }) => (isActive ? "bottom-border active nav-link" : "bottom-border nav-link")}>
+                <NavLink
+                  to="/dogs"
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "bottom-border active nav-link"
+                      : "bottom-border nav-link"
+                  }
+                >
                   Våre hunder
                 </NavLink>
-                <NavLink to="/litters" className={({ isActive }) => (isActive ? "bottom-border active nav-link" : "bottom-border nav-link")}>
+                <NavLink
+                  to="/litters"
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "bottom-border active nav-link"
+                      : "bottom-border nav-link"
+                  }
+                >
                   Valpe kull
                 </NavLink>
-                <NavLink to="/about" className={({ isActive }) => (isActive ? "bottom-border active nav-link" : "bottom-border nav-link")}>
+                <NavLink
+                  to="/about"
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "bottom-border active nav-link"
+                      : "bottom-border nav-link"
+                  }
+                >
                   Om oss
                 </NavLink>
-                <NavLink to="/contact" className={({ isActive }) => (isActive ? "bottom-border active nav-link" : "bottom-border nav-link")}>
+                <NavLink
+                  to="/contact"
+                  onClick={handleLinkClick}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "bottom-border active nav-link"
+                      : "bottom-border nav-link"
+                  }
+                >
                   Kontakt
                 </NavLink>
               </Nav>
