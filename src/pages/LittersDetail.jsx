@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import sanityClient from "../sanityClient";
+import { urlFor } from "../utils/sanityImage";
 import {
   LitterContainer,
   ParentInfo,
@@ -15,29 +16,26 @@ const LittersDetail = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    sanityClient
-      .fetch(
+    sanityClient.fetch(
         `*[_type == "litter" && _id == $id]{
-          mother {
-            name,
-            nickname,
-            "imageUrl": image.asset->url,
-            info
-          },
-          father {
-            name,
-            nickname,
-            "imageUrl": image.asset->url,
-            info
-          },
-          puppyCount,
-          expectedPuppies,
-          puppyDetails,
-          mainImage,
-          additionalImages,
-          textUnderImages,
-          dateOfBirth,
-          expectedDateOfBirth // Hent forventet fødselsdato
+            mother {
+                name,
+                nickname,
+                "image": image { asset-> { _id, _ref }, crop, hotspot }, 
+                info
+            },
+            father {
+                name,
+                nickname,
+                "image": image { asset-> { _id, _ref }, crop, hotspot }, 
+                info
+            },
+            puppyDetails,
+            mainImage { asset-> { _id, url }, crop, hotspot }, 
+            additionalImages[]{ asset-> { _id, url }, crop, hotspot }, 
+            textUnderImages,
+            dateOfBirth,
+            expectedDateOfBirth
         }`,
         { id }
       )
@@ -45,7 +43,11 @@ const LittersDetail = () => {
         setLitter(data[0]);
         setLoading(false);
       })
-      .catch(console.error);
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      });
+      
   }, [id]);
 
   if (loading) {
@@ -59,33 +61,29 @@ const LittersDetail = () => {
   return (
     <LitterContainer className="container">
       <h2>Kull Detaljer</h2>
-
       <div className="row">
-        {/* Mor Info */}
         <div className="col-md-6">
           <ParentInfo>
             <h3>
               Mor: {litter.mother.nickname} ({litter.mother.name})
             </h3>
-            {litter.mother.imageUrl && (
+            {litter.mother.image && (
               <ParentImage
-                src={litter.mother.imageUrl}
+                src={urlFor(litter.mother.image)}
                 alt={litter.mother.name}
               />
             )}
             {litter.mother.info && <p>{litter.mother.info}</p>}
           </ParentInfo>
         </div>
-
-        {/* Far Info */}
         <div className="col-md-6">
           <ParentInfo>
             <h3>
               Far: {litter.father.nickname} ({litter.father.name})
             </h3>
-            {litter.father.imageUrl && (
+            {litter.father.image && (
               <ParentImage
-                src={litter.father.imageUrl}
+                src={urlFor(litter.father.image)}
                 alt={litter.father.name}
               />
             )}
@@ -93,8 +91,6 @@ const LittersDetail = () => {
           </ParentInfo>
         </div>
       </div>
-
-      {/* Dato for fødsel og hovedbilde */}
       {litter.dateOfBirth && (
         <h4>Dato født: {new Date(litter.dateOfBirth).toLocaleDateString()}</h4>
       )}
@@ -108,10 +104,11 @@ const LittersDetail = () => {
         </h4>
       )}
       {litter.mainImage && (
-        <img src={litter.mainImage.asset.url} alt="Kull bilde" />
+        <img
+          src={urlFor(litter.mainImage)}
+          alt="Kull bilde"
+        />
       )}
-
-      {/* Detaljer om valper */}
       <h4>Detaljer om valper</h4>
       {litter.puppyDetails &&
         litter.puppyDetails.map((puppy, index) => (
@@ -122,22 +119,18 @@ const LittersDetail = () => {
             <p>Antall: {puppy.count}</p>
           </div>
         ))}
-
-      {/* Ytterligere bilder */}
       {litter.additionalImages && litter.additionalImages.length > 0 && (
         <PuppyGallery>
           <h4>Bildegalleri:</h4>
           {litter.additionalImages.map((image, index) => (
             <PuppyImage
               key={index}
-              src={image.asset.url}
+              src={urlFor(image)}
               alt={`Valp bilde ${index + 1}`}
             />
           ))}
         </PuppyGallery>
       )}
-
-      {/* Ytterligere tekst under bildene */}
       {litter.textUnderImages && <p>{litter.textUnderImages}</p>}
     </LitterContainer>
   );
