@@ -5,7 +5,7 @@ import {
   NavContainer,
   MenueLineBottom,
 } from "./Header.styled";
-import backgroundImage from "../../assets/images/poodleHero.jpg";
+import backgroundImage from "../../assets/images/ShirkusHeader2.jpg";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaHome, FaDog } from "react-icons/fa";
 
@@ -48,7 +48,7 @@ const Header = () => {
         </Navbar>
 
         {/* For mobile: Always visible links */}
-        <MenueLineBottom className="d-lg-none fixed-bottom p-3 w-100 bg-none d-flex justify-content-around align-items-center p-2 navIcons">
+        <MenueLineBottom className="d-lg-none fixed-bottom p-3 w-100 bg-none d-flex justify-content-around align-items-center navIcons">
           <Nav className="navIcons">
             <Nav.Link href="/">
               <FaHome className="nav-icon" />

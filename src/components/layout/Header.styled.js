@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const HeaderContainer = styled.header`
   position: relative;
-  height: 60vh;
+  height: 30vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,7 +12,7 @@ export const HeaderContainer = styled.header`
     height: 100%;
     object-fit: cover;
     object-position: center;
-    object-position: 40% 56%;
+    object-position: 50% 50%;
   }
 `;
 
@@ -26,10 +26,13 @@ export const HeroText = styled.h1`
   @media (max-width: 500px) {
     font-size: 2.8rem;
   }
+    @media (max-width: 330px) {
+    font-size: 2.3rem;
+  }
 `;
 
 export const NavContainer = styled.nav`
-  background: ${(props) => props.theme.colors.accentTransparent};
+  background: ${(props) => props.theme.colors.accent};
   width: 100%;
   position: fixed;
   bottom: 0;
@@ -38,12 +41,19 @@ export const NavContainer = styled.nav`
   padding: 10px 0px;
 
   a {
-    color: ${(props) => props.theme.colors.primary};
+    color: #F2E6D0;
     font-family: ${(props) => props.theme.fonts.heading};
-  }
-    .bottom-border {
-    border-bottom: 1px solid ${(props) => props.theme.colors.primary};
+    @media (min-width: 992px) {
+      color: ${(props) => props.theme.colors.primary};
     }
+  }
+  .bottom-border {
+    border-bottom: 1px solid ${(props) => props.theme.colors.primary};
+
+    @media (min-width: 992px) {
+      border-bottom: transparent;
+    }
+  }
 
   .nav-icon {
     color: ${(props) => props.theme.colors.primary};
