@@ -29,6 +29,7 @@ const DogDetail = () => {
           _id,
           name,
           nickname,
+           dogType,
           breed,
           color,
           gender,
@@ -36,6 +37,7 @@ const DogDetail = () => {
           dateOfDeath,
           registrationNumber,
           healthResults,
+          breedingNotes,
           "imageUrl": image.asset->url,
           "pedigreeUrl": pedigree.asset->url,
           "gallery": gallery[] {
@@ -71,7 +73,7 @@ const DogDetail = () => {
 
         <div className="col-sm-10 col-md-6 mx-auto">
           <div className="row">
-            <div className="col-10 col-sm-6 mx-auto">
+            <div className="col-10 col-sm-8 mx-auto">
               <InfoWrapper className="m-auto mt-4 mt-md-0">
                 {dog.breed && (
                   <DogInfo>
@@ -88,27 +90,36 @@ const DogDetail = () => {
                     <strong>Kjønn:</strong> {dog.gender}
                   </DogInfo>
                 )}
-                {dog.dateOfBirth && (
-                  <DogInfo>
-                    <strong>Fødselsdato:</strong> {dog.dateOfBirth}
-                  </DogInfo>
-                )}
-                {dog.dogType === 'deceased' && dog.dateOfDeath && (
-                  <DogInfo>
-                    <strong>Dødsdato:</strong> {dog.dateOfDeath}
-                  </DogInfo>
-                )}
-                {dog.dogType === 'breeding' && (
+                <div className="d-flex">
+                  {dog.dateOfBirth && (
+                    <DogInfo>
+                      <strong>Fødselsdato:</strong> {dog.dateOfBirth}
+                    </DogInfo>
+                  )}
+
+                  {dog.dogType === "deceased" && dog.dateOfDeath && (
+                    <DogInfo>
+                      <strong>Dødsdato:</strong> {dog.dateOfDeath}
+                    </DogInfo>
+                  )}
+                </div>
+                {dog.dogType === "breeding" && (
                   <DogInfo>
                     <strong>Avlshund:</strong> Ja
                   </DogInfo>
                 )}
+
                 {dog.registrationNumber && (
                   <DogInfo>
                     <strong>Registreringsnummer:</strong>{" "}
                     {dog.registrationNumber}
                   </DogInfo>
                 )}
+                <div className="border p-3 p-md-0 py-md-3 px-md-1 mb-5 mb-md-0">
+                  {dog.dogType === "breeding" && dog.breedingNotes && (
+                    <DogInfo>{dog.breedingNotes}</DogInfo>
+                  )}
+                </div>
               </InfoWrapper>
             </div>
 
@@ -117,6 +128,7 @@ const DogDetail = () => {
               {dog.healthResults?.length > 0 && (
                 <InfoWrapper className="m-auto">
                   <HealthResults>
+                    <p>helseresultater:</p>
                     <ul>
                       {dog.healthResults.map((result, index) => (
                         <HealthResultItem key={index}>
@@ -143,19 +155,20 @@ const DogDetail = () => {
         <GalleryContainer className="mt-4">
           <h4>Galleri:</h4>
           <div className="row">
-            {dog.gallery.map((image, index) => (
-              image.asset ? ( // Check if asset exists
-                <GalleryImage
-                  key={index}
-                  src={image.asset.url} // Now safe to access asset.url
-                  alt={`Galleri bilde ${index + 1}`}
-                  onClick={() => {
-                    setCurrentImage(image.asset.url);
-                    setIsModalOpen(true); // Open the custom modal
-                  }}
-                />
-              ) : null // Return null if asset is not available
-            ))}
+            {dog.gallery.map(
+              (image, index) =>
+                image.asset ? ( // Check if asset exists
+                  <GalleryImage
+                    key={index}
+                    src={image.asset.url} // Now safe to access asset.url
+                    alt={`Galleri bilde ${index + 1}`}
+                    onClick={() => {
+                      setCurrentImage(image.asset.url);
+                      setIsModalOpen(true); // Open the custom modal
+                    }}
+                  />
+                ) : null // Return null if asset is not available
+            )}
           </div>
         </GalleryContainer>
       )}

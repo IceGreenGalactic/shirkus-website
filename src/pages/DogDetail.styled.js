@@ -35,6 +35,7 @@ export const HealthResults = styled.div`
     padding: 0;
     margin:0:
   }
+ 
 `;
 
 export const HealthResultItem = styled.li`
