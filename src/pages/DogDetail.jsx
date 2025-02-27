@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import sanityClient from "../sanityClient";
-import Modal from "../utils/modal"; // Import the custom Modal component
+import Modal from "../utils/modal";
 import {
   DetailContainer,
   DogImage,
@@ -19,8 +19,8 @@ const DogDetail = () => {
   const { id } = useParams();
   const [dog, setDog] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for the custom modal
-  const [currentImage, setCurrentImage] = useState(null); // State for the current image
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentImage, setCurrentImage] = useState(null);
 
   useEffect(() => {
     sanityClient
@@ -29,7 +29,7 @@ const DogDetail = () => {
           _id,
           name,
           nickname,
-           dogType,
+          dogType,
           breed,
           color,
           gender,
@@ -90,17 +90,44 @@ const DogDetail = () => {
                     <strong>Kjønn:</strong> {dog.gender}
                   </DogInfo>
                 )}
-                <div className="d-flex">
-                  {dog.dateOfBirth && (
-                    <DogInfo>
-                      <strong>Fødselsdato:</strong> {dog.dateOfBirth}
-                    </DogInfo>
-                  )}
 
-                  {dog.dogType === "deceased" && dog.dateOfDeath && (
-                    <DogInfo>
-                      <strong>Dødsdato:</strong> {dog.dateOfDeath}
-                    </DogInfo>
+                <div className="d-flex">
+                  {dog.dogType === "deceased" ? (
+                    <>
+                      {dog.dateOfBirth && (
+                        <DogInfo className="d-flex flex-column">
+                          <strong>Fødselsdato:</strong>{" "}
+                          {new Date(dog.dateOfBirth).toLocaleDateString(
+                            "no-NO",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )}
+                          -{" "}
+                          {new Date(dog.dateOfDeath).toLocaleDateString(
+                            "no-NO",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )}
+                        </DogInfo>
+                      )}
+                    </>
+                  ) : (
+                    dog.dateOfBirth && (
+                      <DogInfo>
+                        <strong>Fødselsdato:</strong>{" "}
+                        {new Date(dog.dateOfBirth).toLocaleDateString("no-NO", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
+                      </DogInfo>
+                    )
                   )}
                 </div>
                 {dog.dogType === "breeding" && (
@@ -108,18 +135,18 @@ const DogDetail = () => {
                     <strong>Avlshund:</strong> Ja
                   </DogInfo>
                 )}
-
                 {dog.registrationNumber && (
                   <DogInfo>
                     <strong>Registreringsnummer:</strong>{" "}
                     {dog.registrationNumber}
                   </DogInfo>
                 )}
-                <div className="border p-3 p-md-0 py-md-3 px-md-1 mb-5 mb-md-0">
-                  {dog.dogType === "breeding" && dog.breedingNotes && (
+
+                {dog.dogType === "breeding" && dog.breedingNotes && (
+                  <div className="border p-3 p-md-0 py-md-3 px-md-1 mb-5 mb-md-0">
                     <DogInfo>{dog.breedingNotes}</DogInfo>
-                  )}
-                </div>
+                  </div>
+                )}
               </InfoWrapper>
             </div>
 
@@ -128,7 +155,7 @@ const DogDetail = () => {
               {dog.healthResults?.length > 0 && (
                 <InfoWrapper className="m-auto">
                   <HealthResults>
-                    <p>helseresultater:</p>
+                    <p className="mb-0">Helseresultater:</p>
                     <ul>
                       {dog.healthResults.map((result, index) => (
                         <HealthResultItem key={index}>
@@ -155,19 +182,18 @@ const DogDetail = () => {
         <GalleryContainer className="mt-4">
           <h4>Galleri:</h4>
           <div className="row">
-            {dog.gallery.map(
-              (image, index) =>
-                image.asset ? ( // Check if asset exists
-                  <GalleryImage
-                    key={index}
-                    src={image.asset.url} // Now safe to access asset.url
-                    alt={`Galleri bilde ${index + 1}`}
-                    onClick={() => {
-                      setCurrentImage(image.asset.url);
-                      setIsModalOpen(true); // Open the custom modal
-                    }}
-                  />
-                ) : null // Return null if asset is not available
+            {dog.gallery.map((image, index) =>
+              image.asset ? (
+                <GalleryImage
+                  key={index}
+                  src={image.asset.url}
+                  alt={`Galleri bilde ${index + 1}`}
+                  onClick={() => {
+                    setCurrentImage(image.asset.url);
+                    setIsModalOpen(true);
+                  }}
+                />
+              ) : null
             )}
           </div>
         </GalleryContainer>
@@ -182,7 +208,7 @@ const DogDetail = () => {
             alt="Stamtavle"
             onClick={() => {
               setCurrentImage(dog.pedigreeUrl);
-              setIsModalOpen(true); // Open the custom modal
+              setIsModalOpen(true);
             }}
             style={{ cursor: "pointer" }}
           />
