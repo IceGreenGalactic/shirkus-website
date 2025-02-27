@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import sanityClient from "../sanityClient";
-import { DogCard } from "./OurDogs.styled"; 
+import { DogCard, DogsContainer } from "./OurDogs.styled";
 
 const OurDogs = () => {
   const [dogs, setDogs] = useState([]);
@@ -23,10 +23,14 @@ const OurDogs = () => {
   }, []);
 
   return (
-    <div className="container mt-4 col-lg-10">
-      <div className="row g-4"> 
+    <DogsContainer className="container mt-4 col-lg-10">
+      <h2 className="mb-3 text-center">Våre Hunder</h2>
+      <div className="row g-4">
         {dogs.map((dog) => (
-          <div key={dog._id} className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto">  
+          <div
+            key={dog._id}
+            className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto"
+          >
             <DogCard>
               <Link to={`/dogs/${dog._id}`}>
                 <img src={dog.imageUrl} alt={dog.name} />
@@ -37,7 +41,7 @@ const OurDogs = () => {
           </div>
         ))}
       </div>
-    </div>
+    </DogsContainer>
   );
 };
 

@@ -2,14 +2,13 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@400;700&display=swap');
-
-  :root {
+ @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@400;700&family=Tangerine:wght@400;700&family=Parisienne&family=Pinyon+Script&family=Alex+Brush&display=swap');  :root {
     --primary-color: #3a3a3a; 
     --secondary-color: #f7f7f7; 
     --accent-color: #6a994e; 
     --header-font: 'Playfair Display', serif; 
     --text-font: 'Roboto', sans-serif; 
+    --special-header-font: 'Great Vibes', cursive; 
   }
 
   body {

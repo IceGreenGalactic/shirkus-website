@@ -48,7 +48,7 @@ const Litters = () => {
 
   return (
     <LitterContainer className="container mt-2">
-      <h2 className="mb-4">Kull</h2>
+      <h2 className="mb-4 text-center">Valpe Kull</h2>
       <div className="row g-4">
         {litters.map((litter) => (
           <div

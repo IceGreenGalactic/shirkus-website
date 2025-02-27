@@ -6,7 +6,10 @@ export const LitterContainer = styled.div`
   padding: 2rem;
 
   h2{
-    font-family: ${(props) => props.theme.fonts.specialHeading};
+ font-size: 3rem;
+      font-family: ${(props) => props.theme.fonts.accent};
+    color: ${(props) => props.theme.colors.accent};
+    font-weight:900;
 }
 `;
 
