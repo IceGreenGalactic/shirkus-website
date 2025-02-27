@@ -29,8 +29,20 @@ export default {
       type: 'string',
       options: {
         list: [
-          {title: 'Hann', value: 'Hann'},
-          {title: 'Tispe', value: 'Tispe'},
+          { title: 'Hann', value: 'Hann' },
+          { title: 'Tispe', value: 'Tispe' },
+        ],
+      },
+    },
+    {
+      name: 'dogType',
+      title: 'Dog Type',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Nåværende hund', value: 'current' },
+          { title: 'Avlshund', value: 'breeding' },
+          { title: 'Tidligere hund', value: 'deceased' },
         ],
       },
     },
@@ -38,6 +50,15 @@ export default {
       name: 'dateOfBirth',
       title: 'Date of Birth',
       type: 'date',
+    },
+    {
+      name: 'dateOfDeath',
+      title: 'Date of Death',
+      type: 'date',
+      options: {
+        // Betingen for å vise dette feltet kun hvis dogType er "deceased"
+        isHidden: ({ document }) => document?.dogType !== 'deceased',
+      },
     },
     {
       name: 'registrationNumber',
@@ -83,6 +104,15 @@ export default {
       name: 'description',
       title: 'Description',
       type: 'text', // Generelt felt for fri tekst
+    },
+    {
+      name: 'breedingNotes',
+      title: 'Breeding Notes',
+      type: 'text',
+      options: {
+        // Betingen for å vise dette feltet kun hvis dogType er "breeding"
+        isHidden: ({ document }) => document?.dogType !== 'breeding',
+      },
     },
   ],
 }

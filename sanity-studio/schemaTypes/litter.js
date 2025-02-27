@@ -66,18 +66,18 @@ export default {
     {
       name: 'dateOfBirth',
       title: 'Fødselsdato',
-      type: 'date', // Kalender for valg av dato
+      type: 'date',
       options: {
-        dateFormat: 'DD.MM.YYYY', // Formaterer dato til ønsket format
+        dateFormat: 'DD.MM.YYYY',
       },
       description: 'Velg dato for fødsel.',
     },
     {
       name: 'expectedDateOfBirth',
       title: 'Forventet fødselsdato',
-      type: 'date', // Kalender for valg av dato, men kan begrenses til måned og år.
+      type: 'date',
       options: {
-        dateFormat: 'MM.YYYY', // Viser måned og år
+        dateFormat: 'MM.YYYY',
         calendarTodayLabel: 'Forventet dato',
       },
       description: 'Velg forventet dato for fødsel (måned og år).',
@@ -132,30 +132,192 @@ export default {
       },
     },
     {
-      name: 'galleryImages',
-      title: 'Galleri bilder',
+      name: 'galleryImages1',
+      title: 'Galleri 1 Bilder',
       type: 'array',
       of: [{type: 'image'}],
     },
     {
-      name: 'textUnderMainImage',
-      title: 'Tekst under hovedbilde',
-      type: 'text', // Beskrivelse under hovedbilde.
+      name: 'textGallery1',
+      title: 'Tekst under Galleri 1',
+      type: 'text', 
     },
     {
-      name: 'textUnderGallery',
-      title: 'Tekst under galleri',
-      type: 'text', // Beskrivelse under galleribilder.
+      name: 'galleryTitle1',
+      title: 'Tittel for Galleri 1',
+      type: 'string', 
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 1" eller annet.',
+    },
+
+    // Galleri 2
+    {
+      name: 'galleryImages2',
+      title: 'Galleri 2 Bilder',
+      type: 'array',
+      of: [{type: 'image'}],
     },
     {
-      name: 'freeText1',
-      title: 'ValpeInfo tekst',
-      type: 'text', // Mulighet for fri tekst.
+      name: 'textGallery2',
+      title: 'Tekst under Galleri 2',
+      type: 'text', 
     },
     {
-      name: 'freeText2',
-      title: 'Fritekst 2',
-      type: 'text', // Mulighet for fri tekst.
+      name: 'galleryTitle2',
+      title: 'Tittel for Galleri 2',
+      type: 'string', 
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 2" eller annet.',
+    },
+
+    // Galleri 3
+    {
+      name: 'galleryImages3',
+      title: 'Galleri 3 Bilder',
+      type: 'array',
+      of: [{type: 'image'}],
+    },
+    {
+      name: 'textGallery3',
+      title: 'Tekst under Galleri 3',
+      type: 'text', 
+    },
+    {
+      name: 'galleryTitle3',
+      title: 'Tittel for Galleri 3',
+      type: 'string', 
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 3" eller annet.',
+    },
+
+    // Galleri 4
+    {
+      name: 'galleryImages4',
+      title: 'Galleri 4 Bilder',
+      type: 'array',
+      of: [{type: 'image'}],
+    },
+    {
+      name: 'textGallery4',
+      title: 'Tekst under Galleri 4',
+      type: 'text', 
+    },
+    {
+      name: 'galleryTitle4',
+      title: 'Tittel for Galleri 4',
+      type: 'string', 
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 4" eller annet.',
+    },
+
+    // Galleri 5
+    {
+      name: 'galleryImages5',
+      title: 'Galleri 5 Bilder',
+      type: 'array',
+      of: [{type: 'image'}],
+    },
+    {
+      name: 'textGallery5',
+      title: 'Tekst under Galleri 5',
+      type: 'text', 
+    },
+    {
+      name: 'galleryTitle5',
+      title: 'Tittel for Galleri 5',
+      type: 'string', 
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 5" eller annet.',
+    },
+
+    // Galleri 6
+    {
+      name: 'galleryImages6',
+      title: 'Galleri 6 Bilder',
+      type: 'array',
+      of: [{type: 'image'}],
+    },
+    {
+      name: 'textGallery6',
+      title: 'Tekst under Galleri 6',
+      type: 'text', 
+    },
+    {
+      name: 'galleryTitle6',
+      title: 'Tittel for Galleri 6',
+      type: 'string', 
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 6" eller annet.',
+    },
+
+    // Galleri 7
+    {
+      name: 'galleryImages7',
+      title: 'Galleri 7 Bilder',
+      type: 'array',
+      of: [{type: 'image'}],
+    },
+    {
+      name: 'textGallery7',
+      title: 'Tekst under Galleri 7',
+      type: 'text', 
+    },
+    {
+      name: 'galleryTitle7',
+      title: 'Tittel for Galleri 7',
+      type: 'string', 
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 7" eller annet.',
+    },
+
+    // Galleri 8
+    {
+      name: 'galleryImages8',
+      title: 'Galleri 8 Bilder',
+      type: 'array',
+      of: [{type: 'image'}],
+    },
+    {
+      name: 'textGallery8',
+      title: 'Tekst under Galleri 8',
+      type: 'text', 
+    },
+    {
+      name: 'galleryTitle8',
+      title: 'Tittel for Galleri 8',
+      type: 'string', 
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 8" eller annet.',
+    },
+
+    // Galleri 9
+    {
+      name: 'galleryImages9',
+      title: 'Galleri 9 Bilder',
+      type: 'array',
+      of: [{type: 'image'}],
+    },
+    {
+      name: 'textGallery9',
+      title: 'Tekst under Galleri 9',
+      type: 'text', 
+    },
+    {
+      name: 'galleryTitle9',
+      title: 'Tittel for Galleri 9',
+      type: 'string', 
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 9" eller annet.',
+    },
+
+    // Galleri 10
+    {
+      name: 'galleryImages10',
+      title: 'Galleri 10 Bilder',
+      type: 'array',
+      of: [{type: 'image'}],
+    },
+    {
+      name: 'textGallery10',
+      title: 'Tekst under Galleri 10',
+      type: 'text', 
+    },
+    {
+      name: 'galleryTitle10',
+      title: 'Tittel for Galleri 10',
+      type: 'string', 
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 10" eller annet.',
     },
   ],
 }
