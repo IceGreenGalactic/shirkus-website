@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import sanityClient from "../sanityClient";
 import { urlFor } from "../utils/sanityImage";
-import Modal from "../utils/modal.jsx"; 
+import Modal from "../utils/modal.jsx";
 import {
   LitterContainer,
   ParentInfoContainer,
@@ -17,7 +17,7 @@ const LittersDetail = () => {
   const { id } = useParams();
   const [litter, setLitter] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(null); 
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     sanityClient
@@ -100,7 +100,7 @@ const LittersDetail = () => {
       case "black":
         return count > 1 ? "sorte" : "svart";
       default:
-        return color; 
+        return color;
     }
   };
 
@@ -120,6 +120,14 @@ const LittersDetail = () => {
 
   const closeImageModal = () => {
     setSelectedImage(null);
+  };
+
+  const formatDate = (date) => {
+    return new Date(date).toLocaleDateString('no-NO', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
   };
 
   return (
@@ -159,42 +167,37 @@ const LittersDetail = () => {
         </ParentInfo>
       </ParentInfoContainer>
       <PuppiesContainer className="col-10 m-auto">
-        <div>
-          <div className="d-flex align-items-baseline">
-            <h3>Dato Født: </h3>
-            {litter.dateOfBirth && (
-              <h4>{new Date(litter.dateOfBirth).toLocaleDateString()}</h4>
-            )}
-          </div>
-          {!litter.dateOfBirth && litter.expectedDateOfBirth && (
-            <h4>
-              Forventet fødselsdato:{" "}
-              {new Date(litter.expectedDateOfBirth).toLocaleDateString(
-                "no-NO",
-                {
-                  year: "numeric",
-                  month: "long",
-                }
-              )}
-            </h4>
+        <div className="d-flex align-items-baseline col-10 m-auto justify-content-center">
+          <h3>Dato Født: </h3>
+          {litter.dateOfBirth && (
+            <h4>{formatDate(litter.dateOfBirth)}</h4>
           )}
         </div>
+        {!litter.dateOfBirth && litter.expectedDateOfBirth && (
+          <h4>
+            Forventet fødselsdato: {formatDate(litter.expectedDateOfBirth)}
+          </h4>
+        )}
+
         {litter.mainImage && (
           <>
-            <img
-              className="mb-5 col-8"
-              src={urlFor(litter.mainImage)}
-              alt="Kull bilde"
-            />
-            {litter.textUnderMainImage && <p>{litter.textUnderMainImage}</p>}
+            <div className="col-8 m-auto">
+              <img
+                className="mb-2 col-8 h-75"
+                src={urlFor(litter.mainImage)}
+                alt="Kull bilde"
+              />
+            </div>
+            <div className="mb-5">
+              {litter.textUnderMainImage && <p>{litter.textUnderMainImage}</p>}
+            </div>
           </>
         )}
-        <div className="mb-3">
+        <div className="mb-3 mt-3">
           {litter.puppyDetails && litter.puppyDetails.length > 0 ? (
             <>
               <h4>
-                {new Date(litter.dateOfBirth).toLocaleDateString()} ble det født
-                {totalPuppies} valper:
+                {formatDate(litter.dateOfBirth)} ble det født; {totalPuppies} valper:
               </h4>
               <h5>
                 {litter.puppyDetails
@@ -235,12 +238,12 @@ const LittersDetail = () => {
                   key={index}
                   src={urlFor(image)}
                   alt={`Valp bilde ${index + 1}`}
-                  onClick={() => openImageModal(urlFor(image))} 
-                  style={{ cursor: "pointer" }} 
+                  onClick={() => openImageModal(urlFor(image))}
+                  style={{ cursor: "pointer" }}
                 />
               ))}
             </PuppyGallery>
-          )}{" "}
+          )}
           {litter.textUnderGallery && <p>{litter.textUnderGallery}</p>}
         </div>
         <div className="container">
