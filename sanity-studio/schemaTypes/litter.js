@@ -96,8 +96,8 @@ export default {
               type: 'string',
               options: {
                 list: [
-                  { title: 'Hann', value: 'male' },
-                  { title: 'Tispe', value: 'female' },
+                  {title: 'Hann', value: 'male'},
+                  {title: 'Tispe', value: 'female'},
                 ],
               },
             },
@@ -107,9 +107,9 @@ export default {
               type: 'string',
               options: {
                 list: [
-                  { title: 'Hvit', value: 'white' },
-                  { title: 'Grå', value: 'gray' },
-                  { title: 'Sort', value: 'black' },
+                  {title: 'Hvit', value: 'white'},
+                  {title: 'Grå', value: 'gray'},
+                  {title: 'Sort', value: 'black'},
                 ],
               },
             },
@@ -135,7 +135,7 @@ export default {
       name: 'galleryImages',
       title: 'Galleri bilder',
       type: 'array',
-      of: [{ type: 'image' }],
+      of: [{type: 'image'}],
     },
     {
       name: 'textUnderMainImage',
@@ -149,7 +149,7 @@ export default {
     },
     {
       name: 'freeText1',
-      title: 'Fritekst 1',
+      title: 'ValpeInfo tekst',
       type: 'text', // Mulighet for fri tekst.
     },
     {
@@ -158,4 +158,4 @@ export default {
       type: 'text', // Mulighet for fri tekst.
     },
   ],
-};
+}
