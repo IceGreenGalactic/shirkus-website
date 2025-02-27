@@ -1,11 +1,16 @@
 import styled from "styled-components";
 
 export const DogsContainer = styled.div`
-  h2{
-  font-size: 3rem;
-      font-family: ${(props) => props.theme.fonts.accent};
+  h2 {
+    font-size: 3rem;
+    font-family: ${(props) => props.theme.fonts.accent};
     color: ${(props) => props.theme.colors.accent};
-    font-weight:900;
+    font-weight: 900;
+  }
+  .costum-border {
+    border-bottom: 1px solid ${(props) => props.theme.colors.accent};
+    padding: 20px 0;
+  }
 `;
 
 export const DogsGrid = styled.section`
@@ -49,5 +54,8 @@ export const DogCard = styled.div`
   a {
     text-decoration: none;
     color: inherit;
+  }
+  .costum-border {
+    border-bottom: 1px solid ${(props) => props.theme.colors.primary};
   }
 `;
