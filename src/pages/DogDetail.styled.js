@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const DetailContainer = styled.section`
   margin: auto;
-  padding: 2rem;
 `;
 
 export const DogImage = styled.img`

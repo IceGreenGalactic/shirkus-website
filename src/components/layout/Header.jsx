@@ -8,6 +8,7 @@ import {
 import backgroundImage from "../../assets/images/ShirkusHeader2.jpg";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaHome, FaDog } from "react-icons/fa";
+import { NavLink } from "react-router-dom"; // Import NavLink
 
 const Header = () => {
   return (
@@ -36,12 +37,22 @@ const Header = () => {
             <Navbar.Toggle aria-controls="navbar-nav" />
 
             <Navbar.Collapse id="navbar-nav">
-              <Nav className="w-100 d-lg-flex justify-content-between fs-5 mb-5 ">
-                <Nav.Link className="bottom-border" href="/">Hjem</Nav.Link>
-                <Nav.Link className="bottom-border" href="/dogs">Våre hunder</Nav.Link>
-                <Nav.Link className="bottom-border" href="/litters">Valpe kull</Nav.Link>
-                <Nav.Link className="bottom-border" href="/about">Om oss</Nav.Link>
-                <Nav.Link className="bottom-border" href="/contact">Kontakt</Nav.Link>
+              <Nav className="w-100 d-lg-flex justify-content-between fs-5 mb-5 mb-lg-1">
+                <NavLink to="/" className={({ isActive }) => (isActive ? "bottom-border active nav-link" : "bottom-border nav-link")}>
+                  Hjem
+                </NavLink>
+                <NavLink to="/dogs" className={({ isActive }) => (isActive ? "bottom-border active nav-link" : "bottom-border nav-link")}>
+                  Våre hunder
+                </NavLink>
+                <NavLink to="/litters" className={({ isActive }) => (isActive ? "bottom-border active nav-link" : "bottom-border nav-link")}>
+                  Valpe kull
+                </NavLink>
+                <NavLink to="/about" className={({ isActive }) => (isActive ? "bottom-border active nav-link" : "bottom-border nav-link")}>
+                  Om oss
+                </NavLink>
+                <NavLink to="/contact" className={({ isActive }) => (isActive ? "bottom-border active nav-link" : "bottom-border nav-link")}>
+                  Kontakt
+                </NavLink>
               </Nav>
             </Navbar.Collapse>
           </Container>

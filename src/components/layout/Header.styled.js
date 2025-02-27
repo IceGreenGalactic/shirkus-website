@@ -26,7 +26,7 @@ export const HeroText = styled.h1`
   @media (max-width: 500px) {
     font-size: 2.8rem;
   }
-    @media (max-width: 330px) {
+  @media (max-width: 330px) {
     font-size: 2.3rem;
   }
 `;
@@ -41,7 +41,7 @@ export const NavContainer = styled.nav`
   padding: 10px 0px;
 
   a {
-    color: #F2E6D0;
+      color: ${(props) => props.theme.colors.primary};
     font-family: ${(props) => props.theme.fonts.heading};
     @media (min-width: 992px) {
       color: ${(props) => props.theme.colors.primary};
@@ -54,6 +54,13 @@ export const NavContainer = styled.nav`
       border-bottom: transparent;
     }
   }
+    .bottom-border.active {
+  border-bottom: 2px solid ${(props) => props.theme.colors.accentTransparent};
+    @media (max-width: 992px) {
+        border-bottom: 2px solid ${(props) => props.theme.colors.white};
+
+    }
+}
 
   .nav-icon {
     color: ${(props) => props.theme.colors.primary};
