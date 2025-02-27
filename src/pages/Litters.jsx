@@ -44,11 +44,10 @@ const Litters = () => {
   if (loading) {
     return <div>Laster...</div>;
   }
-  
 
   return (
     <LitterContainer className="container mt-2">
-      <h2 className="mb-4 text-center">Valpe Kull</h2>
+      <h2 className="mb-4 text-center">Valpekull</h2>
       <div className="row g-4">
         {litters.map((litter) => (
           <div
@@ -77,7 +76,7 @@ const Litters = () => {
                     />
                   )}
                 </div>
-  
+
                 {litter.expectedPuppies && (
                   <p>Forventede valper: {litter.expectedPuppies}</p>
                 )}
@@ -86,9 +85,9 @@ const Litters = () => {
                   <p>
                     Dato født:
                     {new Date(litter.dateOfBirth).toLocaleDateString("no-NO", {
-                      day: '2-digit',  
-                      month: '2-digit', 
-                      year: 'numeric'
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
                     })}
                   </p>
                 )}
@@ -98,8 +97,8 @@ const Litters = () => {
                     {new Date(litter.expectedDateOfBirth).toLocaleDateString(
                       "no-NO",
                       {
-                        month: 'long', 
-                        year: 'numeric'   
+                        month: "long",
+                        year: "numeric",
                       }
                     )}
                   </p>
@@ -111,7 +110,6 @@ const Litters = () => {
       </div>
     </LitterContainer>
   );
-  
 };
 
 export default Litters;

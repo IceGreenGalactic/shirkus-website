@@ -67,7 +67,6 @@ const LittersDetail = () => {
     return <div>Fant ingen kull.</div>;
   }
 
-  // Function to render info as bullet points
   const renderInfoAsBulletPoints = (info) => {
     return (
       <ul>
@@ -80,7 +79,6 @@ const LittersDetail = () => {
     );
   };
 
-  // Funksjon for å beregne totalt antall valper
   const calculateTotalPuppies = () => {
     if (!litter.puppyDetails || litter.puppyDetails.length === 0) {
       return 0;
@@ -123,10 +121,10 @@ const LittersDetail = () => {
   };
 
   const formatDate = (date) => {
-    return new Date(date).toLocaleDateString('no-NO', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit'
+    return new Date(date).toLocaleDateString("no-NO", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
     });
   };
 
@@ -135,7 +133,7 @@ const LittersDetail = () => {
       <h2 className="text-center">Kull Detaljer</h2>
       <ParentInfoContainer className="m-auto mt-4">
         <ParentInfo>
-          <h3 className="d-flex flex-column">
+          <h3 className="d-flex flex-column ">
             <strong> Mor: </strong>
             {litter.mother.name}
           </h3>
@@ -168,16 +166,26 @@ const LittersDetail = () => {
       </ParentInfoContainer>
       <PuppiesContainer className="col-10 m-auto">
         <div className="d-flex align-items-baseline col-10 m-auto justify-content-center">
-          <h3>Dato Født: </h3>
-          {litter.dateOfBirth && (
-            <h4>{formatDate(litter.dateOfBirth)}</h4>
+          {litter.dateOfBirth ? (
+            <div className="date-container">
+              <h3>Dato Født:</h3>
+              <h4>{formatDate(litter.dateOfBirth)}</h4>
+            </div>
+          ) : (
+            litter.expectedDateOfBirth && (
+              <h4>
+                Valper:{" "}
+                {new Date(litter.expectedDateOfBirth).toLocaleDateString(
+                  "no-NO",
+                  {
+                    year: "numeric",
+                    month: "long",
+                  }
+                )}
+              </h4>
+            )
           )}
         </div>
-        {!litter.dateOfBirth && litter.expectedDateOfBirth && (
-          <h4>
-            Forventet fødselsdato: {formatDate(litter.expectedDateOfBirth)}
-          </h4>
-        )}
 
         {litter.mainImage && (
           <>
@@ -197,7 +205,8 @@ const LittersDetail = () => {
           {litter.puppyDetails && litter.puppyDetails.length > 0 ? (
             <>
               <h4>
-                {formatDate(litter.dateOfBirth)} ble det født; {totalPuppies} valper:
+                {formatDate(litter.dateOfBirth)} ble det født; {totalPuppies}{" "}
+                valper:
               </h4>
               <h5>
                 {litter.puppyDetails
@@ -224,14 +233,18 @@ const LittersDetail = () => {
                   )
                   .join(", ")}
               </h5>
-              <h5> {litter.freeText1 && <p>{litter.freeText1}</p>}</h5>
             </>
           ) : null}
         </div>
-        {/* Vis galleribilder hvis de finnes */}
-        <div className="container mt-5">
-          <h3>Bildegalleri:</h3>
-          {litter.galleryImages && litter.galleryImages.length > 0 && (
+        {litter.freeText1 && (
+          <div className="mb-3 text-center">
+            <h5>{litter.freeText1}</h5>
+          </div>
+        )}
+        {/* Betinget rendering for bildegalleri */}
+        {litter.galleryImages && litter.galleryImages.length > 0 && (
+          <div className="container mt-5">
+            <h3>Bildegalleri:</h3>
             <PuppyGallery>
               {litter.galleryImages.map((image, index) => (
                 <PuppyImage
@@ -243,16 +256,15 @@ const LittersDetail = () => {
                 />
               ))}
             </PuppyGallery>
-          )}
-          {litter.textUnderGallery && <p>{litter.textUnderGallery}</p>}
-        </div>
+            {litter.textUnderGallery && <p>{litter.textUnderGallery}</p>}
+          </div>
+        )}
+
         <div className="container">
-          {/* Vis fritekst om det finnes */}
           {litter.freeText2 && <p>{litter.freeText2}</p>}
         </div>
       </PuppiesContainer>
 
-      {/* Modal for å vise det valgte bildet */}
       {selectedImage && (
         <Modal imageUrl={selectedImage} onClose={closeImageModal} />
       )}

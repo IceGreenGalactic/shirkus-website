@@ -3,8 +3,10 @@ import styled from "styled-components";
 export const LitterContainer = styled.div`
   margin: auto;
   h2 {
-    font-size: 2rem;
-    font-family: ${(props) => props.theme.fonts.heading};
+    font-size: 3rem;
+    font-family: ${(props) => props.theme.fonts.accent};
+    color: ${(props) => props.theme.colors.accent};
+    font-weight: 900;
   }
 `;
 
@@ -18,13 +20,12 @@ export const ParentInfoContainer = styled.div`
 export const ParentInfo = styled.div`
   text-align: center;
   margin-bottom: 2rem;
-
   padding: 0.1rem;
-
   h3 {
     display: flex;
     align-items: stretch;
     min-height: 90px;
+    font-size: 1.5rem;
   }
 `;
 
@@ -49,13 +50,11 @@ export const PuppyImage = styled.img`
   object-fit: cover;
 `;
 
-
 export const PuppiesContainer = styled.div`
-
-img{
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  object-fit: cover;
+  img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
   }
 `;
