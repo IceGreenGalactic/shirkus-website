@@ -123,6 +123,13 @@ export default {
         },
       ],
     },
+
+    {
+      name: 'freeText1',
+      title: 'ValpeInfo tekst',
+      type: 'text', // Mulighet for fri tekst.
+    },
+    
     {
       name: 'mainImage',
       title: 'Hovedbilde',
@@ -319,5 +326,11 @@ export default {
       type: 'string', 
       description: 'Gi galleriet en passende tittel, f.eks. "Uke 10" eller annet.',
     },
+    {
+      name: 'freeText2',
+      title: 'Fritekst 2',
+      type: 'text', // Mulighet for fri tekst.
+    },
   ],
+  
 }
