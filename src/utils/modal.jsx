@@ -35,7 +35,19 @@ const Modal = ({ imageUrl, onClose }) => {
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <CloseButton onClick={onClose}>×</CloseButton>
-        <img src={imageUrl} alt="Vis bilde" style={{ maxWidth: "90vw", maxHeight: "90vh" }} />
+        <img
+          src={imageUrl}
+          alt="Vis bilde"
+          style={{
+            maxWidth: "90vw",
+            maxHeight: "90vh",
+            minWidth: "60vw",
+            minHeight: "60vh",
+            widt: "auto",
+            height: "auto",
+            objectFit: "contain",
+          }}
+        />
       </ModalContent>
     </ModalOverlay>
   );
