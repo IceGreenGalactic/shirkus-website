@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import sanityClient from "../sanityClient";
 import { LitterCard, LitterContainer } from "./Litters.styled";
-import { urlFor } from "../utils/sanityImage"; // Importer urlFor for å generere bildelenker
+import { urlFor } from "../utils/sanityImage";
 
 const Litters = () => {
   const [litters, setLitters] = useState([]);
@@ -30,7 +30,6 @@ const Litters = () => {
         }`
       )
       .then((data) => {
-        console.log(data); // Logg data for feilsøking
         const upcomingLitters = data.filter((litter) => !litter.dateOfBirth);
         const pastLitters = data.filter((litter) => litter.dateOfBirth);
         const sortedLitters = [...upcomingLitters, ...pastLitters];

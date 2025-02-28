@@ -11,6 +11,7 @@ import {
   PuppyGallery,
   PuppyImage,
   PuppiesContainer,
+  MainImgContainer,
 } from "./LittersDetail.styled";
 
 const LittersDetail = () => {
@@ -189,14 +190,15 @@ const LittersDetail = () => {
 
         {litter.mainImage && (
           <>
-            <div className="col-8 m-auto">
+            <MainImgContainer className="m-auto col-12 d-flex">
               <img
-                className="mb-2 col-8 h-75"
+                className="mb-2"
                 src={urlFor(litter.mainImage)}
-                alt="Kull bilde"
+                alt={`Valpene til${litter.mother.nickname} og ${litter.father.nickname}`}
+                onClick={() => openImageModal(urlFor(litter.mainImage))}
               />
-            </div>
-            <div className="mb-5">
+            </MainImgContainer>
+            <div className="mb-5 text-center">
               {litter.textUnderMainImage && <p>{litter.textUnderMainImage}</p>}
             </div>
           </>
@@ -236,8 +238,9 @@ const LittersDetail = () => {
             </>
           ) : null}
         </div>
+        {/* free text under info about puppies bord -additional text to the setup */}
         {litter.freeText1 && (
-          <div className="mb-3 text-center">
+          <div className="mb-3 ">
             <h5>{litter.freeText1}</h5>
           </div>
         )}
@@ -245,7 +248,7 @@ const LittersDetail = () => {
         {litter.galleryImages && litter.galleryImages.length > 0 && (
           <div className="container mt-5">
             <h3>Bildegalleri:</h3>
-            <PuppyGallery>
+            <PuppyGallery className="align-items-center">
               {litter.galleryImages.map((image, index) => (
                 <PuppyImage
                   key={index}

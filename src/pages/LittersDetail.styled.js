@@ -41,6 +41,7 @@ export const PuppyGallery = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
   margin: 2rem 0;
+  justify-items: center; 
 `;
 
 export const PuppyImage = styled.img`
@@ -56,5 +57,19 @@ export const PuppiesContainer = styled.div`
     height: auto;
     border-radius: 8px;
     object-fit: cover;
+  }
+`;
+
+export const MainImgContainer = styled.div`
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  img {
+    width: 100%;
+    max-height: 600px;
+    max-width: 700px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: contain;
   }
 `;
