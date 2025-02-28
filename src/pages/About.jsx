@@ -11,7 +11,7 @@ const About = () => {
       </Paragraph>
       <Paragraph>
         Våre pudler er kjent for sitt gode lynne, sunne linjer og vakre farger – spesielt 
-        sølvgrå, hvit og sort. Med lidenskap for rasen og fokus på kvalitet, avler vi 
+        grå, hvit og sort. Med lidenskap for rasen og fokus på kvalitet, avler vi 
         frem trygge, sosiale og kjærlige familiehunder.
       </Paragraph>
     </AboutContainer>
