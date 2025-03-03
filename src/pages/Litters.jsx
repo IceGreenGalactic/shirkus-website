@@ -47,8 +47,6 @@ const Litters = () => {
 
   return (
     <LitterContainer className=" col-10 col-md-10 mt-2 ">
-      <h2 className="mb-4 text-center costum-border ">Valpekull</h2>
-
       {litters.some((litter) => !litter.dateOfBirth) && (
         <div className="row g-4 costum-border pb-4">
           <h2 className="text-center">Kommende Valper</h2>
@@ -57,7 +55,7 @@ const Litters = () => {
             .map((litter) => (
               <div
                 key={litter._id}
-                className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto"
+                className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto mb-4"
               >
                 <LitterCard>
                   <Link to={`/valper/${litter._id}`}>
@@ -84,9 +82,6 @@ const Litters = () => {
                     {litter.expectedPuppies && (
                       <p>Forventede valper: {litter.expectedPuppies}</p>
                     )}
-                    {litter.puppyCount && (
-                      <p>Antall valper: {litter.puppyCount}</p>
-                    )}
                     {litter.expectedDateOfBirth && (
                       <p>
                         Forventes:{" "}
@@ -107,7 +102,7 @@ const Litters = () => {
 
       {litters.some((litter) => litter.dateOfBirth) && (
         <div className="row g-4 costum-border pb-4">
-          <h2 className="text-center pt-3">Tidligere valpekull</h2>
+          <h2 className="text-center">Tidligere valpekull</h2>
           {litters
             .filter((litter) => litter.dateOfBirth)
             .map((litter) => (
@@ -137,9 +132,6 @@ const Litters = () => {
                         />
                       )}
                     </div>
-                    {litter.expectedPuppies && (
-                      <p>Forventede valper: {litter.expectedPuppies}</p>
-                    )}
                     {litter.puppyCount && (
                       <p>Antall valper: {litter.puppyCount}</p>
                     )}
