@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
 export const LitterContainer = styled.div`
-  max-width: 900px;
   margin: auto;
-  padding: 2rem;
 
   h2{
  font-size: 3rem;
@@ -11,6 +9,10 @@ export const LitterContainer = styled.div`
     color: ${(props) => props.theme.colors.accent};
     font-weight:900;
 }
+    .costum-border {
+    border-bottom: 1px solid ${(props) => props.theme.colors.accent};
+    padding: 20px 0;
+  }
 `;
 
 export const LitterCard = styled.div`
