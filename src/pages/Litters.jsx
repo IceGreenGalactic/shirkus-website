@@ -54,7 +54,7 @@ const Litters = () => {
             className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto"
           >
             <LitterCard>
-              <Link to={`/litters/${litter._id}`}>
+              <Link to={`/valper/${litter._id}`}>
                 <h3>
                   {litter.mother.nickname} & {litter.father.nickname}
                 </h3>

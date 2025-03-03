@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import sanityClient from "../sanityClient";
-import Modal from "../utils/modal";
+import Modal from "../utils/ImageModal";
+import GalleryImageModal from "../utils/GalleryImageModal";
 import {
   DetailContainer,
   DogImage,
@@ -20,7 +21,9 @@ const DogDetail = () => {
   const [dog, setDog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
+  const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
 
   useEffect(() => {
     sanityClient
@@ -30,6 +33,7 @@ const DogDetail = () => {
           name,
           nickname,
           dogType,
+          title,
           breed,
           color,
           gender,
@@ -60,20 +64,52 @@ const DogDetail = () => {
   if (loading) return <div>Laster...</div>;
   if (!dog) return <div>Fant ingen hund.</div>;
 
+  // Handler to open the gallery modal
+  const openGalleryModal = (index) => {
+    setCurrentGalleryIndex(index);
+    setIsGalleryModalOpen(true);
+  };
+
+  // Handler to go to the previous image in the gallery
+  const prevImage = () => {
+    setCurrentGalleryIndex((prevIndex) =>
+      prevIndex === 0 ? dog.gallery.length - 1 : prevIndex - 1
+    );
+  };
+
+  // Handler to go to the next image in the gallery
+  const nextImage = () => {
+    setCurrentGalleryIndex((prevIndex) =>
+      prevIndex === dog.gallery.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
   return (
-    <DetailContainer className="container">
+    <DetailContainer className="col-10 col-xl-8">
       <div className="mb-5 mt-2 text-center">
         <DogName className="text-center">{dog.name}</DogName>
         <h4>"{dog.nickname}"</h4>
       </div>
       <div className="row align-items-start mb-4">
-        <div className="col-12 col-md-6 d-flex justify-content-center">
-          <DogImage className="w-100" src={dog.imageUrl} alt={dog.name} />
+        <div className="col-12 col-md-6 col-lg-5 col-xl-6 d-flex justify-content-center flex-column">
+          <DogImage
+            src={dog.imageUrl}
+            alt={dog.name}
+            onClick={() => {
+              setCurrentImage(dog.imageUrl);
+              setIsModalOpen(true);
+            }}
+          />
+          {dog.breedingNotes && (
+            <DogInfo className="mt-2">
+              <strong>Valpekull:</strong> {dog.breedingNotes}
+            </DogInfo>
+          )}
         </div>
 
-        <div className="col-sm-10 col-md-6 mx-auto">
+        <div className="col-sm-12 col-md-6 mx-auto justify-content-center">
           <div className="row">
-            <div className="col-10 col-sm-8 mx-auto">
+            <div className="col-12 col-sm-7 col-lg-5 mx-auto">
               <InfoWrapper className="m-auto mt-4 mt-md-0">
                 {dog.breed && (
                   <DogInfo>
@@ -90,68 +126,22 @@ const DogDetail = () => {
                     <strong>Kjønn:</strong> {dog.gender}
                   </DogInfo>
                 )}
-
                 <div className="d-flex">
-                  {dog.dogType === "deceased" ? (
-                    <>
-                      {dog.dateOfBirth && (
-                        <DogInfo className="d-flex flex-column">
-                          <strong>Fødselsdato:</strong>{" "}
-                          {new Date(dog.dateOfBirth).toLocaleDateString(
-                            "no-NO",
-                            {
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "numeric",
-                            }
-                          )}
-                          -{" "}
-                          {new Date(dog.dateOfDeath).toLocaleDateString(
-                            "no-NO",
-                            {
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "numeric",
-                            }
-                          )}
-                        </DogInfo>
-                      )}
-                    </>
-                  ) : (
-                    dog.dateOfBirth && (
-                      <DogInfo>
-                        <strong>Fødselsdato:</strong>{" "}
-                        {new Date(dog.dateOfBirth).toLocaleDateString("no-NO", {
-                          day: "2-digit",
-                          month: "2-digit",
-                          year: "numeric",
-                        })}
-                      </DogInfo>
-                    )
+                  {dog.dateOfBirth && (
+                    <DogInfo>
+                      <strong>Fødselsdato:</strong>{" "}
+                      {new Date(dog.dateOfBirth).toLocaleDateString("no-NO", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </DogInfo>
                   )}
                 </div>
-                {dog.dogType === "breeding" && (
-                  <DogInfo>
-                    <strong>Avlshund:</strong> Ja
-                  </DogInfo>
-                )}
-                {dog.registrationNumber && (
-                  <DogInfo>
-                    <strong>Registreringsnummer:</strong>{" "}
-                    {dog.registrationNumber}
-                  </DogInfo>
-                )}
-
-                {dog.dogType === "breeding" && dog.breedingNotes && (
-                  <div className="border p-3 p-md-0 py-md-3 px-md-1 mb-5 mb-md-0">
-                    <DogInfo>{dog.breedingNotes}</DogInfo>
-                  </div>
-                )}
               </InfoWrapper>
             </div>
-
-            {/* Del for helseresultater */}
-            <div className="col-10 col-sm-4 mx-auto">
+            {/* Health Results */}
+            <div className="col-12 col-sm-5 col-lg-6 mx-auto">
               {dog.healthResults?.length > 0 && (
                 <InfoWrapper className="m-auto">
                   <HealthResults>
@@ -188,10 +178,7 @@ const DogDetail = () => {
                   key={index}
                   src={image.asset.url}
                   alt={`Galleri bilde ${index + 1}`}
-                  onClick={() => {
-                    setCurrentImage(image.asset.url);
-                    setIsModalOpen(true);
-                  }}
+                  onClick={() => openGalleryModal(index)}
                 />
               ) : null
             )}
@@ -215,9 +202,19 @@ const DogDetail = () => {
         </div>
       )}
 
-      {/* Modal for displaying images */}
+      {/* Modals */}
       {isModalOpen && (
         <Modal imageUrl={currentImage} onClose={() => setIsModalOpen(false)} />
+      )}
+
+      {isGalleryModalOpen && (
+        <GalleryImageModal
+          images={dog.gallery.map((image) => image.asset.url)}
+          currentImageIndex={currentGalleryIndex}
+          onClose={() => setIsGalleryModalOpen(false)}
+          onPrev={prevImage}
+          onNext={nextImage}
+        />
       )}
     </DetailContainer>
   );

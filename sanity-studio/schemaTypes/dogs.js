@@ -61,6 +61,11 @@ export default {
       },
     },
     {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+    },
+    {
       name: 'registrationNumber',
       title: 'Registration Number',
       type: 'string',

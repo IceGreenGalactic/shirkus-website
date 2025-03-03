@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import sanityClient from "../sanityClient";
 import { urlFor } from "../utils/sanityImage";
-import Modal from "../utils/modal.jsx";
+import Modal from "../utils/ImageModal";
 import {
   LitterContainer,
   ParentInfoContainer,
@@ -13,6 +13,7 @@ import {
   PuppiesContainer,
   MainImgContainer,
 } from "./LittersDetail.styled";
+import PuppyGalleryImages from "../components/PuppyGallerySection";
 
 const LittersDetail = () => {
   const { id } = useParams();
@@ -238,28 +239,16 @@ const LittersDetail = () => {
             </>
           ) : null}
         </div>
-        {/* free text under info about puppies bord -additional text to the setup */}
+
         {litter.freeText1 && (
           <div className="mb-3 ">
             <h5>{litter.freeText1}</h5>
           </div>
         )}
-        {/* Betinget rendering for bildegalleri */}
+
         {litter.galleryImages && litter.galleryImages.length > 0 && (
           <div className="container mt-5">
-            <h3>Bildegalleri:</h3>
-            <PuppyGallery className="align-items-center">
-              {litter.galleryImages.map((image, index) => (
-                <PuppyImage
-                  key={index}
-                  src={urlFor(image)}
-                  alt={`Valp bilde ${index + 1}`}
-                  onClick={() => openImageModal(urlFor(image))}
-                  style={{ cursor: "pointer" }}
-                />
-              ))}
-            </PuppyGallery>
-            {litter.textUnderGallery && <p>{litter.textUnderGallery}</p>}
+            <PuppyGalleryImages litterId={id} />
           </div>
         )}
 

@@ -93,9 +93,11 @@ export const GalleryContainer = styled.div`
 export const GalleryImage = styled.img`
   max-width: 150px;
   height: auto;
+  max-height: 150px;
   border-radius: 10px;
   cursor: pointer;
   transition: transform 0.2s ease;
+  object-fit: contain;
 
   &:hover {
     transform: scale(1.05);

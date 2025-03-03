@@ -9,11 +9,10 @@ export function urlFor(image) {
         return null;
     }
 
-    // Hvis bildet har en asset, returner URL-en direkte fra asset
     if (image.asset && image.asset.url) {
         return image.asset.url;
     }
 
-    // Bruk builder for å generere URL hvis ingen asset URL er tilgjengelig
+ 
     return builder.image(image).url();
 }

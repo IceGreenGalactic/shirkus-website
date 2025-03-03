@@ -53,15 +53,13 @@ const Header = () => {
                   to="/"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
-                    isActive
-                      ? "bottom-border active nav-link"
-                      : "bottom-border nav-link"
+                    `${isActive ? "active" : ""} bottom-border nav-link`
                   }
                 >
                   Hjem
                 </NavLink>
                 <NavLink
-                  to="/dogs"
+                  to="/hunder"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
                     isActive
@@ -72,7 +70,7 @@ const Header = () => {
                   Våre hunder
                 </NavLink>
                 <NavLink
-                  to="/litters"
+                  to="/valper"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
                     isActive
@@ -80,10 +78,10 @@ const Header = () => {
                       : "bottom-border nav-link"
                   }
                 >
-                  Valpe kull
+                  Valpekull
                 </NavLink>
                 <NavLink
-                  to="/about"
+                  to="/om oss"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
                     isActive
@@ -94,7 +92,7 @@ const Header = () => {
                   Om oss
                 </NavLink>
                 <NavLink
-                  to="/contact"
+                  to="/kontakt"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
                     isActive
@@ -115,7 +113,7 @@ const Header = () => {
             <Nav.Link href="/">
               <FaHome className="nav-icon" />
             </Nav.Link>
-            <Nav.Link href="/dogs">
+            <Nav.Link href="/hunder">
               <FaDog className="nav-icon" />
             </Nav.Link>
           </Nav>
