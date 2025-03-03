@@ -46,12 +46,12 @@ const Litters = () => {
   }
 
   return (
-    <LitterContainer className=" col-12 col-md-10 mt-2 ">
-      <h2 className="mb-4 text-center ">Valpekull</h2>
+    <LitterContainer className=" col-10 col-md-10 mt-2 ">
+      <h2 className="mb-4 text-center costum-border ">Valpekull</h2>
 
       {litters.some((litter) => !litter.dateOfBirth) && (
         <div className="row g-4 costum-border pb-4">
-          <h3 className="text-center">Kommende Valper</h3>
+          <h2 className="text-center">Kommende Valper</h2>
           {litters
             .filter((litter) => !litter.dateOfBirth)
             .map((litter) => (
