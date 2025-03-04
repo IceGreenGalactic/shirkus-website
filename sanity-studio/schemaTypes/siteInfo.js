@@ -59,6 +59,12 @@ export default {
       description: 'Tredje avsnitt av Om oss-seksjonen.',
     },
     {
+      name: 'name',
+      title: 'Navn',
+      type: 'string',
+      description: 'Firmaets eller personens Navn.',
+    },
+    {
       name: 'address',
       title: 'Adresse',
       type: 'string',
