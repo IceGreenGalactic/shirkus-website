@@ -84,6 +84,18 @@ const DogDetail = () => {
     );
   };
 
+  const renderInfoAsBulletPoints = (info) => {
+    return (
+      <ul>
+        {info.split("\n").map((item, index) => (
+          <li className="list-unstyled text-start" key={index}>
+            {item}
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
   return (
     <DetailContainer className="col-10 col-xl-8">
       <div className="mb-5 mt-2 text-center">
@@ -101,9 +113,10 @@ const DogDetail = () => {
             }}
           />
           {dog.breedingNotes && (
-            <DogInfo className="mt-2">
-              <strong>Valpekull:</strong> {dog.breedingNotes}
-            </DogInfo>
+            <div className="mt-2">
+              <strong>Valpekull:</strong>{dog.breedingNotes && renderInfoAsBulletPoints(dog.breedingNotes)}
+              
+            </div>
           )}
         </div>
 
