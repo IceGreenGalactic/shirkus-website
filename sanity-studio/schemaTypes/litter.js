@@ -129,7 +129,7 @@ export default {
       title: 'ValpeInfo tekst',
       type: 'text', // Mulighet for fri tekst.
     },
-    
+
     {
       name: 'mainImage',
       title: 'Hovedbilde',
@@ -137,6 +137,13 @@ export default {
       options: {
         hotspot: true,
       },
+    },
+
+    {
+      name: 'galleryTitle1',
+      title: 'Tittel for Galleri 1',
+      type: 'string',
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 1" eller annet.',
     },
     {
       name: 'galleryImages1',
@@ -147,16 +154,16 @@ export default {
     {
       name: 'textGallery1',
       title: 'Tekst under Galleri 1',
-      type: 'text', 
-    },
-    {
-      name: 'galleryTitle1',
-      title: 'Tittel for Galleri 1',
-      type: 'string', 
-      description: 'Gi galleriet en passende tittel, f.eks. "Uke 1" eller annet.',
+      type: 'text',
     },
 
     // Galleri 2
+    {
+      name: 'galleryTitle2',
+      title: 'Tittel for Galleri 2',
+      type: 'string',
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 2" eller annet.',
+    },
     {
       name: 'galleryImages2',
       title: 'Galleri 2 Bilder',
@@ -166,16 +173,16 @@ export default {
     {
       name: 'textGallery2',
       title: 'Tekst under Galleri 2',
-      type: 'text', 
-    },
-    {
-      name: 'galleryTitle2',
-      title: 'Tittel for Galleri 2',
-      type: 'string', 
-      description: 'Gi galleriet en passende tittel, f.eks. "Uke 2" eller annet.',
+      type: 'text',
     },
 
     // Galleri 3
+    {
+      name: 'galleryTitle3',
+      title: 'Tittel for Galleri 3',
+      type: 'string',
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 3" eller annet.',
+    },
     {
       name: 'galleryImages3',
       title: 'Galleri 3 Bilder',
@@ -185,16 +192,16 @@ export default {
     {
       name: 'textGallery3',
       title: 'Tekst under Galleri 3',
-      type: 'text', 
-    },
-    {
-      name: 'galleryTitle3',
-      title: 'Tittel for Galleri 3',
-      type: 'string', 
-      description: 'Gi galleriet en passende tittel, f.eks. "Uke 3" eller annet.',
+      type: 'text',
     },
 
     // Galleri 4
+    {
+      name: 'galleryTitle4',
+      title: 'Tittel for Galleri 4',
+      type: 'string',
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 4" eller annet.',
+    },
     {
       name: 'galleryImages4',
       title: 'Galleri 4 Bilder',
@@ -204,16 +211,16 @@ export default {
     {
       name: 'textGallery4',
       title: 'Tekst under Galleri 4',
-      type: 'text', 
-    },
-    {
-      name: 'galleryTitle4',
-      title: 'Tittel for Galleri 4',
-      type: 'string', 
-      description: 'Gi galleriet en passende tittel, f.eks. "Uke 4" eller annet.',
+      type: 'text',
     },
 
     // Galleri 5
+    {
+      name: 'galleryTitle5',
+      title: 'Tittel for Galleri 5',
+      type: 'string',
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 5" eller annet.',
+    },
     {
       name: 'galleryImages5',
       title: 'Galleri 5 Bilder',
@@ -223,16 +230,16 @@ export default {
     {
       name: 'textGallery5',
       title: 'Tekst under Galleri 5',
-      type: 'text', 
-    },
-    {
-      name: 'galleryTitle5',
-      title: 'Tittel for Galleri 5',
-      type: 'string', 
-      description: 'Gi galleriet en passende tittel, f.eks. "Uke 5" eller annet.',
+      type: 'text',
     },
 
     // Galleri 6
+    {
+      name: 'galleryTitle6',
+      title: 'Tittel for Galleri 6',
+      type: 'string',
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 6" eller annet.',
+    },
     {
       name: 'galleryImages6',
       title: 'Galleri 6 Bilder',
@@ -242,16 +249,16 @@ export default {
     {
       name: 'textGallery6',
       title: 'Tekst under Galleri 6',
-      type: 'text', 
-    },
-    {
-      name: 'galleryTitle6',
-      title: 'Tittel for Galleri 6',
-      type: 'string', 
-      description: 'Gi galleriet en passende tittel, f.eks. "Uke 6" eller annet.',
+      type: 'text',
     },
 
     // Galleri 7
+    {
+      name: 'galleryTitle7',
+      title: 'Tittel for Galleri 7',
+      type: 'string',
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 7" eller annet.',
+    },
     {
       name: 'galleryImages7',
       title: 'Galleri 7 Bilder',
@@ -261,16 +268,16 @@ export default {
     {
       name: 'textGallery7',
       title: 'Tekst under Galleri 7',
-      type: 'text', 
-    },
-    {
-      name: 'galleryTitle7',
-      title: 'Tittel for Galleri 7',
-      type: 'string', 
-      description: 'Gi galleriet en passende tittel, f.eks. "Uke 7" eller annet.',
+      type: 'text',
     },
 
     // Galleri 8
+    {
+      name: 'galleryTitle8',
+      title: 'Tittel for Galleri 8',
+      type: 'string',
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 8" eller annet.',
+    },
     {
       name: 'galleryImages8',
       title: 'Galleri 8 Bilder',
@@ -280,16 +287,16 @@ export default {
     {
       name: 'textGallery8',
       title: 'Tekst under Galleri 8',
-      type: 'text', 
-    },
-    {
-      name: 'galleryTitle8',
-      title: 'Tittel for Galleri 8',
-      type: 'string', 
-      description: 'Gi galleriet en passende tittel, f.eks. "Uke 8" eller annet.',
+      type: 'text',
     },
 
     // Galleri 9
+    {
+      name: 'galleryTitle9',
+      title: 'Tittel for Galleri 9',
+      type: 'string',
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 9" eller annet.',
+    },
     {
       name: 'galleryImages9',
       title: 'Galleri 9 Bilder',
@@ -299,16 +306,16 @@ export default {
     {
       name: 'textGallery9',
       title: 'Tekst under Galleri 9',
-      type: 'text', 
-    },
-    {
-      name: 'galleryTitle9',
-      title: 'Tittel for Galleri 9',
-      type: 'string', 
-      description: 'Gi galleriet en passende tittel, f.eks. "Uke 9" eller annet.',
+      type: 'text',
     },
 
     // Galleri 10
+    {
+      name: 'galleryTitle10',
+      title: 'Tittel for Galleri 10',
+      type: 'string',
+      description: 'Gi galleriet en passende tittel, f.eks. "Uke 10" eller annet.',
+    },
     {
       name: 'galleryImages10',
       title: 'Galleri 10 Bilder',
@@ -318,19 +325,13 @@ export default {
     {
       name: 'textGallery10',
       title: 'Tekst under Galleri 10',
-      type: 'text', 
+      type: 'text',
     },
-    {
-      name: 'galleryTitle10',
-      title: 'Tittel for Galleri 10',
-      type: 'string', 
-      description: 'Gi galleriet en passende tittel, f.eks. "Uke 10" eller annet.',
-    },
+
     {
       name: 'freeText2',
       title: 'Fritekst 2',
       type: 'text', // Mulighet for fri tekst.
     },
   ],
-  
 }

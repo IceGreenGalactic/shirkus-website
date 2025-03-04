@@ -29,8 +29,8 @@ export default {
       type: 'string',
       options: {
         list: [
-          { title: 'Hann', value: 'Hann' },
-          { title: 'Tispe', value: 'Tispe' },
+          {title: 'Hann', value: 'Hann'},
+          {title: 'Tispe', value: 'Tispe'},
         ],
       },
     },
@@ -40,9 +40,9 @@ export default {
       type: 'string',
       options: {
         list: [
-          { title: 'Nåværende hund', value: 'current' },
-          { title: 'Avlshund', value: 'breeding' },
-          { title: 'Tidligere hund', value: 'deceased' },
+          {title: 'Nåværende hund', value: 'current'},
+          {title: 'Avlshund', value: 'breeding'},
+          {title: 'Tidligere hund', value: 'deceased'},
         ],
       },
     },
@@ -50,14 +50,20 @@ export default {
       name: 'dateOfBirth',
       title: 'Date of Birth',
       type: 'date',
+      options: {
+        dateFormat: 'DD.MM.YYYY',
+      },
+      description: 'Velg dato for fødsel.',
     },
+
     {
       name: 'dateOfDeath',
       title: 'Date of Death',
       type: 'date',
       options: {
+        dateFormat: 'DD.MM.YYYY',
         // Betingen for å vise dette feltet kun hvis dogType er "deceased"
-        isHidden: ({ document }) => document?.dogType !== 'deceased',
+        isHidden: ({document}) => document?.dogType !== 'deceased',
       },
     },
     {
@@ -109,7 +115,7 @@ export default {
       name: 'gallery',
       title: 'Gallery',
       type: 'array',
-      of: [{ type: 'image', options: { hotspot: true } }],
+      of: [{type: 'image', options: {hotspot: true}}],
     },
     {
       name: 'description',
@@ -122,7 +128,7 @@ export default {
       type: 'text',
       options: {
         // Betingen for å vise dette feltet kun hvis dogType er "breeding"
-        isHidden: ({ document }) => document?.dogType !== 'breeding',
+        isHidden: ({document}) => document?.dogType !== 'breeding',
       },
     },
   ],
