@@ -21,6 +21,7 @@ export const ParentInfo = styled.div`
   text-align: center;
   margin-bottom: 2rem;
   padding: 0.1rem;
+  flex: 1 1 300px;
   h3 {
     display: flex;
     align-items: stretch;
@@ -38,10 +39,21 @@ export const ParentImage = styled.img`
 
 export const PuppyGallery = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 1rem;
   margin: 2rem 0;
   justify-items: center; 
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  }
+
+  @media (max-width: 381px) {
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  }
 `;
 
 export const PuppyImage = styled.img`
@@ -57,6 +69,7 @@ export const PuppiesContainer = styled.div`
     height: auto;
     border-radius: 8px;
     object-fit: cover;
+    cursor: pointer;
   }
 `;
 
@@ -66,8 +79,8 @@ export const MainImgContainer = styled.div`
   justify-content: center;
   img {
     width: 100%;
-    max-height: 600px;
-    max-width: 700px;
+    max-height: 60vh;
+    max-width: 60vw;
     height: auto;
     border-radius: 8px;
     object-fit: contain;

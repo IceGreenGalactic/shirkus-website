@@ -166,7 +166,7 @@ const LittersDetail = () => {
           </div>
         </ParentInfo>
       </ParentInfoContainer>
-      <PuppiesContainer className="col-10 m-auto">
+      <PuppiesContainer className="col-12 col-md-10 m-auto">
         <div className="d-flex align-items-baseline col-10 m-auto justify-content-center">
           {litter.dateOfBirth ? (
             <div className="date-container">
@@ -246,11 +246,11 @@ const LittersDetail = () => {
           </div>
         )}
 
-        {litter.galleryImages && litter.galleryImages.length > 0 && (
+  
           <div className="container mt-5">
             <PuppyGalleryImages litterId={id} />
           </div>
-        )}
+       
 
         <div className="container">
           {litter.freeText2 && <p>{litter.freeText2}</p>}

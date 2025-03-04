@@ -34,7 +34,6 @@ const PuppyGalleryImages = ({ litterId }) => {
           textGallery7,
           textGallery8,
           textGallery9,
-          textGallery10,
           galleryTitle1,
           galleryTitle2,
           galleryTitle3,
@@ -65,6 +64,7 @@ const PuppyGalleryImages = ({ litterId }) => {
             });
           }
         }
+
 
         setGalleryData(galleryData);
         setLoading(false);
@@ -101,29 +101,27 @@ const PuppyGalleryImages = ({ litterId }) => {
 
   return (
     <div>
-      {galleryData.length === 0 ? (
-        <p>No galleries available.</p>
-      ) : (
-        galleryData.map((gallery, galleryIndex) => (
-          <div key={galleryIndex} className="mb-4">
-            <h4>{gallery.title}</h4>
-            <div className="container mt-5">
-              <PuppyGallery className="align-items-center">
-                {gallery.images.map((image, imageIndex) => (
-                  <PuppyImage
-                    key={imageIndex}
-                    src={image.asset ? urlFor(image.asset) : ""}
-                    alt={`Gallery Image ${imageIndex + 1}`}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => openGalleryModal(galleryIndex, imageIndex)}
-                  />
-                ))}
-              </PuppyGallery>
+      {galleryData.length === 0
+        ? ""
+        : galleryData.map((gallery, galleryIndex) => (
+            <div key={galleryIndex} className="mb-4">
+              <h4>{gallery.title}</h4>
+              <div className="container mt-5">
+                <PuppyGallery className="align-items-center">
+                  {gallery.images.map((image, imageIndex) => (
+                    <PuppyImage
+                      key={imageIndex}
+                      src={image.asset ? urlFor(image.asset) : ""}
+                      alt={`Gallery Image ${imageIndex + 1}`}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => openGalleryModal(galleryIndex, imageIndex)}
+                    />
+                  ))}
+                </PuppyGallery>
+              </div>
+              {gallery.text && <p>{gallery.text}</p>}
             </div>
-            {gallery.text && <p>{gallery.text}</p>}
-          </div>
-        ))
-      )}
+          ))}
 
       {isGalleryModalOpen && galleryData[currentGalleryIndex] && (
         <GalleryImageModal
