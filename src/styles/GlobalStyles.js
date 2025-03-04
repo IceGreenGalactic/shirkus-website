@@ -28,6 +28,8 @@ export const GlobalStyles = createGlobalStyle`
     text-decoration: none; 
   }
 
- 
+  p, h1, h2, h3, li, span, div {
+    white-space: pre-line;
+  }
 
 `;
