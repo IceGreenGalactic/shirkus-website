@@ -65,7 +65,6 @@ const PuppyGalleryImages = ({ litterId }) => {
           }
         }
 
-
         setGalleryData(galleryData);
         setLoading(false);
       })
@@ -104,10 +103,10 @@ const PuppyGalleryImages = ({ litterId }) => {
       {galleryData.length === 0
         ? ""
         : galleryData.map((gallery, galleryIndex) => (
-            <div key={galleryIndex} className="mb-4">
-              <h4>{gallery.title}</h4>
-              <div className="container mt-5">
-                <PuppyGallery className="align-items-center">
+            <div key={galleryIndex} className="mb-4 costum-border text-center">
+              <h4 className="">{gallery.title}</h4>
+              <div className="container mt-5 ">
+                <PuppyGallery className="align-items-center col-10 m-auto">
                   {gallery.images.map((image, imageIndex) => (
                     <PuppyImage
                       key={imageIndex}

@@ -207,11 +207,11 @@ const LittersDetail = () => {
         <div className="mb-3 mt-3">
           {litter.puppyDetails && litter.puppyDetails.length > 0 ? (
             <>
-              <h4>
+              <h4 className="text-center">
                 {formatDate(litter.dateOfBirth)} ble det født; {totalPuppies}{" "}
-                valper:
+                valper!
               </h4>
-              <h5>
+              <h5 className="text-center">
                 {litter.puppyDetails
                   .reduce((acc, puppy) => {
                     const gender = puppy.gender;
@@ -246,13 +246,11 @@ const LittersDetail = () => {
           </div>
         )}
 
-  
-          <div className="container mt-5">
-            <PuppyGalleryImages litterId={id} />
-          </div>
-       
+        <div className="container mt-5 ">
+          <PuppyGalleryImages litterId={id} />
+        </div>
 
-        <div className="container">
+        <div className="container text-center my-5">
           {litter.freeText2 && <p>{litter.freeText2}</p>}
         </div>
       </PuppiesContainer>

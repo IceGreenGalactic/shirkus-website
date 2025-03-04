@@ -26,7 +26,6 @@ export const DogCard = styled.div`
   text-align: center;
   box-shadow: ${(props) => props.theme.shadows.boxShadow};
   transition: transform 0.2s;
-  
 
   &:hover {
     transform: scale(1.05);
@@ -55,8 +54,5 @@ export const DogCard = styled.div`
   a {
     text-decoration: none;
     color: inherit;
-  }
-  .costum-border {
-    border-bottom: 1px solid ${(props) => props.theme.colors.primary};
   }
 `;

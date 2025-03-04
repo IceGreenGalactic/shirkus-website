@@ -8,6 +8,10 @@ export const LitterContainer = styled.div`
     color: ${(props) => props.theme.colors.accent};
     font-weight: 900;
   }
+  .costum-border {
+    border-top: 1px solid ${(props) => props.theme.colors.accent};
+    padding: 10px 0px;
+  }
 `;
 
 export const ParentInfoContainer = styled.div`
@@ -42,7 +46,7 @@ export const PuppyGallery = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 1rem;
   margin: 2rem 0;
-  justify-items: center; 
+  justify-items: center;
   @media (max-width: 768px) {
     grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
   }
