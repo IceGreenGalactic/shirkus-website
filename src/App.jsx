@@ -21,10 +21,10 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="hunder" element={<OurDogs />} />
-            <Route path="hunder/:id" element={<DogDetail />} />
-            <Route path="valper" element={<Litters />} />
-            <Route path="valper/:id" element={<LittersDetail />} />
+            <Route path="dogs" element={<OurDogs />} />
+            <Route path="dogs/:id" element={<DogDetail />} />
+            <Route path="litters" element={<Litters />} />
+            <Route path="litters/:id" element={<LittersDetail />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
           </Route>

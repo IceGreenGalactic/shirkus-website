@@ -3,6 +3,14 @@ import { useLocation, Link, useParams } from "react-router-dom";
 import sanityClient from "../sanityClient";
 import { StyledBreadcrumb, StyledBreadcrumbItem } from "./Breadcrumbs.styled";
 
+// Translate path segments to Norwegian
+const pathTranslations = {
+  dogs: "Våre hunder",
+  litters: "Valpekull",
+  about: "Om oss",
+  contact: "Kontakt",
+};
+
 const DynamicBreadcrumbs = () => {
   const location = useLocation();
   const { id } = useParams();
@@ -13,8 +21,7 @@ const DynamicBreadcrumbs = () => {
 
   useEffect(() => {
     if (id) {
-
-      const query = pathnames[0] === "hunder"
+      const query = pathnames[0] === "dogs"
         ? `*[_type == "dog" && _id == $id]{ _id, name, nickname }`
         : `*[_type == "litter" && _id == $id]{ _id, mother { nickname }, father { nickname } }`;
 
@@ -45,15 +52,18 @@ const DynamicBreadcrumbs = () => {
 
       {pathnames.map((segment, index) => {
         const to = `/${pathnames.slice(0, index + 1).join("/")}`;
-        let displayName = decodeURIComponent(
+
+        let displayName = pathTranslations[segment] || decodeURIComponent(
           segment.charAt(0).toUpperCase() + segment.slice(1)
         );
 
-        if (pathnames[0] === "hunder" && segment === id && data) {
+        // Show the dog's nickname or name in the breadcrumbs
+        if (pathnames[0] === "dogs" && segment === id && data) {
           displayName = data.nickname || data.name;
         }
 
-        if (pathnames[0] === "valper" && segment === id && data) {
+        // Show the litter's mother and father names
+        if (pathnames[0] === "litters" && segment === id && data) {
           const motherNickname = data.mother?.nickname || data.mother?.name;
           const fatherNickname = data.father?.nickname || data.father?.name;
           displayName = ` ${motherNickname} & ${fatherNickname}`;

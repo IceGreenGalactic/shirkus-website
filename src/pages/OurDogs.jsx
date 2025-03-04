@@ -56,7 +56,7 @@ const OurDogs = () => {
               className="col-12 col-sm-10 col-md-6 col-xl-4 mx-auto"
             >
               <DogCard>
-                <Link to={`/hunder/${dog._id}`}>
+                <Link to={`/dogs/${dog._id}`}>
                   <img src={urlFor(dog.image)} alt={dog.name} />
                   <h3>{dog.nickname}</h3>
                   <h4>{dog.name}</h4>
@@ -78,7 +78,7 @@ const OurDogs = () => {
               className="col-12 col-sm-10 col-md-6 col-xl-4 mx-auto"
             >
               <DogCard>
-                <Link to={`/hunder/${dog._id}`}>
+                <Link to={`/dogs/${dog._id}`}>
                   <img src={urlFor(dog.image)} alt={dog.name} />
                   <h3>{dog.nickname}</h3>
                   <h4>{dog.name}</h4>
@@ -100,7 +100,7 @@ const OurDogs = () => {
               className="col-12 col-sm-10 col-md-6 col-xl-4 mx-auto"
             >
               <DogCard >
-                <Link to={`/hunder/${dog._id}`}>
+                <Link to={`/dogs/${dog._id}`}>
                   <img src={urlFor(dog.image)} alt={dog.name} />
                   <h3>{dog.nickname}</h3>
                   <h4>{dog.name}</h4>

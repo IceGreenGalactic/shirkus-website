@@ -59,7 +59,7 @@ const Header = () => {
                   Hjem
                 </NavLink>
                 <NavLink
-                  to="/hunder"
+                  to="/dogs"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
                     isActive
@@ -70,7 +70,7 @@ const Header = () => {
                   Våre hunder
                 </NavLink>
                 <NavLink
-                  to="/valper"
+                  to="/litters"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
                     isActive
@@ -81,7 +81,7 @@ const Header = () => {
                   Valpekull
                 </NavLink>
                 <NavLink
-                  to="/om oss"
+                  to="/about"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
                     isActive
@@ -92,7 +92,7 @@ const Header = () => {
                   Om oss
                 </NavLink>
                 <NavLink
-                  to="/kontakt"
+                  to="/contact"
                   onClick={handleLinkClick}
                   className={({ isActive }) =>
                     isActive

@@ -35,9 +35,6 @@ const Litters = () => {
           .filter((litter) => litter.dateOfBirth)
           .sort((a, b) => new Date(b.dateOfBirth) - new Date(a.dateOfBirth));
 
-        console.log("Upcoming Litters:", upcomingLitters);
-        console.log("Past Litters:", pastLitters);
-
         setLitters([...upcomingLitters, ...pastLitters]);
         setLoading(false);
       })
@@ -52,18 +49,19 @@ const Litters = () => {
   const isNewLitter = (dateOfBirth) => {
     const today = new Date();
     const birthDate = new Date(dateOfBirth);
-    const diffTime = today - birthDate; 
-    const diffDays = diffTime / (1000 * 60 * 60 * 24); 
-    console.log("Diff in Days:", diffDays);
+    const diffTime = today - birthDate;
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
     return diffDays < 70; // 70 days = 10 weeks
   };
 
   // Separate new litters from past litters
-  const newLitters = litters
-    .filter((litter) => litter.dateOfBirth && isNewLitter(litter.dateOfBirth));
+  const newLitters = litters.filter(
+    (litter) => litter.dateOfBirth && isNewLitter(litter.dateOfBirth)
+  );
 
-  const pastLitters = litters
-    .filter((litter) => litter.dateOfBirth && !isNewLitter(litter.dateOfBirth));
+  const pastLitters = litters.filter(
+    (litter) => litter.dateOfBirth && !isNewLitter(litter.dateOfBirth)
+  );
 
   return (
     <LitterContainer className="col-10 col-md-10">
@@ -79,7 +77,7 @@ const Litters = () => {
                 className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto mb-4"
               >
                 <LitterCard>
-                  <Link to={`/valper/${litter._id}`}>
+                  <Link to={`/litters/${litter._id}`}>
                     <h3>
                       {litter.mother.nickname} & {litter.father.nickname}
                     </h3>
@@ -131,7 +129,7 @@ const Litters = () => {
               className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto"
             >
               <LitterCard>
-                <Link to={`/valper/${litter._id}`}>
+                <Link to={`/litters/${litter._id}`}>
                   <h3>
                     {litter.mother.nickname} & {litter.father.nickname}
                   </h3>
@@ -181,7 +179,7 @@ const Litters = () => {
               className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto"
             >
               <LitterCard>
-                <Link to={`/valper/${litter._id}`}>
+                <Link to={`/litters/${litter._id}`}>
                   <h3>
                     {litter.mother.nickname} & {litter.father.nickname}
                   </h3>
