@@ -1,21 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import sanityClient from "../sanityClient";
 import { HomeContainer, Description, Title } from "./Home.styled";
-import HeroImage from "../assets/images/poodleHero.jpg";
 
 const Home = () => {
+  const [siteInfo, setSiteInfo] = useState(null);
+
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `*[_type == "siteInfo"][0]{introText, pageTitle, introImage {asset->{url}}}`
+      )
+      .then((data) => {
+        setSiteInfo(data);
+      })
+      .catch(console.error);
+  }, []);
+
+  if (!siteInfo) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <HomeContainer>
-      <Title>Velkommen til Kennel Shirkus</Title>
+      <Title>Velkommen til {siteInfo.pageTitle}</Title>
 
+      {/* Bruk data fra Sanity for bilde og tekst */}
       <img
-        src={HeroImage}
-        alt="Hero Image of five poodles sitting in the grass"
+        src={siteInfo.introImage?.asset?.url}
+        alt="Hero Image"
         className="hero-image col-10 col-md-8"
       />
       <Description className="col-10 col-md-8 col-lg-6 m-auto my-3">
-        Kennel Shirkus er et lite oppdrett av sort, hvit og grå stor puddel.
-        Her kan du lese om hundene, se bilder og finne ut om valpene våre. God
-        fornøyelse!
+        {siteInfo.introText}
       </Description>
     </HomeContainer>
   );

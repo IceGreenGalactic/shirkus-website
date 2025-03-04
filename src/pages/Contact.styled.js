@@ -19,6 +19,7 @@ export const Paragraph = styled.p`
   color: ${(props) => props.theme.colors.text};
   line-height: 1.6;
   margin-bottom: 1rem;
+  white-space: pre-line;
 `;
 
 export const ContactInfoContainer = styled.div`

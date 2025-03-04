@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   HeaderContainer,
   HeroText,
@@ -9,16 +9,30 @@ import backgroundImage from "../../assets/images/ShirkusHeader2.jpg";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaHome, FaDog } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import sanityClient from "../../sanityClient";
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [siteInfo, setSiteInfo] = useState(null);
+
+  useEffect(() => {
+    sanityClient
+      .fetch(`*[_type == "siteInfo"][0]{pageTitle}`)
+      .then((data) => {
+        setSiteInfo(data);
+      })
+      .catch(console.error);
+  }, []);
+
+  if (!siteInfo) {
+    return <div>Loading...</div>;
+  }
 
   const handleLinkClick = () => {
     if (isNavOpen) {
       setIsNavOpen(false);
     }
   };
-
   return (
     <>
       <HeaderContainer>
@@ -28,7 +42,7 @@ const Header = () => {
           className="hero-image"
         />
         <HeroText className="col-12 m-auto text-center">
-          Kennel Shirkus
+          {siteInfo.pageTitle}
         </HeroText>
       </HeaderContainer>
       <NavContainer>

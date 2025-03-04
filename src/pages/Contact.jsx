@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import sanityClient from "../sanityClient";
 import {
   ContactContainer,
   Title,
@@ -8,19 +9,35 @@ import {
 } from "./Contact.styled";
 
 const Contact = () => {
+  const [siteInfo, setSiteInfo] = useState(null);
+
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `*[_type == "siteInfo"][0]{contactText,name, address, phoneNumber, email, extraInfo}`
+      )
+      .then((data) => {
+        setSiteInfo(data);
+      })
+      .catch(console.error);
+  }, []);
+
+  if (!siteInfo) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <ContactContainer className="col-10 col-lg-8 m-auto">
+    <ContactContainer className="col-10 col-lg-8 mx-auto">
       <Title>Kontakt</Title>
-      <Paragraph className="mb-5">
-        Ønsker du å lære mer om våre storpudler, eller vurderer du å kjøpe valp?
-        <br />
-        Ta gjerne kontakt for en hyggelig prat!
-      </Paragraph>
+      <Paragraph className="mb-5">{siteInfo.contactText}</Paragraph>
       <ContactInfoContainer className="mb-5">
-        <ContactInfo>Bente Tyrholm: </ContactInfo>
-        <ContactInfo>📍 Adresse: Bødalen , Norge</ContactInfo>
-        <ContactInfo>📞 Telefon: +47 90 78 95 96</ContactInfo>
-        <ContactInfo>📧 E-post: shirkus@outlook.com</ContactInfo>
+        <ContactInfo>Navn: {siteInfo.name}</ContactInfo>
+        <ContactInfo>📍 Adresse: {siteInfo.address}</ContactInfo>
+        <ContactInfo>📞 Telefon: {siteInfo.phoneNumber}</ContactInfo>
+        <ContactInfo>📧 E-post: {siteInfo.email}</ContactInfo>
+        {siteInfo.extraInfo && (
+          <ContactInfo>Ekstra info: {siteInfo.extraInfo}</ContactInfo>
+        )}
       </ContactInfoContainer>
     </ContactContainer>
   );

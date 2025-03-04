@@ -58,6 +58,13 @@ export default {
       type: 'text',
       description: 'Tredje avsnitt av Om oss-seksjonen.',
     },
+
+    {
+      name: 'contactText',
+      title: 'Kontakt text',
+      type: 'text',
+      description: 'tekst over kontaktinformasjon',
+    },
     {
       name: 'name',
       title: 'Navn',
