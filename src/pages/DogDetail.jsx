@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import sanityClient from "../sanityClient";
 import Modal from "../utils/ImageModal";
 import GalleryImageModal from "../utils/GalleryImageModal";
+import { urlFor } from "../utils/sanityImage";
 import {
   DetailContainer,
   DogImage,
@@ -42,13 +43,22 @@ const DogDetail = () => {
           registrationNumber,
           healthResults,
           breedingNotes,
-          "imageUrl": image.asset->url,
+          image {
+            asset-> {
+              _id,
+              _ref
+            },
+            crop,
+            hotspot
+          },
           "pedigreeUrl": pedigree.asset->url,
           "gallery": gallery[] {
             asset-> {
               _id,
-              url
-            }
+              _ref
+            },
+            crop,
+            hotspot
           },
           description
         }`,
@@ -64,20 +74,18 @@ const DogDetail = () => {
   if (loading) return <div>Laster...</div>;
   if (!dog) return <div>Fant ingen hund.</div>;
 
-  // Handler to open the gallery modal
   const openGalleryModal = (index) => {
-    setCurrentGalleryIndex(index);
-    setIsGalleryModalOpen(true);
+    setCurrentGalleryIndex(index); 
+    setIsGalleryModalOpen(true); 
   };
 
-  // Handler to go to the previous image in the gallery
+ 
   const prevImage = () => {
     setCurrentGalleryIndex((prevIndex) =>
       prevIndex === 0 ? dog.gallery.length - 1 : prevIndex - 1
     );
   };
 
-  // Handler to go to the next image in the gallery
   const nextImage = () => {
     setCurrentGalleryIndex((prevIndex) =>
       prevIndex === dog.gallery.length - 1 ? 0 : prevIndex + 1
@@ -105,17 +113,17 @@ const DogDetail = () => {
       <div className="row align-items-start mb-4">
         <div className="col-12 col-md-6 col-lg-5 col-xl-6 d-flex justify-content-center flex-column">
           <DogImage
-            src={dog.imageUrl}
+            src={urlFor(dog.image)}
             alt={dog.name}
             onClick={() => {
-              setCurrentImage(dog.imageUrl);
+              setCurrentImage(urlFor(dog.image));
               setIsModalOpen(true);
             }}
           />
           {dog.breedingNotes && (
             <div className="mt-2">
-              <strong>Valpekull:</strong>{dog.breedingNotes && renderInfoAsBulletPoints(dog.breedingNotes)}
-              
+              <strong>Valpekull:</strong>
+              {dog.breedingNotes && renderInfoAsBulletPoints(dog.breedingNotes)}
             </div>
           )}
         </div>
@@ -189,7 +197,7 @@ const DogDetail = () => {
               image.asset ? (
                 <GalleryImage
                   key={index}
-                  src={image.asset.url}
+                  src={urlFor(image)}
                   alt={`Galleri bilde ${index + 1}`}
                   onClick={() => openGalleryModal(index)}
                 />
@@ -222,7 +230,7 @@ const DogDetail = () => {
 
       {isGalleryModalOpen && (
         <GalleryImageModal
-          images={dog.gallery.map((image) => image.asset.url)}
+          images={dog.gallery.map((image) => urlFor(image))}
           currentImageIndex={currentGalleryIndex}
           onClose={() => setIsGalleryModalOpen(false)}
           onPrev={prevImage}
