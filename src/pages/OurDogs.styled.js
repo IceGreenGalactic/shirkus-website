@@ -26,6 +26,7 @@ export const DogCard = styled.div`
   text-align: center;
   box-shadow: ${(props) => props.theme.shadows.boxShadow};
   transition: transform 0.2s;
+  
 
   &:hover {
     transform: scale(1.05);
@@ -33,7 +34,7 @@ export const DogCard = styled.div`
 
   img {
     width: 100%;
-    height: 20rem;
+    height: 50vh;
     object-fit: cover;
     object-position: center;
     object-position: 40% 15%;

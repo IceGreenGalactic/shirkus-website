@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import sanityClient from "../sanityClient";
 import { DogCard, DogsContainer } from "./OurDogs.styled";
-import { urlFor } from "../utils/sanityImage"; // Import the urlFor function
+import { urlFor } from "../utils/sanityImage";
 
 const OurDogs = () => {
   const [dogs, setDogs] = useState([]);
@@ -11,20 +11,20 @@ const OurDogs = () => {
     sanityClient
       .fetch(
         `*[_type == "dog"]{
-          _id,
-          name,
-          nickname,
-          dogType,
-          dateOfBirth,
-          image {
-            asset-> {
-              _id,
-              url
-            },
-            crop,
-            hotspot
-          }
-        }`
+        _id,
+        name,
+        nickname,
+        dogType,
+        dateOfBirth,
+        image {
+          asset-> {
+            _id,
+            _ref
+          },
+          crop,
+          hotspot
+        }
+      }`
       )
       .then((data) => {
         const sortedDogs = data
@@ -53,11 +53,10 @@ const OurDogs = () => {
           currentDogs.map((dog) => (
             <div
               key={dog._id}
-              className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto"
+              className="col-12 col-sm-10 col-md-6 col-xl-4 mx-auto"
             >
               <DogCard>
                 <Link to={`/hunder/${dog._id}`}>
-                  {/* Use urlFor for image rendering */}
                   <img src={urlFor(dog.image)} alt={dog.name} />
                   <h3>{dog.nickname}</h3>
                   <h4>{dog.name}</h4>
@@ -76,11 +75,10 @@ const OurDogs = () => {
           breedingDogs.map((dog) => (
             <div
               key={dog._id}
-              className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto"
+              className="col-12 col-sm-10 col-md-6 col-xl-4 mx-auto"
             >
               <DogCard>
                 <Link to={`/hunder/${dog._id}`}>
-                  {/* Use urlFor for image rendering */}
                   <img src={urlFor(dog.image)} alt={dog.name} />
                   <h3>{dog.nickname}</h3>
                   <h4>{dog.name}</h4>
@@ -99,11 +97,10 @@ const OurDogs = () => {
           deceasedDogs.map((dog) => (
             <div
               key={dog._id}
-              className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto"
+              className="col-12 col-sm-10 col-md-6 col-xl-4 mx-auto"
             >
-              <DogCard>
+              <DogCard >
                 <Link to={`/hunder/${dog._id}`}>
-                  {/* Use urlFor for image rendering */}
                   <img src={urlFor(dog.image)} alt={dog.name} />
                   <h3>{dog.nickname}</h3>
                   <h4>{dog.name}</h4>
