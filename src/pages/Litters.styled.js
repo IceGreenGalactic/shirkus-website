@@ -11,7 +11,6 @@ export const LitterContainer = styled.div`
 }
     .costum-border {
     border-bottom: 1px solid ${(props) => props.theme.colors.accent};
-    padding: 20px 0;
   }
 `;
 
