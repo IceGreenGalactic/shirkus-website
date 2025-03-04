@@ -87,12 +87,16 @@ export const GalleryContainer = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
+    @media (max-width: 500px) {
+      gap: 0px;
+    }
   }
 `;
 
 export const GalleryImage = styled.img`
   max-width: 150px;
   height: auto;
+  with: 100%;
   max-height: 150px;
   border-radius: 10px;
   cursor: pointer;
@@ -101,5 +105,9 @@ export const GalleryImage = styled.img`
 
   &:hover {
     transform: scale(1.05);
+  }
+  @media (max-width: 500px) {
+    max-width: 45%;
+    gap: 0px;
   }
 `;
