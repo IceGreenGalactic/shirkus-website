@@ -9,8 +9,10 @@ export const LitterContainer = styled.div`
     font-weight: 900;
   }
   .costum-border {
+    border-bottom: 1px solid ${(props) => props.theme.colors.accent};
+
     border-top: 1px solid ${(props) => props.theme.colors.accent};
-    padding: 10px 0px;
+    padding: 20px 0px;
   }
 `;
 

@@ -40,12 +40,11 @@ const LittersDetail = () => {
             puppyDetails,
             mainImage { asset-> { _id, _ref }, crop, hotspot }, 
             additionalImages[]{ asset-> { _id, _ref }, crop, hotspot }, 
-            galleryImages[] { asset-> { _id, _ref }, crop, hotspot }, 
             textUnderImages,
             dateOfBirth,
+            galleries,
             expectedDateOfBirth,
             textUnderMainImage,
-            textUnderGallery,
             freeText1,
             freeText2
         }`,
@@ -239,9 +238,11 @@ const LittersDetail = () => {
           </div>
         )}
 
+{litter.galleries && litter.galleries.length > 0 && (
         <div className="container mt-5 ">
           <PuppyGalleryImages litterId={id} />
         </div>
+        )}
 
         <div className="container text-center my-5">
           {litter.freeText2 && <p>{litter.freeText2}</p>}

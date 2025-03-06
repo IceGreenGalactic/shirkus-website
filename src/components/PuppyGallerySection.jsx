@@ -85,7 +85,9 @@ const PuppyGalleryImages = ({ litterId }) => {
                   ))}
                 </PuppyGallery>
               </div>
+              <div className="mt-2">
               {gallery.text && <p>{gallery.text}</p>}
+              </div>
             </div>
           ))}
 
