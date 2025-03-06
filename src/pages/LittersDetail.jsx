@@ -127,7 +127,7 @@ const LittersDetail = () => {
             <strong> Mor: </strong>
             {litter.mother.name}
           </h3>
-          <div className="col-12 m-auto text-start">
+          <div className="col-12 m-auto text-center">
             {litter.mother.image && (
               <ParentImage
                 src={urlFor(litter.mother.image)}
@@ -144,7 +144,7 @@ const LittersDetail = () => {
           <h3 className="d-flex flex-column">
             <strong> Far:</strong> {litter.father.name}
           </h3>
-          <div className="col-12 m-auto text-start">
+          <div className="col-12 m-auto text-center">
             {litter.father.image && (
               <ParentImage
                 src={urlFor(litter.father.image)}
@@ -184,9 +184,9 @@ const LittersDetail = () => {
 
         {litter.mainImage && (
           <>
-            <MainImgContainer className="m-auto col-12 d-flex">
+            <MainImgContainer className="m-auto col-12 col-md-8 col-xl-6 d-flex">
               <img
-                className="mb-2"
+                className="mb-2 rounded"
                 src={urlFor(litter.mainImage)}
                 alt={`Valpene til${litter.mother.nickname} og ${litter.father.nickname}`}
                 onClick={() => openImageModal(urlFor(litter.mainImage))}

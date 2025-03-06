@@ -31,10 +31,6 @@ export const ParentInfo = styled.div`
     min-height: 90px;
     font-size: 1.5rem;
   }
-  h4 {
-    display: flex;
-    align-items: center;
-  }
 `;
 
 export const ParentImage = styled.img`
@@ -86,8 +82,7 @@ export const MainImgContainer = styled.div`
   justify-content: center;
   img {
     width: 100%;
-    max-height: 60vh;
-    max-width: 60vw;
+
     height: auto;
     border-radius: 8px;
     object-fit: contain;

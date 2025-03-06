@@ -15,56 +15,22 @@ const PuppyGalleryImages = ({ litterId }) => {
     sanityClient
       .fetch(
         `*[_type == "litter" && _id == $litterId]{
-          galleryImages1[] { asset-> { _id, _ref }, crop, hotspot },
-          galleryImages2[] { asset-> { _id, _ref }, crop, hotspot },
-          galleryImages3[] { asset-> { _id, _ref }, crop, hotspot },
-          galleryImages4[] { asset-> { _id, _ref }, crop, hotspot },
-          galleryImages5[] { asset-> { _id, _ref }, crop, hotspot },
-          galleryImages6[] { asset-> { _id, _ref }, crop, hotspot },
-          galleryImages7[] { asset-> { _id, _ref }, crop, hotspot },
-          galleryImages8[] { asset-> { _id, _ref }, crop, hotspot },
-          galleryImages9[] { asset-> { _id, _ref }, crop, hotspot },
-          galleryImages10[] { asset-> { _id, _ref }, crop, hotspot },
-          textGallery1,
-          textGallery2,
-          textGallery3,
-          textGallery4,
-          textGallery5,
-          textGallery6,
-          textGallery7,
-          textGallery8,
-          textGallery9,
-          galleryTitle1,
-          galleryTitle2,
-          galleryTitle3,
-          galleryTitle4,
-          galleryTitle5,
-          galleryTitle6,
-          galleryTitle7,
-          galleryTitle8,
-          galleryTitle9,
-          galleryTitle10
+          galleries[] {
+            title,
+            images[] { asset-> { _id, _ref }, crop, hotspot },
+            description
+          }
         }`,
         { litterId }
       )
       .then((data) => {
         const litter = data[0];
-        const galleryData = [];
-
-        for (let i = 1; i <= 10; i++) {
-          const imagesKey = `galleryImages${i}`;
-          const textKey = `textGallery${i}`;
-          const titleKey = `galleryTitle${i}`;
-
-          if (litter[imagesKey]?.length > 0 || litter[textKey]) {
-            galleryData.push({
-              images: litter[imagesKey],
-              text: litter[textKey],
-              title: litter[titleKey] || `Galleri ${i}`,
-            });
-          }
-        }
-
+        const galleryData = litter.galleries.map((gallery, index) => ({
+          images: gallery.images,
+          text: gallery.description,
+          title: gallery.title || `Galleri ${index + 1}`,
+        }));
+  
         setGalleryData(galleryData);
         setLoading(false);
       })
@@ -73,6 +39,7 @@ const PuppyGalleryImages = ({ litterId }) => {
         setLoading(false);
       });
   }, [litterId]);
+  
 
   if (loading) return <div>Loading galleries...</div>;
 
