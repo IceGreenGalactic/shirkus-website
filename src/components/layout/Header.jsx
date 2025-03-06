@@ -113,7 +113,7 @@ const Header = () => {
             <Nav.Link href="/">
               <FaHome className="nav-icon" />
             </Nav.Link>
-            <Nav.Link href="/hunder">
+            <Nav.Link href="/dogs">
               <FaDog className="nav-icon" />
             </Nav.Link>
           </Nav>
