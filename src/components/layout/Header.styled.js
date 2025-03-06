@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const HeaderContainer = styled.header`
+export const HeaderImg = styled.div`
   position: relative;
   height: 30vh;
   display: flex;
@@ -16,15 +16,26 @@ export const HeaderContainer = styled.header`
   }
 `;
 
+export const HeaderContainer = styled.header`
+  display: table;
+  position: sticky;
+  top: 0;
+  background: ${(props) => props.theme.colors.accentTransparent};
+  align-items: center;
+
+  @media (min-width: 992px) {
+    padding: 0px;
+    position: static;
+  }
+`;
+
 export const HeroText = styled.h1`
-  position: absolute;
-  bottom: 0%;
-  font-size: 3rem;
+  position: relative;
+  font-size: 2.5rem;
   color: ${(props) => props.theme.colors.white};
   text-shadow: ${(props) => props.theme.shadows.textShadow};
-  background: ${(props) => props.theme.colors.accentTransparent};
   @media (max-width: 500px) {
-    font-size: 2.8rem;
+    font-size: 2.3rem;
   }
   @media (max-width: 330px) {
     font-size: 2.3rem;
@@ -32,16 +43,23 @@ export const HeroText = styled.h1`
 `;
 
 export const NavContainer = styled.nav`
-  background: ${(props) => props.theme.colors.accent};
-  width: 100%;
-  position: fixed;
-  bottom: 0;
+  flex-grow: 0;
+  width: auto;
   z-index: 1000;
-  display: flex;
-  padding: 10px 0px;
+
+  .navbar-collapse {
+    background: transparent;
+    @media (min-width: 992px) {
+      background: transparent;
+    }
+  }
+  .navbar-toggler {
+    position: relative;
+    
+  }
 
   a {
-      color: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.primary};
     font-family: ${(props) => props.theme.fonts.heading};
     @media (min-width: 992px) {
       color: ${(props) => props.theme.colors.primary};
@@ -54,19 +72,11 @@ export const NavContainer = styled.nav`
       border-bottom: transparent;
     }
   }
-    .bottom-border.active {
-  border-bottom: 2px solid ${(props) => props.theme.colors.accentTransparent};
+  .bottom-border.active {
+    border-bottom: 2px solid ${(props) => props.theme.colors.accentTransparent};
     @media (max-width: 992px) {
-        border-bottom: 2px solid ${(props) => props.theme.colors.white};
-
+      border-bottom: 2px solid ${(props) => props.theme.colors.white};
     }
-}
-
-  .nav-icon {
-    color: ${(props) => props.theme.colors.primary};
-    width: 30px;
-    height: 30px;
-    margin: 0 5px;
   }
 
   @media (min-width: 992px) {
