@@ -18,19 +18,22 @@ export const ParentInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: stretch;
+  align-items: flex-start;
 `;
 
 export const ParentInfo = styled.div`
   text-align: center;
   margin-bottom: 2rem;
   padding: 0.1rem;
-  flex: 1 1 300px;
   h3 {
     display: flex;
-    align-items: stretch;
+    align-items: center;
     min-height: 90px;
     font-size: 1.5rem;
+  }
+  h4 {
+    display: flex;
+    align-items: center;
   }
 `;
 
@@ -38,7 +41,7 @@ export const ParentImage = styled.img`
   width: 100%;
   height: auto;
   border-radius: 10px;
-  object-fit: cover;
+  object-fit: contain;
 `;
 
 export const PuppyGallery = styled.div`

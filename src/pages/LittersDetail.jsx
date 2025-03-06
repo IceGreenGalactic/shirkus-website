@@ -69,18 +69,6 @@ const LittersDetail = () => {
     return <div>Fant ingen kull.</div>;
   }
 
-  const renderInfoAsBulletPoints = (info) => {
-    return (
-      <ul>
-        {info.split("\n").map((item, index) => (
-          <li className="list-unstyled text-start" key={index}>
-            {item}
-          </li>
-        ))}
-      </ul>
-    );
-  };
-
   const calculateTotalPuppies = () => {
     if (!litter.puppyDetails || litter.puppyDetails.length === 0) {
       return 0;
@@ -133,55 +121,60 @@ const LittersDetail = () => {
   return (
     <LitterContainer className="col-10 m-auto">
       <h2 className="text-center">Kull Detaljer</h2>
-      <ParentInfoContainer className="m-auto mt-4">
+      <ParentInfoContainer className="m-auto mt-4 d-flex col-12 col-lg-8 col-xl-6">
         <ParentInfo>
-          <h3 className="d-flex flex-column ">
+          <h3 className="d-flex flex-column">
             <strong> Mor: </strong>
             {litter.mother.name}
           </h3>
-          <div className="col-12 col-md-8 m-auto">
+          <div className="col-12 m-auto text-start">
             {litter.mother.image && (
               <ParentImage
                 src={urlFor(litter.mother.image)}
                 alt={litter.mother.name}
               />
             )}
-            {litter.mother.nickname && <h4>{litter.mother.nickname}</h4>}
-            {litter.mother.info && renderInfoAsBulletPoints(litter.mother.info)}
+            <div className="mt-2">
+              {litter.mother.nickname && <h4>{litter.mother.nickname}</h4>}
+              {litter.mother.info && litter.mother.info}
+            </div>
           </div>
         </ParentInfo>
         <ParentInfo>
           <h3 className="d-flex flex-column">
             <strong> Far:</strong> {litter.father.name}
           </h3>
-          <div className="col-12 col-md-8 m-auto">
+          <div className="col-12 m-auto text-start">
             {litter.father.image && (
               <ParentImage
                 src={urlFor(litter.father.image)}
                 alt={litter.father.name}
               />
             )}
-            {litter.father.nickname && <h4>{litter.father.nickname}</h4>}
-            {litter.father.info && renderInfoAsBulletPoints(litter.father.info)}
+            <div className="mt-2">
+              {litter.father.nickname && <h4>{litter.father.nickname}</h4>}
+              {litter.father.info && litter.father.info}
+            </div>
           </div>
         </ParentInfo>
       </ParentInfoContainer>
       <PuppiesContainer className="col-12 col-md-10 m-auto">
         <div className="d-flex align-items-baseline col-10 m-auto justify-content-center">
           {litter.dateOfBirth ? (
-            <div className="date-container">
-              <h3>Dato Født:</h3>
+            <div className="date-container text-center">
+              <h3>Født:</h3>
               <h4>{formatDate(litter.dateOfBirth)}</h4>
             </div>
           ) : (
             litter.expectedDateOfBirth && (
               <h4>
-                Valper:{" "}
+                Valper ventes:{" "}
                 {new Date(litter.expectedDateOfBirth).toLocaleDateString(
                   "no-NO",
                   {
                     year: "numeric",
-                    month: "long",
+                    month: "2-digit",
+                    day: "2-digit",
                   }
                 )}
               </h4>
