@@ -1,6 +1,6 @@
 export default {
   name: 'dog',
-  title: 'Dog',
+  title: 'Hunder',
   type: 'document',
   fields: [
     {
@@ -29,8 +29,8 @@ export default {
       type: 'string',
       options: {
         list: [
-          {title: 'Hann', value: 'Hann'},
-          {title: 'Tispe', value: 'Tispe'},
+          {title: 'Hann', value: 'male'},
+          {title: 'Tispe', value: 'femail'},
         ],
       },
     },
@@ -62,9 +62,8 @@ export default {
       type: 'date',
       options: {
         dateFormat: 'DD.MM.YYYY',
-        // Betingen for å vise dette feltet kun hvis dogType er "deceased"
-        isHidden: ({document}) => document?.dogType !== 'deceased',
       },
+      hidden: ({document}) => document?.dogType !== 'deceased', 
     },
     {
       name: 'title',
@@ -80,6 +79,7 @@ export default {
       name: 'healthResults',
       title: 'Helse Resultater',
       type: 'array',
+      description: 'titel = AD, HD etc. Resultater = 0, A osv ',
       of: [
         {
           type: 'object',
@@ -87,12 +87,12 @@ export default {
             {
               name: 'title',
               title: 'Tittel',
-              type: 'string', // Her kan hun skrive inn tittel som HD, AD, NE, mentaltest osv.
+              type: 'string',
             },
             {
               name: 'description',
-              title: 'Beskrivelse',
-              type: 'text', // Her kan hun skrive inn resultatet eller mer informasjon.
+              title: 'Resultater',
+              type: 'text',
             },
           ],
         },
@@ -110,26 +110,50 @@ export default {
       name: 'pedigree',
       title: 'Pedigree',
       type: 'image',
+      description: 'Pedigree-bilde av hunden (stamtavle).'
     },
     {
       name: 'gallery',
       title: 'Gallery',
       type: 'array',
       of: [{type: 'image', options: {hotspot: true}}],
+      validation: (Rule) => Rule.max(5).warning('Maks 5 bilder i galleriet'),
     },
     {
       name: 'description',
       title: 'Description',
-      type: 'text', // Generelt felt for fri tekst
+      type: 'text',
     },
     {
       name: 'breedingNotes',
-      title: 'Breeding Notes',
+      title: 'kull informasjon',
       type: 'text',
-      options: {
-        // Betingen for å vise dette feltet kun hvis dogType er "breeding"
-        isHidden: ({document}) => document?.dogType !== 'breeding',
-      },
+      options: {},
+      description: 'informasjon om tidligere valpekull',
+    },
+  
+    {
+      name: 'breedingDogsInfo',
+      title: 'Avlshund informasjon',
+      type: 'text',
+      description: 'informasjon om avlshund - havner i en text boks',
+      options: {},
+      hidden: ({document}) => document?.dogType !== 'breeding', 
     },
   ],
+
+  preview: {
+    select: {
+      title: 'nickname',
+      subtitle: 'breed',
+      media: 'image',
+    },
+    prepare({title, subtitle, media}) {
+      return {
+        title: title || 'Uten navn',
+        subtitle: subtitle || 'Ingen rase spesifisert',
+        media: media || undefined,
+      }
+    },
+  },
 }
