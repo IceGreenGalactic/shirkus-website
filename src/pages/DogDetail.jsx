@@ -43,6 +43,7 @@ const DogDetail = () => {
           registrationNumber,
           healthResults,
           breedingNotes,
+          breedingDogsInfo,
           image {
             asset-> {
               _id,
@@ -75,11 +76,10 @@ const DogDetail = () => {
   if (!dog) return <div>Fant ingen hund.</div>;
 
   const openGalleryModal = (index) => {
-    setCurrentGalleryIndex(index); 
-    setIsGalleryModalOpen(true); 
+    setCurrentGalleryIndex(index);
+    setIsGalleryModalOpen(true);
   };
 
- 
   const prevImage = () => {
     setCurrentGalleryIndex((prevIndex) =>
       prevIndex === 0 ? dog.gallery.length - 1 : prevIndex - 1
@@ -105,13 +105,14 @@ const DogDetail = () => {
   };
 
   return (
-    <DetailContainer className="col-10 col-xl-8">
+    <DetailContainer className="col-12 col-xl-10">
       <div className="mb-5 mt-2 text-center">
+        <DogName className="text-center">{dog.title}</DogName>
         <DogName className="text-center">{dog.name}</DogName>
         <h4>"{dog.nickname}"</h4>
       </div>
       <div className="row align-items-start mb-4">
-        <div className="col-12 col-md-6 col-lg-5 col-xl-6 d-flex justify-content-center flex-column">
+        <div className="col-12 col-sm-8 col-md-5 col-lg-5 col-xl-4 d-flex justify-content-center flex-column m-auto">
           <DogImage
             src={urlFor(dog.image)}
             alt={dog.name}
@@ -120,18 +121,17 @@ const DogDetail = () => {
               setIsModalOpen(true);
             }}
           />
-          {dog.breedingNotes && (
-            <div className="mt-2">
-              <strong>Valpekull:</strong>
-              {dog.breedingNotes && renderInfoAsBulletPoints(dog.breedingNotes)}
-            </div>
-          )}
         </div>
 
-        <div className="col-sm-12 col-md-6 mx-auto justify-content-center">
+        <div className=" col-10 col-md-6 mx-auto justify-content-center">
           <div className="row">
             <div className="col-12 col-sm-7 col-lg-5 mx-auto">
-              <InfoWrapper className="m-auto mt-4 mt-md-0">
+              <InfoWrapper className="m-auto mt-4">
+                {dog.registrationNumber && (
+                  <DogInfo>
+                    <strong>RegNr:</strong> {dog.registrationNumber}
+                  </DogInfo>
+                )}
                 {dog.breed && (
                   <DogInfo>
                     <strong>Rase:</strong> {dog.breed}
@@ -144,29 +144,69 @@ const DogDetail = () => {
                 )}
                 {dog.gender && (
                   <DogInfo>
-                    <strong>Kjønn:</strong> {dog.gender}
+                    <strong>Kjønn:</strong>{" "}
+                    {dog.gender === "male"
+                      ? "Hann"
+                      : dog.gender === "female" || "femail"
+                      ? "Tispe"
+                      : dog.gender}
                   </DogInfo>
                 )}
+
                 <div className="d-flex">
-                  {dog.dateOfBirth && (
-                    <DogInfo>
-                      <strong>Fødselsdato:</strong>{" "}
-                      {new Date(dog.dateOfBirth).toLocaleDateString("no-NO", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
-                    </DogInfo>
+                  {dog.dogType === "deceased" ? (
+                    <>
+                      {dog.dateOfBirth && (
+                        <DogInfo className="d-flex flex-column">
+                          <strong>Fødselsdato:</strong>{" "}
+                          {new Date(dog.dateOfBirth).toLocaleDateString(
+                            "no-NO",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )}
+                          -{" "}
+                          {new Date(dog.dateOfDeath).toLocaleDateString(
+                            "no-NO",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                            }
+                          )}
+                        </DogInfo>
+                      )}
+                    </>
+                  ) : (
+                    dog.dateOfBirth && (
+                      <DogInfo>
+                        <strong>Fødselsdato:</strong>{" "}
+                        {new Date(dog.dateOfBirth).toLocaleDateString("no-NO", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
+                      </DogInfo>
+                    )
                   )}
                 </div>
+
+                {dog.breedingNotes && (
+                  <div className="mt-2">
+                    <strong>Valpekull:</strong>
+                    {dog.breedingNotes &&
+                      renderInfoAsBulletPoints(dog.breedingNotes)}
+                  </div>
+                )}
               </InfoWrapper>
             </div>
             {/* Health Results */}
             <div className="col-12 col-sm-5 col-lg-6 mx-auto">
               {dog.healthResults?.length > 0 && (
-                <InfoWrapper className="m-auto">
+                <InfoWrapper className="m-auto mt-2 mt-sm-4">
                   <HealthResults>
-                    <p className="mb-0">Helseresultater:</p>
                     <ul>
                       {dog.healthResults.map((result, index) => (
                         <HealthResultItem key={index}>
@@ -188,10 +228,16 @@ const DogDetail = () => {
         </DogInfo>
       )}
 
+      {dog.breedingDogsInfo && (
+        <DogInfo className="d-flex flex-column border col-8 m-auto p-4">
+          {dog.breedingDogsInfo}
+        </DogInfo>
+      )}
+
       {/* Gallery Section */}
       {dog.gallery && dog.gallery.length > 0 && (
         <GalleryContainer className="mt-4">
-          <h4>Galleri:</h4>
+          <h4>Galleri</h4>
           <div className="row">
             {dog.gallery.map((image, index) =>
               image.asset ? (
@@ -209,8 +255,8 @@ const DogDetail = () => {
 
       {/* Pedigree Section */}
       {dog.pedigreeUrl && (
-        <div className="mt-5 text-center">
-          <h4>Stamtavle:</h4>
+        <div className="mt-5 text-center col-12 col-sm-8 m-auto">
+          <h4>Stamtavle</h4>
           <PedigreeImage
             src={dog.pedigreeUrl}
             alt="Stamtavle"

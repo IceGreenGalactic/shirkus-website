@@ -30,7 +30,7 @@ export default {
       options: {
         list: [
           {title: 'Hann', value: 'male'},
-          {title: 'Tispe', value: 'femail'},
+          {title: 'Tispe', value: 'female'},
         ],
       },
     },
@@ -63,7 +63,7 @@ export default {
       options: {
         dateFormat: 'DD.MM.YYYY',
       },
-      hidden: ({document}) => document?.dogType !== 'deceased', 
+      hidden: ({document}) => document?.dogType !== 'deceased',
     },
     {
       name: 'title',
@@ -110,7 +110,7 @@ export default {
       name: 'pedigree',
       title: 'Pedigree',
       type: 'image',
-      description: 'Pedigree-bilde av hunden (stamtavle).'
+      description: 'Pedigree-bilde av hunden (stamtavle).',
     },
     {
       name: 'gallery',
@@ -131,14 +131,14 @@ export default {
       options: {},
       description: 'informasjon om tidligere valpekull',
     },
-  
+
     {
       name: 'breedingDogsInfo',
       title: 'Avlshund informasjon',
       type: 'text',
       description: 'informasjon om avlshund - havner i en text boks',
       options: {},
-      hidden: ({document}) => document?.dogType !== 'breeding', 
+      hidden: ({document}) => document?.dogType !== 'breeding',
     },
   ],
 

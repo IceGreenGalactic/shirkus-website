@@ -26,6 +26,7 @@ export const InfoWrapper = styled.div`
 export const DogInfo = styled.p`
   font-size: 1rem;
   line-height: 1.5;
+  display: flex;
 `;
 
 export const HealthResults = styled.div`
@@ -34,12 +35,12 @@ export const HealthResults = styled.div`
     padding: 0;
     margin:0:
   }
- 
 `;
 
 export const HealthResultItem = styled.li`
-  font-size: 1.2 rem;
+ font-size: 1rem;
   line-height: 2.5;
+  
 `;
 
 // Stamtavle-bildet (Pedigree)
@@ -87,9 +88,7 @@ export const GalleryContainer = styled.div`
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
-    @media (max-width: 500px) {
-      gap: 0px;
-    }
+
   }
 `;
 
