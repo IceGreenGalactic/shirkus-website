@@ -19,54 +19,74 @@ export const HeaderContainer = styled.header`
 export const HeroText = styled.h1`
   position: absolute;
   bottom: 0%;
-  font-size: 3rem;
+  font-size: 2.6rem;
+  background: ${(props) => props.theme.colors.accentTransparent};
+
   color: ${(props) => props.theme.colors.white};
   text-shadow: ${(props) => props.theme.shadows.textShadow};
-  background: ${(props) => props.theme.colors.accentTransparent};
-  @media (max-width: 500px) {
-    font-size: 2.8rem;
+  @media (max-width: 992px) {
+    position: relative;
+    bottom: 0%;
+    font-size: 3rem;
+    background: transparent;
+    display: flex;
+    color: ${(props) => props.theme.colors.white};
+    text-shadow: ${(props) => props.theme.shadows.textShadow};
   }
-  @media (max-width: 330px) {
-    font-size: 2.3rem;
+  @media (max-width: 600px) {
+    font-size: 2.4rem;
+  }
+  @media (max-width: 350px) {
+    font-size: 2rem;
   }
 `;
 
 export const NavContainer = styled.nav`
-  background: ${(props) => props.theme.colors.accent};
+  position: sticky;
+  top: 0;
+  left: 0;
   width: 100%;
-  position: fixed;
-  bottom: 0;
+  background: ${(props) => props.theme.colors.accent};
   z-index: 1000;
-  display: flex;
-  padding: 10px 0px;
+  transition: all 0.3s ease-in-out;
 
-  a {
-      color: ${(props) => props.theme.colors.primary};
-    font-family: ${(props) => props.theme.fonts.heading};
-    @media (min-width: 992px) {
-      color: ${(props) => props.theme.colors.primary};
+  .navbar {
+    a {
+      color: ${(props) => props.theme.colors.text};
+      font-family: ${(props) => props.theme.fonts.heading};
+      text-decoration: none;
+      padding: 1rem;
+      transition: all 0.3s ease;
+      display: inline-block;
+      position: relative;
+
+      &:hover {
+        color: ${(props) => props.theme.colors.accent};
+      }
+
+      span {
+        position: relative;
+      }
+
+      &.active {
+        color: black;
+
+        span::after {
+          content: "";
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background-color: ${(props) => props.theme.colors.white};
+        }
+        @media (min-width: 992px) {
+          span::after {
+            background-color: ${(props) => props.theme.colors.accent};
+          }
+        }
+      }
     }
-  }
-  .bottom-border {
-    border-bottom: 1px solid ${(props) => props.theme.colors.primary};
-
-    @media (min-width: 992px) {
-      border-bottom: transparent;
-    }
-  }
-    .bottom-border.active {
-  border-bottom: 2px solid ${(props) => props.theme.colors.accentTransparent};
-    @media (max-width: 992px) {
-        border-bottom: 2px solid ${(props) => props.theme.colors.white};
-
-    }
-}
-
-  .nav-icon {
-    color: ${(props) => props.theme.colors.primary};
-    width: 30px;
-    height: 30px;
-    margin: 0 5px;
   }
 
   @media (min-width: 992px) {
@@ -75,8 +95,4 @@ export const NavContainer = styled.nav`
     width: 100%;
     background: ${(props) => props.theme.colors.background};
   }
-`;
-
-export const MenueLineBottom = styled.div`
-  background: ${(props) => props.theme.colors.accent};
 `;
