@@ -13,9 +13,8 @@ import {
   HealthResultItem,
   InfoWrapper,
   PedigreeImage,
-  GalleryContainer,
-  GalleryImage,
 } from "./DogDetail.styled";
+import { GalleryContainer, GalleryImage } from "../styles/galleryImages.styled";
 
 const DogDetail = () => {
   const { id } = useParams();
@@ -129,7 +128,7 @@ const DogDetail = () => {
               <InfoWrapper className="m-auto mt-4">
                 {dog.registrationNumber && (
                   <DogInfo>
-                    <strong>RegNr:</strong> {dog.registrationNumber}
+                    <strong>Reg Nr:</strong> {dog.registrationNumber}
                   </DogInfo>
                 )}
                 {dog.breed && (

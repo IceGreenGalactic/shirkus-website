@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import sanityClient from "../sanityClient";
-import { PuppyImage, PuppyGallery } from "../pages/LittersDetail.styled";
 import { urlFor } from "../utils/sanityImage";
 import GalleryImageModal from "../utils/GalleryImageModal";
+import { GalleryContainer,GalleryImage } from "../styles/galleryImages.styled";
 
 const PuppyGalleryImages = ({ litterId }) => {
   const [galleryData, setGalleryData] = useState([]);
@@ -39,7 +39,6 @@ const PuppyGalleryImages = ({ litterId }) => {
         setLoading(false);
       });
   }, [litterId]);
-  
 
   if (loading) return <div>Loading galleries...</div>;
 
@@ -67,29 +66,24 @@ const PuppyGalleryImages = ({ litterId }) => {
 
   return (
     <div>
-      {galleryData.length === 0
-        ? ""
-        : galleryData.map((gallery, galleryIndex) => (
-            <div key={galleryIndex} className="mb-4 costum-border text-center">
-              <h4 className="">{gallery.title}</h4>
-              <div className="container mt-5 ">
-                <PuppyGallery className="align-items-center col-10 m-auto">
-                  {gallery.images.map((image, imageIndex) => (
-                    <PuppyImage
-                      key={imageIndex}
-                      src={image.asset ? urlFor(image.asset) : ""}
-                      alt={`Gallery Image ${imageIndex + 1}`}
-                      style={{ cursor: "pointer" }}
-                      onClick={() => openGalleryModal(galleryIndex, imageIndex)}
-                    />
-                  ))}
-                </PuppyGallery>
-              </div>
-              <div className="mt-2">
-              {gallery.text && <p>{gallery.text}</p>}
-              </div>
+      {galleryData.length > 0 &&
+        galleryData.map((gallery, galleryIndex) => (
+          <GalleryContainer key={galleryIndex} className="mb-4">
+            <h4>{gallery.title}</h4>
+            <div className="row">
+              {gallery.images.map((image, imageIndex) => (
+                <GalleryImage
+                  key={imageIndex}
+                  src={image.asset ? urlFor(image.asset) : ""}
+                  alt={`Gallery Image ${imageIndex + 1}`}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => openGalleryModal(galleryIndex, imageIndex)}
+                />
+              ))}
             </div>
-          ))}
+            {gallery.text && <p className="mt-2">{gallery.text}</p>}
+          </GalleryContainer>
+        ))}
 
       {isGalleryModalOpen && galleryData[currentGalleryIndex] && (
         <GalleryImageModal

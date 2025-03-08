@@ -8,8 +8,6 @@ import {
   ParentInfoContainer,
   ParentInfo,
   ParentImage,
-  PuppyGallery,
-  PuppyImage,
   PuppiesContainer,
   MainImgContainer,
 } from "./LittersDetail.styled";
@@ -238,10 +236,10 @@ const LittersDetail = () => {
           </div>
         )}
 
-{litter.galleries && litter.galleries.length > 0 && (
-        <div className="container mt-5 ">
-          <PuppyGalleryImages litterId={id} />
-        </div>
+        {litter.galleries && litter.galleries.length > 0 && (
+          <div className="container mt-5 ">
+            <PuppyGalleryImages litterId={id} />
+          </div>
         )}
 
         <div className="container text-center my-5">

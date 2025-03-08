@@ -42,31 +42,7 @@ export const ParentImage = styled.img`
   object-fit: contain;
 `;
 
-export const PuppyGallery = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  gap: 1rem;
-  margin: 2rem 0;
-  justify-items: center;
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-  }
 
-  @media (max-width: 500px) {
-    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-  }
-
-  @media (max-width: 381px) {
-    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-  }
-`;
-
-export const PuppyImage = styled.img`
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  object-fit: cover;
-`;
 
 export const PuppiesContainer = styled.div`
   img {
