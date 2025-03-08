@@ -231,7 +231,7 @@ const LittersDetail = () => {
         </div>
 
         {litter.freeText1 && (
-          <div className="mb-3 ">
+          <div className="mb-3 col-10 m-auto">
             <h5 className="text-center">{litter.freeText1}</h5>
           </div>
         )}

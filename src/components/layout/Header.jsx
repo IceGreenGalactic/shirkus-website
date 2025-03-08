@@ -37,7 +37,7 @@ const Header = () => {
           alt="Hero Image of five poodles sitting in the grass"
           className="hero-image"
         />
-        <HeroText className="col-12 m-auto text-center d-none d-lg-block ">
+        <HeroText className="col-12 m-auto text-center d-none d-lg-block py-2">
           Kennel Shirkus
         </HeroText>
       </HeaderContainer>
