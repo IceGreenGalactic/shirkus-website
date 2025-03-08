@@ -195,8 +195,7 @@ const DogDetail = () => {
                 {dog.breedingNotes && (
                   <div className="mt-2">
                     <strong>Valpekull:</strong>
-                    {dog.breedingNotes &&
-                      renderInfoAsBulletPoints(dog.breedingNotes)}
+                    <p className="ms-1">{dog.breedingNotes && dog.breedingNotes}</p>
                   </div>
                 )}
               </InfoWrapper>

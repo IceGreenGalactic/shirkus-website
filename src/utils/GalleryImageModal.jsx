@@ -1,8 +1,20 @@
 import React from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { ModalOverlay, NavigationButton, Counter, ModalContent, CloseButton } from "./Modals.styled";
+import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import {
+  ModalOverlay,
+  NavigationButton,
+  Counter,
+  ModalContent,
+  CloseButton,
+} from "./Modals.styled";
 
-const GalleryImageModal = ({ images, currentImageIndex, onClose, onPrev, onNext }) => {
+const GalleryImageModal = ({
+  images,
+  currentImageIndex,
+  onClose,
+  onPrev,
+  onNext,
+}) => {
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
@@ -23,10 +35,10 @@ const GalleryImageModal = ({ images, currentImageIndex, onClose, onPrev, onNext 
 
         {/* Navigation Arrows */}
         <NavigationButton direction="left" onClick={onPrev}>
-          <FaArrowLeft />
+          <FaAngleLeft />
         </NavigationButton>
         <NavigationButton direction="right" onClick={onNext}>
-          <FaArrowRight />
+          <FaAngleRight />
         </NavigationButton>
 
         {/* Image Counter */}
