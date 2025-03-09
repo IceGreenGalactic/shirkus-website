@@ -43,14 +43,18 @@ export const HeroText = styled.h1`
 
 export const NavContainer = styled.nav`
   position: sticky;
-  top: 0;
+  top: 40px;
   left: 0;
   width: 100%;
-  background: ${(props) => props.theme.colors.accent};
   z-index: 1000;
   transition: all 0.3s ease-in-out;
 
   .navbar {
+    display: absolute;
+    top: -40px;
+    background: ${(props) => props.theme.colors.accentTransparent};
+    padding: 0px;
+
     a {
       color: ${(props) => props.theme.colors.text};
       font-family: ${(props) => props.theme.fonts.heading};
@@ -87,6 +91,11 @@ export const NavContainer = styled.nav`
         }
       }
     }
+    @media (min-width: 992px) {
+      width: 100%;
+      background: ${(props) => props.theme.colors.background};
+      top: 0px;
+    }
   }
 
   @media (min-width: 992px) {
@@ -94,5 +103,6 @@ export const NavContainer = styled.nav`
     padding: 0;
     width: 100%;
     background: ${(props) => props.theme.colors.background};
+    top: 0px;
   }
 `;
