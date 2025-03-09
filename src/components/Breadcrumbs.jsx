@@ -41,7 +41,7 @@ const DynamicBreadcrumbs = () => {
   }, [id, pathnames]);
 
   return (
-    <StyledBreadcrumb>
+    <StyledBreadcrumb className="ms-3 ms-lg-5 ps-lg-5">
     {location.pathname !== "/" && (
       <>
         <StyledBreadcrumbItem as={Link} to="/">

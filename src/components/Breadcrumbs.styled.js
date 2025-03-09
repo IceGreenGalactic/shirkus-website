@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const StyledBreadcrumb = styled(Breadcrumb)`
   background-color: transparent;
   padding: 10px 0;
-  margin: 0px 5rem;
+  margin: 0px 1rem;
   
   }
    .separator {
@@ -28,9 +28,8 @@ export const StyledBreadcrumbItem = styled(Breadcrumb.Item)`
 
   &.active {
     color: ${(props) => props.theme.colors.primary};
-    &.pointer{
-        pointer-events: none;
-
+    &.pointer {
+      pointer-events: none;
     }
   }
 `;
