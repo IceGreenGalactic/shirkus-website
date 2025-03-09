@@ -198,7 +198,7 @@ const LittersDetail = () => {
           {litter.puppyDetails && litter.puppyDetails.length > 0 ? (
             <>
               <h4 className="text-center">
-                {formatDate(litter.dateOfBirth)} ble det født; {totalPuppies}{" "}
+             Det ble født {totalPuppies}{" "}
                 valper!
               </h4>
               <h5 className="text-center">
