@@ -48,7 +48,7 @@ const OurDogs = () => {
     <DogsContainer className="container col-lg-10">
       <h2 className="mb-3 text-center">Våre Hunder</h2>
 
-      <div className="row g-4 costum-border pb-4">
+      <div id="current" className="row g-4 costum-border pb-4">
         {currentDogs.length > 0 ? (
           currentDogs.map((dog) => (
             <div
@@ -69,7 +69,7 @@ const OurDogs = () => {
         )}
       </div>
 
-      <div className="row g-4 costum-border">
+      <div id="breeding" className="row g-4 costum-border">
         <h2 className="mb-3 text-center">Avlshunder</h2>
         {breedingDogs.length > 0 ? (
           breedingDogs.map((dog) => (
@@ -91,7 +91,7 @@ const OurDogs = () => {
         )}
       </div>
 
-      <div className="row g-4 costum-border">
+      <div id="deceased" className="row g-4 costum-border">
         <h2 className="mb-3 text-center">Tidligere Hunder</h2>
         {deceasedDogs.length > 0 ? (
           deceasedDogs.map((dog) => (
@@ -99,7 +99,7 @@ const OurDogs = () => {
               key={dog._id}
               className="col-12 col-sm-10 col-md-6 col-xl-4 mx-auto"
             >
-              <DogCard >
+              <DogCard>
                 <Link to={`/dogs/${dog._id}`}>
                   <img src={urlFor(dog.image)} alt={dog.name} />
                   <h3>{dog.nickname}</h3>

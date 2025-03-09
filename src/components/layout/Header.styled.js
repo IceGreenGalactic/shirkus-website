@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { NavDropdown } from "react-bootstrap";
 
 export const HeaderContainer = styled.header`
   position: relative;
@@ -49,12 +50,14 @@ export const NavContainer = styled.nav`
   z-index: 1000;
   transition: all 0.3s ease-in-out;
 
-  .navbar {
-    display: absolute;
-    top: -40px;
-    background: ${(props) => props.theme.colors.accentTransparent};
+  .navbar{
+   display: absolute;
+    top: -40px;}
+  .navbar,
+  .dropdown-menu {
+    background: ${(props) => props.theme.colors.accent};
     padding: 0px;
-
+ 
     a {
       color: ${(props) => props.theme.colors.text};
       font-family: ${(props) => props.theme.fonts.heading};
@@ -92,7 +95,6 @@ export const NavContainer = styled.nav`
       }
     }
     @media (min-width: 992px) {
-      width: 100%;
       background: ${(props) => props.theme.colors.background};
       top: 0px;
     }
@@ -104,5 +106,51 @@ export const NavContainer = styled.nav`
     width: 100%;
     background: ${(props) => props.theme.colors.background};
     top: 0px;
+  }
+
+  .dropdown-menu {
+top:0px;
+ display: none;
+  position: relative;
+  z-index: 30;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    border: none;
+     @media (min-width: 992px) { 
+         background: ${(props) => props.theme.colors.background};
+          top:70%;
+          padding: 10px;
+          justify-content: center;
+          }
+    a {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      transition: background-color 0.3s ease-in-out;
+    }
+      .navbar .show .dropdown-menu {
+  display: block; 
+ padding-top: 200px;
+}
+
+    .dropdown-item {
+      &:hover {
+        background-color: ${(props) => props.theme.colors.accent};
+        color: ${(props) => props.theme.colors.text};
+      }
+
+      &.active,
+      &:active {
+        background-color: transparent;
+        color: ${(props) => props.theme.colors.text};
+      }
+       &.active-dropdown {
+        color: ${(props) => props.theme.colors.text};
+        background-color: transparent !important;
+        font-weight: bold;
+      }
+        }
+      }
+    }
   }
 `;
