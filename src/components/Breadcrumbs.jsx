@@ -42,13 +42,13 @@ const DynamicBreadcrumbs = () => {
 
   return (
     <StyledBreadcrumb>
-      <StyledBreadcrumbItem
-        as={Link}
-        to="/"
-        className={location.pathname === "/" ? "active" : ""}
-      >
-        Hjem
-      </StyledBreadcrumbItem>
+    {location.pathname !== "/" && (
+      <>
+        <StyledBreadcrumbItem as={Link} to="/">
+          Hjem
+        </StyledBreadcrumbItem>
+      </>
+    )}
 
       {pathnames.map((segment, index) => {
         const to = `/${pathnames.slice(0, index + 1).join("/")}`;
