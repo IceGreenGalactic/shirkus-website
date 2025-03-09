@@ -95,8 +95,8 @@ const LittersDetail = () => {
         ? "hanner"
         : "tisper"
       : gender === "male"
-      ? "Hann"
-      : "Tispe";
+      ? "hann"
+      : "tispe";
   };
 
   const openImageModal = (image) => {
