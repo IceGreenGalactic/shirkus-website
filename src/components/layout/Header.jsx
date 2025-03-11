@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { HeaderContainer, HeroText, NavContainer } from "./Header.styled";
 import backgroundImage from "../../assets/images/ShirkusHeader2.jpg";
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Navbar, Nav, Container } from "react-bootstrap";
+import { NavLink, useLocation, useNavigate, Link } from "react-router-dom";
 import sanityClient from "../../sanityClient";
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeLitter, setActiveLitter] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState("");
-  const location = useLocation();
+  const location = useLocation(); // Bruker useLocation til å få tilgang til stien
   const navigate = useNavigate();
   const navbarRef = useRef(null);
 
@@ -39,17 +40,19 @@ const Header = () => {
 
   const handleLinkClick = () => {
     setIsNavOpen(false);
+    setIsDropdownOpen(false);
+    setActiveDropdown("");
   };
 
   const handleDropdownClick = (sectionId) => {
     setActiveDropdown(sectionId);
-    setIsNavOpen(false); // Lukk menyen etter klikk
-
+    setIsNavOpen(false);
+    setIsDropdownOpen(false);
     if (location.pathname !== "/dogs") {
-      navigate("/dogs"); // Naviger først til /dogs
-      setTimeout(() => scrollToSection(sectionId), 300); // Deretter skroll
+      navigate("/dogs");
+      setTimeout(() => scrollToSection(sectionId), 300);
     } else {
-      scrollToSection(sectionId); // Hvis allerede på /dogs, skroll direkte
+      scrollToSection(sectionId);
     }
   };
 
@@ -58,7 +61,6 @@ const Header = () => {
       const element = document.getElementById(sectionId);
       if (element) {
         const isOnDogsPage = location.pathname === "/dogs";
-
         const isDesktop = window.innerWidth >= 992;
         let yOffset;
 
@@ -80,6 +82,12 @@ const Header = () => {
       if (navbarRef.current && !navbarRef.current.contains(event.target)) {
         setIsNavOpen(false);
       }
+      if (
+        !navbarRef.current.contains(event.target) &&
+        !event.target.closest(".dropdown-menu")
+      ) {
+        setIsDropdownOpen(false);
+      }
     };
 
     document.addEventListener("click", handleClickOutside);
@@ -88,6 +96,12 @@ const Header = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
+  // Sjekk om vi er på en spesifikk valpekullside (slutter med /litters/{id})
+  const isLitterPage = location.pathname.startsWith("/litters/"); // Sjekker om vi er på en detaljside for valpekull
+
+  // Sjekk om vi er på den spesifikke "/litters" siden (ikke en ID-variant)
+  const isLittersMainPage = location.pathname === "/litters";
 
   return (
     <>
@@ -98,12 +112,12 @@ const Header = () => {
           className="hero-image"
         />
         <HeroText className="col-12 m-auto text-center d-none d-lg-block py-2">
-          Kennel Shirkus
+          <a href="/"> Kennel Shirkus</a>
         </HeroText>
       </HeaderContainer>
 
-      <NavContainer>
-        <Navbar expand="lg" className="navbar" ref={navbarRef}>
+      <NavContainer ref={navbarRef}>
+        <Navbar expand="lg" className="navbar">
           <Container className="d-flex justify-content-between align-items-center col-lg-10">
             <div className="mobile-header d-lg-none d-flex flex-row-reverse align-items-center justify-content-center w-100">
               <HeroText className="m-0 justify-content-center m-auto">
@@ -117,64 +131,75 @@ const Header = () => {
 
             <Navbar.Collapse id="navbar-nav" in={isNavOpen}>
               <Nav className="w-100 d-lg-flex justify-content-between fs-5 mb-lg-1">
-                <NavLink to="/" onClick={handleLinkClick} className="nav-link">
+                <NavLink
+                  to="/"
+                  onClick={handleLinkClick}
+                  className="nav-link"
+                  activeClassName="active"
+                >
                   Hjem
                 </NavLink>
 
                 {activeLitter && (
                   <NavLink
-                    to={`/litters`}
+                    to={`/litters/${activeLitter._id}`}
+                    key={activeLitter._id}
                     onClick={handleLinkClick}
                     className="nav-link text-warning"
+                    activeClassName="active"
                   >
                     🐶 Nytt valpekull!
                   </NavLink>
                 )}
 
-                <NavDropdown title="Våre hunder" id="nav-dropdown">
-                  <NavDropdown.Item
-                    as={NavLink}
-                    to="/dogs#current"
-                    onClick={() => handleDropdownClick("current")}
-                    className={
-                      activeDropdown === "current" ? "active-dropdown" : ""
-                    }
+                <div className="nav-item dropdown">
+                  <NavLink
+                    to="/dogs"
+                    className="nav-link dropdown-toggle"
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   >
-                    Alle hundene
-                  </NavDropdown.Item>
-                  <NavDropdown.Item
-                    as={NavLink}
-                    to="/dogs#breeding"
-                    onClick={() => handleDropdownClick("breeding")}
-                    className={
-                      activeDropdown === "breeding" ? "active-dropdown" : ""
-                    }
-                  >
-                    Avlshunder
-                  </NavDropdown.Item>
-                  <NavDropdown.Item
-                    as={NavLink}
-                    to="/dogs#deceased"
-                    onClick={() => handleDropdownClick("deceased")}
-                    className={
-                      activeDropdown === "deceased" ? "active-dropdown" : ""
-                    }
-                  >
-                    Tidligere hunder
-                  </NavDropdown.Item>
-                </NavDropdown>
+                    Våre hunder
+                  </NavLink>
+                  {isDropdownOpen && (
+                    <div className="dropdown-menu">
+                      <Link
+                        to="/dogs#current"
+                        onClick={() => handleDropdownClick("current")}
+                      >
+                        Alle hundene
+                      </Link>
 
+                      <Link
+                        to="/dogs#breeding"
+                        onClick={() => handleDropdownClick("breeding")}
+                      >
+                        Avlshunder
+                      </Link>
+
+                      <Link
+                        to="/dogs#deceased"
+                        onClick={() => handleDropdownClick("deceased")}
+                      >
+                        Tidligere hunder
+                      </Link>
+                    </div>
+                  )}
+                </div>
+
+                {/* Valpekull lenken har spesifik klasse når vi er på nytt valpekull */}
                 <NavLink
                   to="/litters"
                   onClick={handleLinkClick}
-                  className="nav-link"
+                  className={`nav-link ${isLittersMainPage && !isLitterPage ? 'active' : ''} ${isLitterPage ? 'no-active' : ''}`}
                 >
                   Valpekull
                 </NavLink>
+
                 <NavLink
                   to="/about"
                   onClick={handleLinkClick}
                   className="nav-link"
+                  activeClassName="active"
                 >
                   Om oss
                 </NavLink>
@@ -182,6 +207,7 @@ const Header = () => {
                   to="/contact"
                   onClick={handleLinkClick}
                   className="nav-link"
+                  activeClassName="active"
                 >
                   Kontakt
                 </NavLink>
@@ -195,3 +221,4 @@ const Header = () => {
 };
 
 export default Header;
+

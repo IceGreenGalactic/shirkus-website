@@ -40,6 +40,9 @@ export const HeroText = styled.h1`
   @media (max-width: 350px) {
     font-size: 2rem;
   }
+  a {
+    color: white;
+  }
 `;
 
 export const NavContainer = styled.nav`
@@ -50,14 +53,19 @@ export const NavContainer = styled.nav`
   z-index: 1000;
   transition: all 0.3s ease-in-out;
 
-  .navbar{
-   display: absolute;
-    top: -40px;}
+  .navbar {
+    display: absolute;
+    top: -40px;
+  }
+
   .navbar,
   .dropdown-menu {
     background: ${(props) => props.theme.colors.accent};
     padding: 0px;
- 
+    .nav-link.no-active {
+      border-bottom: none;
+      color: ${(props) => props.theme.colors.text};
+    }
     a {
       color: ${(props) => props.theme.colors.text};
       font-family: ${(props) => props.theme.fonts.heading};
@@ -77,6 +85,7 @@ export const NavContainer = styled.nav`
 
       &.active {
         color: black;
+        border-bottom: 1px solid ${(props) => props.theme.colors.white};
 
         span::after {
           content: "";
@@ -87,6 +96,7 @@ export const NavContainer = styled.nav`
           height: 2px;
           background-color: ${(props) => props.theme.colors.white};
         }
+
         @media (min-width: 992px) {
           span::after {
             background-color: ${(props) => props.theme.colors.accent};
@@ -94,6 +104,7 @@ export const NavContainer = styled.nav`
         }
       }
     }
+
     @media (min-width: 992px) {
       background: ${(props) => props.theme.colors.background};
       top: 0px;
@@ -109,48 +120,35 @@ export const NavContainer = styled.nav`
   }
 
   .dropdown-menu {
-top:0px;
- display: none;
-  position: relative;
-  z-index: 30;
+    top: 0px;
+    display: none;
+    position: relative;
+    z-index: 30;
     display: flex;
     flex-direction: column;
     background-color: transparent;
     border: none;
-     @media (min-width: 992px) { 
-         background: ${(props) => props.theme.colors.background};
-          top:70%;
-          padding: 10px;
-          justify-content: center;
-          }
+    margin-left: 20px;
+    &.active-dropdown {
+      background: red;
+    }
+    @media (min-width: 992px) {
+      background: ${(props) => props.theme.colors.background};
+      top: 70%;
+      justify-content: center;
+    }
+
+    span::after {
+      display: none;
+    }
     a {
-      padding: 1rem 2rem;
       font-size: 1.2rem;
       transition: background-color 0.3s ease-in-out;
     }
-      .navbar .show .dropdown-menu {
-  display: block; 
- padding-top: 200px;
-}
 
-    .dropdown-item {
-      &:hover {
-        background-color: ${(props) => props.theme.colors.accent};
-        color: ${(props) => props.theme.colors.text};
-      }
-
-      &.active,
-      &:active {
-        background-color: transparent;
-        color: ${(props) => props.theme.colors.text};
-      }
-       &.active-dropdown {
-        color: ${(props) => props.theme.colors.text};
-        background-color: transparent !important;
-        font-weight: bold;
-      }
-        }
-      }
+    .navbar .show .dropdown-menu {
+      display: block;
+      padding-top: 200px;
     }
   }
 `;
