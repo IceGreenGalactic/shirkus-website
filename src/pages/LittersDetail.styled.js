@@ -38,11 +38,10 @@ export const ParentInfo = styled.div`
 export const ParentImage = styled.img`
   width: 100%;
   height: auto;
+  max-width: 100%;
   border-radius: 10px;
   object-fit: contain;
 `;
-
-
 
 export const PuppiesContainer = styled.div`
   img {

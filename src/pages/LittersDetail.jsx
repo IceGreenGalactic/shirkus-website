@@ -118,8 +118,8 @@ const LittersDetail = () => {
   return (
     <LitterContainer className="col-10 m-auto">
       <h2 className="text-center">Kull Detaljer</h2>
-      <ParentInfoContainer className="m-auto mt-4 d-flex col-12 col-lg-8 col-xl-6">
-        <ParentInfo>
+      <ParentInfoContainer className="m-auto mt-4 d-flex flex-row flex-md-row col-12 col-md-6">
+        <ParentInfo className="col-6">
           <h3 className="d-flex flex-column">
             <strong> Mor: </strong>
             {litter.mother.name}
@@ -137,7 +137,7 @@ const LittersDetail = () => {
             </div>
           </div>
         </ParentInfo>
-        <ParentInfo>
+        <ParentInfo className="col-6">
           <h3 className="d-flex flex-column">
             <strong> Far:</strong> {litter.father.name}
           </h3>
@@ -181,7 +181,7 @@ const LittersDetail = () => {
 
         {litter.mainImage && (
           <>
-            <MainImgContainer className="m-auto col-12 col-md-8 col-xl-6 d-flex">
+            <MainImgContainer className="m-auto col-10 col-md-8 col-xl-6 d-flex">
               <img
                 className="mb-2 rounded"
                 src={urlFor(litter.mainImage)}
@@ -198,8 +198,7 @@ const LittersDetail = () => {
           {litter.puppyDetails && litter.puppyDetails.length > 0 ? (
             <>
               <h4 className="text-center">
-             Det ble født {totalPuppies}{" "}
-                valper!
+                Det ble født {totalPuppies} valper!
               </h4>
               <h5 className="text-center">
                 {litter.puppyDetails

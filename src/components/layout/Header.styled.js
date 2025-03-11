@@ -62,6 +62,8 @@ export const NavContainer = styled.nav`
   .dropdown-menu {
     background: ${(props) => props.theme.colors.accent};
     padding: 0px;
+    padding-bottom: 20px;
+
     .nav-link.no-active {
       border-bottom: none;
       color: ${(props) => props.theme.colors.text};
@@ -82,10 +84,11 @@ export const NavContainer = styled.nav`
       span {
         position: relative;
       }
-     
+
       &.active {
         color: black;
         border-bottom: 1px solid ${(props) => props.theme.colors.white};
+        width: 50%;
 
         span::after {
           content: "";
