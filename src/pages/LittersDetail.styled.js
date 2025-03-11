@@ -21,18 +21,21 @@ export const ParentInfoContainer = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
+  h3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+  }
 `;
 
 export const ParentInfo = styled.div`
   text-align: center;
   margin-bottom: 2rem;
   padding: 0.1rem;
-  h3 {
-    display: flex;
-    align-items: center;
-    min-height: 90px;
-    font-size: 1.5rem;
-  }
 `;
 
 export const ParentImage = styled.img`
