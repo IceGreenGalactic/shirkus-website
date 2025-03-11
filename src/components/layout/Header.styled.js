@@ -82,7 +82,7 @@ export const NavContainer = styled.nav`
       span {
         position: relative;
       }
-
+     
       &.active {
         color: black;
         border-bottom: 1px solid ${(props) => props.theme.colors.white};

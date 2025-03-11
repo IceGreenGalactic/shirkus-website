@@ -10,7 +10,8 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeLitter, setActiveLitter] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState("");
-  const location = useLocation(); // Bruker useLocation til å få tilgang til stien
+  const [activeLink, setActiveLink] = useState(""); // 🔥 Holder styr på aktiv lenke
+  const location = useLocation();
   const navigate = useNavigate();
   const navbarRef = useRef(null);
 
@@ -38,7 +39,8 @@ const Header = () => {
       .catch(console.error);
   }, []);
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (linkName) => {
+    setActiveLink(linkName); // 🔥 Sett aktiv lenke basert på klikk
     setIsNavOpen(false);
     setIsDropdownOpen(false);
     setActiveDropdown("");
@@ -96,13 +98,6 @@ const Header = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-
-  // Sjekk om vi er på en spesifikk valpekullside (slutter med /litters/{id})
-  const isLitterPage = location.pathname.startsWith("/litters/"); // Sjekker om vi er på en detaljside for valpekull
-
-  // Sjekk om vi er på den spesifikke "/litters" siden (ikke en ID-variant)
-  const isLittersMainPage = location.pathname === "/litters";
-
   return (
     <>
       <HeaderContainer>
@@ -133,9 +128,8 @@ const Header = () => {
               <Nav className="w-100 d-lg-flex justify-content-between fs-5 mb-lg-1">
                 <NavLink
                   to="/"
-                  onClick={handleLinkClick}
-                  className="nav-link"
-                  activeClassName="active"
+                  onClick={() => handleLinkClick("hjem")}
+                  className={`nav-link ${activeLink === "hjem" ? "active" : ""}`}
                 >
                   Hjem
                 </NavLink>
@@ -144,9 +138,10 @@ const Header = () => {
                   <NavLink
                     to={`/litters/${activeLitter._id}`}
                     key={activeLitter._id}
-                    onClick={handleLinkClick}
-                    className="nav-link text-warning"
-                    activeClassName="active"
+                    onClick={() => handleLinkClick("nytt-kull")}
+                    className={`nav-link text-warning ${
+                      activeLink === "nytt-kull" ? "nytt-kull" : ""
+                    }`}
                   >
                     🐶 Nytt valpekull!
                   </NavLink>
@@ -168,14 +163,12 @@ const Header = () => {
                       >
                         Alle hundene
                       </Link>
-
                       <Link
                         to="/dogs#breeding"
                         onClick={() => handleDropdownClick("breeding")}
                       >
                         Avlshunder
                       </Link>
-
                       <Link
                         to="/dogs#deceased"
                         onClick={() => handleDropdownClick("deceased")}
@@ -186,28 +179,28 @@ const Header = () => {
                   )}
                 </div>
 
-                {/* Valpekull lenken har spesifik klasse når vi er på nytt valpekull */}
                 <NavLink
                   to="/litters"
-                  onClick={handleLinkClick}
-                  className={`nav-link ${isLittersMainPage && !isLitterPage ? 'active' : ''} ${isLitterPage ? 'no-active' : ''}`}
+                  onClick={() => handleLinkClick("valpekull")}
+                  className={`valpekull nav-link ${
+                    activeLink === "nytt-kull" ? "no-active" : ""
+                  }`}
                 >
                   Valpekull
                 </NavLink>
 
                 <NavLink
                   to="/about"
-                  onClick={handleLinkClick}
-                  className="nav-link"
-                  activeClassName="active"
+                  onClick={() => handleLinkClick("om-oss")}
+                  className={`nav-link ${activeLink === "om-oss" ? "active" : ""}`}
                 >
                   Om oss
                 </NavLink>
+
                 <NavLink
                   to="/contact"
-                  onClick={handleLinkClick}
-                  className="nav-link"
-                  activeClassName="active"
+                  onClick={() => handleLinkClick("kontakt")}
+                  className={`nav-link ${activeLink === "kontakt" ? "active" : ""}`}
                 >
                   Kontakt
                 </NavLink>
@@ -221,4 +214,3 @@ const Header = () => {
 };
 
 export default Header;
-
