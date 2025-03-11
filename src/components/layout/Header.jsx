@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { HeaderContainer, HeroText, NavContainer } from "./Header.styled";
 import backgroundImage from "../../assets/images/ShirkusHeader2.jpg";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { NavLink, useLocation, useNavigate, Link } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import sanityClient from "../../sanityClient";
 
 const Header = () => {
@@ -10,7 +10,7 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeLitter, setActiveLitter] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState("");
-  const [activeLink, setActiveLink] = useState(""); // 🔥 Holder styr på aktiv lenke
+  const [activeLink, setActiveLink] = useState(""); 
   const location = useLocation();
   const navigate = useNavigate();
   const navbarRef = useRef(null);
@@ -39,8 +39,26 @@ const Header = () => {
       .catch(console.error);
   }, []);
 
+  
+  useEffect(() => {
+    const path = location.pathname;
+    if (path === "/") {
+      setActiveLink("hjem");
+    } else if (path.startsWith("/litters")) {
+      setActiveLink("valpekull");
+    } else if (path === "/about") {
+      setActiveLink("om-oss");
+    } else if (path === "/contact") {
+      setActiveLink("kontakt");
+    } else if (path === "/dogs") {
+      setActiveLink("våre-hunder");
+    } else {
+      setActiveLink(""); 
+    }
+  }, [location]);
+
   const handleLinkClick = (linkName) => {
-    setActiveLink(linkName); // 🔥 Sett aktiv lenke basert på klikk
+    setActiveLink(linkName); 
     setIsNavOpen(false);
     setIsDropdownOpen(false);
     setActiveDropdown("");
@@ -98,6 +116,7 @@ const Header = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+
   return (
     <>
       <HeaderContainer>
@@ -129,7 +148,9 @@ const Header = () => {
                 <NavLink
                   to="/"
                   onClick={() => handleLinkClick("hjem")}
-                  className={`nav-link ${activeLink === "hjem" ? "active" : ""}`}
+                  className={`nav-link ${
+                    activeLink === "hjem" ? "active" : ""
+                  }`}
                 >
                   Hjem
                 </NavLink>
@@ -149,32 +170,37 @@ const Header = () => {
 
                 <div className="nav-item dropdown">
                   <NavLink
-                    to="/dogs"
-                    className="nav-link dropdown-toggle"
+                    to="#"
+                    className={`nav-link dropdown-toggle ${
+                      location.pathname === "/dogs" ? "active" : "no-active"
+                    }`}
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   >
                     Våre hunder
                   </NavLink>
                   {isDropdownOpen && (
                     <div className="dropdown-menu">
-                      <Link
+                      <NavLink
                         to="/dogs#current"
                         onClick={() => handleDropdownClick("current")}
+                        className="nav-link no-active"
                       >
                         Alle hundene
-                      </Link>
-                      <Link
+                      </NavLink>
+                      <NavLink
                         to="/dogs#breeding"
                         onClick={() => handleDropdownClick("breeding")}
+                        className="nav-link no-active"
                       >
                         Avlshunder
-                      </Link>
-                      <Link
+                      </NavLink>
+                      <NavLink
                         to="/dogs#deceased"
                         onClick={() => handleDropdownClick("deceased")}
+                        className="nav-link no-active"
                       >
                         Tidligere hunder
-                      </Link>
+                      </NavLink>
                     </div>
                   )}
                 </div>
@@ -192,7 +218,9 @@ const Header = () => {
                 <NavLink
                   to="/about"
                   onClick={() => handleLinkClick("om-oss")}
-                  className={`nav-link ${activeLink === "om-oss" ? "active" : ""}`}
+                  className={`nav-link ${
+                    activeLink === "om-oss" ? "active" : ""
+                  }`}
                 >
                   Om oss
                 </NavLink>
@@ -200,7 +228,9 @@ const Header = () => {
                 <NavLink
                   to="/contact"
                   onClick={() => handleLinkClick("kontakt")}
-                  className={`nav-link ${activeLink === "kontakt" ? "active" : ""}`}
+                  className={`nav-link ${
+                    activeLink === "kontakt" ? "active" : ""
+                  }`}
                 >
                   Kontakt
                 </NavLink>
