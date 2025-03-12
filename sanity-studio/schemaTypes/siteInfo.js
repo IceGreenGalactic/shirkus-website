@@ -10,6 +10,12 @@ export default {
       description: 'Navnet på nettsiden',
     },
     {
+      name: 'headerImage',
+      title: 'hoved bilde for nettsiden',
+      type: 'image',
+      description: 'bildet som vises på toppen av nettsiden.',
+    },
+    {
       name: 'introText',
       title: 'Introduksjonstekst',
       type: 'text',
