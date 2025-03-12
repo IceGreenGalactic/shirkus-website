@@ -87,13 +87,15 @@ export const NavContainer = styled.nav`
 
       &.active {
         color: black;
-        border-bottom: 1px solid ${(props) => props.theme.colors.white};
-        width: 50%;
+        border-bottom: 1px solid
+          ${(props) => props.theme.colors.accentTransparent};
+        display: inline-block;
+        width: max-content;
 
         span::after {
           content: "";
           position: absolute;
-          bottom: -2px;
+          bottom: -32px;
           left: 0;
           width: 100%;
           height: 2px;

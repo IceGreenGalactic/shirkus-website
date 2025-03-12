@@ -10,7 +10,7 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeLitter, setActiveLitter] = useState(null);
   const [activeDropdown, setActiveDropdown] = useState("");
-  const [activeLink, setActiveLink] = useState(""); 
+  const [activeLink, setActiveLink] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
   const navbarRef = useRef(null);
@@ -20,11 +20,13 @@ const Header = () => {
       .fetch(
         `*[_type == "litter"]{
           _id,
-          dateOfBirth
+          dateOfBirth,
+          expectedDateOfBirth
         }`
       )
       .then((data) => {
         const today = new Date();
+
         const newLitters = data.filter((litter) => {
           if (!litter.dateOfBirth) return false;
           const birthDate = new Date(litter.dateOfBirth);
@@ -32,20 +34,27 @@ const Header = () => {
           return diffDays < 70;
         });
 
+        const upcomingLitters = data.filter(
+          (litter) => !litter.dateOfBirth && litter.expectedDateOfBirth
+        );
+
         if (newLitters.length > 0) {
           setActiveLitter(newLitters[0]);
+        } else if (upcomingLitters.length > 0) {
+          setActiveLitter(upcomingLitters[0]);
         }
       })
       .catch(console.error);
   }, []);
 
-  
   useEffect(() => {
     const path = location.pathname;
     if (path === "/") {
       setActiveLink("hjem");
-    } else if (path.startsWith("/litters")) {
-      setActiveLink("valpekull");
+    } else if (path === "/litters") {
+      setActiveLink("valpekull"); 
+    } else if (path.startsWith("/litters/")) {
+      setActiveLink("no-active"); 
     } else if (path === "/about") {
       setActiveLink("om-oss");
     } else if (path === "/contact") {
@@ -53,12 +62,13 @@ const Header = () => {
     } else if (path === "/dogs") {
       setActiveLink("våre-hunder");
     } else {
-      setActiveLink(""); 
+      setActiveLink("");
     }
   }, [location]);
+  
 
   const handleLinkClick = (linkName) => {
-    setActiveLink(linkName); 
+    setActiveLink(linkName);
     setIsNavOpen(false);
     setIsDropdownOpen(false);
     setActiveDropdown("");
@@ -160,11 +170,14 @@ const Header = () => {
                     to={`/litters/${activeLitter._id}`}
                     key={activeLitter._id}
                     onClick={() => handleLinkClick("nytt-kull")}
-                    className={`nav-link text-warning ${
-                      activeLink === "nytt-kull" ? "nytt-kull" : ""
+                    className={` nytt-kullnav-link text-warning ${
+                      activeLink === "active" ? "nytt-kull" : ""
                     }`}
                   >
-                    🐶 Nytt valpekull!
+                    🐶{" "}
+                    {activeLitter.dateOfBirth
+                      ? "Nytt valpekull!"
+                      : "Kommende valpekull!"}
                   </NavLink>
                 )}
 
@@ -209,7 +222,7 @@ const Header = () => {
                   to="/litters"
                   onClick={() => handleLinkClick("valpekull")}
                   className={`valpekull nav-link ${
-                    activeLink === "nytt-kull" ? "no-active" : ""
+                    activeLink === "no-active" ? "no-active" : ""
                   }`}
                 >
                   Valpekull
