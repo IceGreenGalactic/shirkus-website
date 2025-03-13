@@ -14,14 +14,16 @@ const Litters = () => {
         `*[_type == "litter"]{
           _id,
           mother {
-            name,
-            nickname,
-            "image": image { asset-> { _id, _ref }, crop, hotspot }
+            "name": name,
+            "nickname": nickname,
+            "image": image { asset-> { _id, _ref }, crop, hotspot },
+            "dogReference": dogReference->{name, nickname, image, isOwned}
           },
           father {
-            name,
-            nickname,
-            "image": image { asset-> { _id, _ref }, crop, hotspot }
+            "name": name,
+            "nickname": nickname,
+            "image": image { asset-> { _id, _ref }, crop, hotspot },
+            "dogReference": dogReference->{name, nickname, image, isOwned}
           },
           expectedPuppies,
           puppyCount,
@@ -71,51 +73,70 @@ const Litters = () => {
           <h2 className="text-center">Kommende Valper</h2>
           {litters
             .filter((litter) => !litter.dateOfBirth)
-            .map((litter) => (
-              <div
-                key={litter._id}
-                className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto mb-4"
-              >
-                <LitterCard>
-                  <Link to={`/litters/${litter._id}`}>
-                    <h3>
-                      {litter.mother.nickname} & {litter.father.nickname}
-                    </h3>
-                    <div className="d-flex justify-content-center mb-2">
-                      {litter.mother.image && (
-                        <img
-                          src={urlFor(litter.mother.image)}
-                          alt={litter.mother.nickname}
-                          className="img-fluid"
-                          style={{ marginRight: "1%" }}
-                        />
+            .map((litter) => {
+              const motherName = litter.mother.dogReference
+                ? litter.mother.dogReference.nickname ||
+                  litter.mother.dogReference.name
+                : litter.mother.nickname || litter.mother.name;
+              const fatherName = litter.father.dogReference
+                ? litter.father.dogReference.nickname ||
+                  litter.father.dogReference.name
+                : litter.father.nickname || litter.father.name;
+
+              const motherImage = litter.mother.dogReference?.image
+                ? urlFor(litter.mother.dogReference.image)
+                : urlFor(litter.mother.image);
+
+              const fatherImage = litter.father.dogReference?.image
+                ? urlFor(litter.father.dogReference.image)
+                : urlFor(litter.father.image);
+
+              return (
+                <div
+                  key={litter._id}
+                  className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto mb-4"
+                >
+                  <LitterCard>
+                    <Link to={`/litters/${litter._id}`}>
+                      <h3>
+                        {motherName} & {fatherName}
+                      </h3>
+                      <div className="d-flex justify-content-center mb-2">
+                        {motherImage && (
+                          <img
+                            src={motherImage}
+                            alt={litter.mother.nickname || litter.mother.name}
+                            className="img-fluid"
+                            style={{ marginRight: "1%" }}
+                          />
+                        )}
+                        {fatherImage && (
+                          <img
+                            src={fatherImage}
+                            alt={litter.father.nickname || litter.father.name}
+                            className="img-fluid"
+                          />
+                        )}
+                      </div>
+                      {litter.expectedPuppies && (
+                        <p>Forventede valper: {litter.expectedPuppies}</p>
                       )}
-                      {litter.father.image && (
-                        <img
-                          src={urlFor(litter.father.image)}
-                          alt={litter.father.nickname}
-                          className="img-fluid"
-                        />
+                      {litter.expectedDateOfBirth && (
+                        <p>
+                          Forventes:{" "}
+                          {new Date(
+                            litter.expectedDateOfBirth
+                          ).toLocaleDateString("no-NO", {
+                            month: "long",
+                            year: "numeric",
+                          })}
+                        </p>
                       )}
-                    </div>
-                    {litter.expectedPuppies && (
-                      <p>Forventede valper: {litter.expectedPuppies}</p>
-                    )}
-                    {litter.expectedDateOfBirth && (
-                      <p>
-                        Forventes:{" "}
-                        {new Date(
-                          litter.expectedDateOfBirth
-                        ).toLocaleDateString("no-NO", {
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </p>
-                    )}
-                  </Link>
-                </LitterCard>
-              </div>
-            ))}
+                    </Link>
+                  </LitterCard>
+                </div>
+              );
+            })}
         </div>
       )}
 
@@ -123,49 +144,68 @@ const Litters = () => {
       {newLitters.length > 0 && (
         <div className="row g-4 costum-border pb-4">
           <h2 className="text-center">Valpekull</h2>
-          {newLitters.map((litter) => (
-            <div
-              key={litter._id}
-              className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto"
-            >
-              <LitterCard>
-                <Link to={`/litters/${litter._id}`}>
-                  <h3>
-                    {litter.mother.nickname} & {litter.father.nickname}
-                  </h3>
-                  <div className="d-flex justify-content-center mb-2">
-                    {litter.mother.image && (
-                      <img
-                        src={urlFor(litter.mother.image)}
-                        alt={litter.mother.nickname}
-                        className="img-fluid"
-                        style={{ marginRight: "1%" }}
-                      />
-                    )}
-                    {litter.father.image && (
-                      <img
-                        src={urlFor(litter.father.image)}
-                        alt={litter.father.nickname}
-                        className="img-fluid"
-                      />
-                    )}
-                  </div>
-                  {litter.puppyCount && (
-                    <p>Antall valper: {litter.puppyCount}</p>
-                  )}
-                  {litter.dateOfBirth && (
-                    <p>
-                      Dato født:{" "}
-                      {new Date(litter.dateOfBirth).toLocaleDateString(
-                        "no-NO",
-                        { day: "2-digit", month: "2-digit", year: "numeric" }
+          {newLitters.map((litter) => {
+            const motherName = litter.mother.dogReference
+              ? litter.mother.dogReference.nickname ||
+                litter.mother.dogReference.name
+              : litter.mother.nickname || litter.mother.name;
+            const fatherName = litter.father.dogReference
+              ? litter.father.dogReference.nickname ||
+                litter.father.dogReference.name
+              : litter.father.nickname || litter.father.name;
+
+            const motherImage = litter.mother.dogReference?.image
+              ? urlFor(litter.mother.dogReference.image)
+              : urlFor(litter.mother.image);
+
+            const fatherImage = litter.father.dogReference?.image
+              ? urlFor(litter.father.dogReference.image)
+              : urlFor(litter.father.image);
+
+            return (
+              <div
+                key={litter._id}
+                className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto"
+              >
+                <LitterCard>
+                  <Link to={`/litters/${litter._id}`}>
+                    <h3>
+                      {motherName} & {fatherName}
+                    </h3>
+                    <div className="d-flex justify-content-center mb-2">
+                      {motherImage && (
+                        <img
+                          src={motherImage}
+                          alt={litter.mother.nickname || litter.mother.name}
+                          className="img-fluid"
+                          style={{ marginRight: "1%" }}
+                        />
                       )}
-                    </p>
-                  )}
-                </Link>
-              </LitterCard>
-            </div>
-          ))}
+                      {fatherImage && (
+                        <img
+                          src={fatherImage}
+                          alt={litter.father.nickname || litter.father.name}
+                          className="img-fluid"
+                        />
+                      )}
+                    </div>
+                    {litter.puppyCount && (
+                      <p>Antall valper: {litter.puppyCount}</p>
+                    )}
+                    {litter.dateOfBirth && (
+                      <p>
+                        Dato født:{" "}
+                        {new Date(litter.dateOfBirth).toLocaleDateString(
+                          "no-NO",
+                          { day: "2-digit", month: "2-digit", year: "numeric" }
+                        )}
+                      </p>
+                    )}
+                  </Link>
+                </LitterCard>
+              </div>
+            );
+          })}
         </div>
       )}
 
@@ -173,49 +213,68 @@ const Litters = () => {
       {pastLitters.length > 0 && (
         <div className="row g-4 costum-border pb-4">
           <h2 className="text-center">Tidligere valpekull</h2>
-          {pastLitters.map((litter) => (
-            <div
-              key={litter._id}
-              className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto"
-            >
-              <LitterCard>
-                <Link to={`/litters/${litter._id}`}>
-                  <h3>
-                    {litter.mother.nickname} & {litter.father.nickname}
-                  </h3>
-                  <div className="d-flex justify-content-center mb-2">
-                    {litter.mother.image && (
-                      <img
-                        src={urlFor(litter.mother.image)}
-                        alt={litter.mother.nickname}
-                        className="img-fluid"
-                        style={{ marginRight: "1%" }}
-                      />
-                    )}
-                    {litter.father.image && (
-                      <img
-                        src={urlFor(litter.father.image)}
-                        alt={litter.father.nickname}
-                        className="img-fluid"
-                      />
-                    )}
-                  </div>
-                  {litter.puppyCount && (
-                    <p>Antall valper: {litter.puppyCount}</p>
-                  )}
-                  {litter.dateOfBirth && (
-                    <p>
-                      Dato født:{" "}
-                      {new Date(litter.dateOfBirth).toLocaleDateString(
-                        "no-NO",
-                        { day: "2-digit", month: "2-digit", year: "numeric" }
+          {pastLitters.map((litter) => {
+            const motherName = litter.mother.dogReference
+              ? litter.mother.dogReference.nickname ||
+                litter.mother.dogReference.name
+              : litter.mother.nickname || litter.mother.name;
+            const fatherName = litter.father.dogReference
+              ? litter.father.dogReference.nickname ||
+                litter.father.dogReference.name
+              : litter.father.nickname || litter.father.name;
+
+            const motherImage = litter.mother.dogReference?.image
+              ? urlFor(litter.mother.dogReference.image)
+              : urlFor(litter.mother.image);
+
+            const fatherImage = litter.father.dogReference?.image
+              ? urlFor(litter.father.dogReference.image)
+              : urlFor(litter.father.image);
+
+            return (
+              <div
+                key={litter._id}
+                className="col-12 col-sm-10 col-md-6 col-lg-4 mx-auto"
+              >
+                <LitterCard>
+                  <Link to={`/litters/${litter._id}`}>
+                    <h3>
+                      {motherName} & {fatherName}
+                    </h3>
+                    <div className="d-flex justify-content-center mb-2">
+                      {motherImage && (
+                        <img
+                          src={motherImage}
+                          alt={litter.mother.nickname || litter.mother.name}
+                          className="img-fluid"
+                          style={{ marginRight: "1%" }}
+                        />
                       )}
-                    </p>
-                  )}
-                </Link>
-              </LitterCard>
-            </div>
-          ))}
+                      {fatherImage && (
+                        <img
+                          src={fatherImage}
+                          alt={litter.father.nickname || litter.father.name}
+                          className="img-fluid"
+                        />
+                      )}
+                    </div>
+                    {litter.puppyCount && (
+                      <p>Antall valper: {litter.puppyCount}</p>
+                    )}
+                    {litter.dateOfBirth && (
+                      <p>
+                        Dato født:{" "}
+                        {new Date(litter.dateOfBirth).toLocaleDateString(
+                          "no-NO",
+                          { day: "2-digit", month: "2-digit", year: "numeric" }
+                        )}
+                      </p>
+                    )}
+                  </Link>
+                </LitterCard>
+              </div>
+            );
+          })}
         </div>
       )}
     </LitterContainer>

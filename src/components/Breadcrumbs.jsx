@@ -3,7 +3,7 @@ import { useLocation, Link, useParams } from "react-router-dom";
 import sanityClient from "../sanityClient";
 import { StyledBreadcrumb, StyledBreadcrumbItem } from "./Breadcrumbs.styled";
 
-// Translate path segments to Norwegian
+
 const pathTranslations = {
   dogs: "Våre hunder",
   litters: "Valpekull",
@@ -23,32 +23,38 @@ const DynamicBreadcrumbs = () => {
     if (id) {
       const query = pathnames[0] === "dogs"
         ? `*[_type == "dog" && _id == $id]{ _id, name, nickname }`
-        : `*[_type == "litter" && _id == $id]{ _id, mother { nickname }, father { nickname } }`;
+        : pathnames[0] === "litters"
+        ? `*[_type == "litter" && _id == $id]{ 
+            _id, 
+            mother { isOwned, name, nickname, dogReference->{name, nickname} },
+            father { isOwned, name, nickname, dogReference->{name, nickname} }
+          }`
+        : null;
 
-      sanityClient
-        .fetch(query, { id })
-        .then((data) => {
-          if (data && data.length > 0) {
-            setData(data[0]);
-          } else {
-            console.error("No data found for ID:", id);
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+      if (query) {
+        sanityClient
+          .fetch(query, { id })
+          .then((data) => {
+            if (data && data.length > 0) {
+              setData(data[0]);
+            } else {
+              console.error("No data found for ID:", id);
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+          });
+      }
     }
   }, [id, pathnames]);
 
   return (
     <StyledBreadcrumb className="ms-3 ms-lg-5 ps-lg-5">
-    {location.pathname !== "/" && (
-      <>
+      {location.pathname !== "/" && (
         <StyledBreadcrumbItem as={Link} to="/">
           Hjem
         </StyledBreadcrumbItem>
-      </>
-    )}
+      )}
 
       {pathnames.map((segment, index) => {
         const to = `/${pathnames.slice(0, index + 1).join("/")}`;
@@ -57,16 +63,27 @@ const DynamicBreadcrumbs = () => {
           segment.charAt(0).toUpperCase() + segment.slice(1)
         );
 
-        // Show the dog's nickname or name in the breadcrumbs
+        
         if (pathnames[0] === "dogs" && segment === id && data) {
           displayName = data.nickname || data.name;
         }
 
-        // Show the litter's mother and father names
+        
         if (pathnames[0] === "litters" && segment === id && data) {
-          const motherNickname = data.mother?.nickname || data.mother?.name;
-          const fatherNickname = data.father?.nickname || data.father?.name;
-          displayName = ` ${motherNickname} & ${fatherNickname}`;
+          const mother = data.mother || {}; 
+          const father = data.father || {}; 
+
+          
+          const motherName = mother.isOwned && mother.dogReference
+            ? mother.dogReference.nickname || mother.dogReference.name
+            : mother.nickname || mother.name;
+
+          
+          const fatherName = father.isOwned && father.dogReference
+            ? father.dogReference.nickname || father.dogReference.name
+            : father.nickname || father.name;
+
+          displayName = `${motherName} & ${fatherName}`;
         }
 
         return (

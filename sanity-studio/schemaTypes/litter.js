@@ -9,27 +9,79 @@ export default {
       type: 'object',
       fields: [
         {
+          name: 'isOwned',
+          title: 'Er mor vår hund?',
+          type: 'boolean',
+          initialValue: true,
+          description: 'Hvis nei, fyll inn informasjon manuelt.',
+        },
+        {
+          name: 'dogReference',
+          title: 'Velg vår hund (hvis ja)',
+          type: 'reference',
+          to: [{type: 'dog'}],
+          hidden: ({parent}) => parent?.isOwned === false,
+          resolve: async (reference) => {
+            if (reference) {
+              const dog = await reference.get()
+              return {
+                name: dog?.name || '',
+                nickname: dog?.nickname || '',
+                image: dog?.image || null,
+                healthResults: dog?.healthResults || [],
+                additionalInfo: dog?.additionalInfo || '',
+              }
+            }
+            return {}
+          },
+        },
+        {
           name: 'name',
           title: 'Navn',
           type: 'string',
+          hidden: ({parent}) => parent?.isOwned === true,
         },
         {
           name: 'nickname',
           title: 'Kallenavn',
           type: 'string',
+          hidden: ({parent}) => parent?.isOwned === true,
+        },
+        {
+          name: 'overrideImage',
+          title: 'Bruk et annet bilde?',
+          type: 'boolean',
+          hidden: ({parent}) => parent?.isOwned === false,
         },
         {
           name: 'image',
           title: 'Bilde',
           type: 'image',
-          options: {
-            hotspot: true,
-          },
+          options: {hotspot: true},
+          hidden: ({parent}) => parent?.isOwned === true && !parent?.overrideImage,
         },
         {
-          name: 'info',
-          title: 'Info',
-          type: 'text',
+          name: 'healthResults',
+          title: 'Helse Resultater',
+          type: 'array',
+          description: 'Resultater for helserelaterte tester, som AD, HD etc.',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                {
+                  name: 'title',
+                  title: 'Tittel',
+                  type: 'string',
+                },
+                {
+                  name: 'description',
+                  title: 'Resultater',
+                  type: 'text',
+                },
+              ],
+            },
+          ],
         },
       ],
     },
@@ -39,27 +91,90 @@ export default {
       type: 'object',
       fields: [
         {
+          name: 'isOwned',
+          title: 'Er far vår hund?',
+          type: 'boolean',
+          initialValue: true,
+          description: 'Hvis nei, fyll inn informasjon manuelt.',
+        },
+        {
+          name: 'dogReference',
+          title: 'Velg vår hund (hvis ja)',
+          type: 'reference',
+          to: [{type: 'dog'}],
+          hidden: ({parent}) => parent?.isOwned === false,
+          resolve: async (reference) => {
+            if (reference) {
+              const dog = await reference.get()
+              return {
+                name: dog?.name || '',
+                nickname: dog?.nickname || '',
+                image: dog?.image || null,
+                info: dog?.info || '',
+              }
+            }
+            return {}
+          },
+        },
+        {
           name: 'name',
           title: 'Navn',
           type: 'string',
+          hidden: ({parent}) => parent?.isOwned === true,
         },
         {
           name: 'nickname',
           title: 'Kallenavn',
           type: 'string',
+          hidden: ({parent}) => parent?.isOwned === true,
+        },
+        {
+          name: 'overrideInfo',
+          title: 'Skriv inn egen info?',
+          type: 'boolean',
+          hidden: ({parent}) => parent?.isOwned === false,
+        },
+        {
+          name: 'overrideImage',
+          title: 'Bruk et annet bilde?',
+          type: 'boolean',
+          hidden: ({parent}) => parent?.isOwned === false,
         },
         {
           name: 'image',
           title: 'Bilde',
           type: 'image',
-          options: {
-            hotspot: true,
-          },
+          options: {hotspot: true},
+          hidden: ({parent}) => parent?.isOwned === true && !parent?.overrideImage,
         },
         {
-          name: 'info',
-          title: 'Info',
+          name: 'healthResults',
+          title: 'Helse Resultater',
+          type: 'array',
+          description: 'Resultater for helserelaterte tester, som AD, HD etc.',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                {
+                  name: 'title',
+                  title: 'Tittel',
+                  type: 'string',
+                },
+                {
+                  name: 'description',
+                  title: 'Resultater',
+                  type: 'text',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'additionalInfo',
+          title: 'Tilleggsinformasjon',
           type: 'text',
+          description: 'Ekstra informasjon som ikke faller under helseresultatene.',
         },
       ],
     },
@@ -99,8 +214,7 @@ export default {
                   {title: 'Hann', value: 'male'},
                   {title: 'Tispe', value: 'female'},
                 ],
-                validation: (Rule) =>
-                  Rule.required().error('Kjønn må velges for hver valp'),                
+                validation: (Rule) => Rule.required().error('Kjønn må velges for hver valp'),
               },
             },
             {
@@ -113,8 +227,7 @@ export default {
                   {title: 'Grå', value: 'gray'},
                   {title: 'Sort', value: 'black'},
                 ],
-                validation: (Rule) =>
-                  Rule.required().error('Farge må velges for hver valp'), 
+                validation: (Rule) => Rule.required().error('Farge må velges for hver valp'),
               },
             },
             {
@@ -166,8 +279,7 @@ export default {
               type: 'array',
               of: [{type: 'image', options: {hotspot: true}}],
               validation: (Rule) => Rule.max(8).warning('Maks 8 bilder per galleri'),
-              description: 'Legg til bilder fra valpens utvikling. Maks 8 bilder pr galleri'
-
+              description: 'Legg til bilder fra valpens utvikling. Maks 8 bilder pr galleri',
             },
             {
               name: 'description',

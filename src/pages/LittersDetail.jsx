@@ -20,37 +20,79 @@ const LittersDetail = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
+    if (!id) {
+      console.error("Error: Litter ID is undefined");
+      return;
+    }
+
     sanityClient
       .fetch(
         `*[_type == "litter" && _id == $id]{
-            mother {
-                name,
-                nickname,
-                "image": image { asset-> { _id, _ref }, crop, hotspot }, 
-                info
-            },
-            father {
-                name,
-                nickname,
-                "image": image { asset-> { _id, _ref }, crop, hotspot }, 
-                info
-            },
-            puppyDetails,
-            mainImage { asset-> { _id, _ref }, crop, hotspot }, 
-            additionalImages[]{ asset-> { _id, _ref }, crop, hotspot }, 
-            textUnderImages,
-            dateOfBirth,
-            galleries,
-            expectedDateOfBirth,
-            textUnderMainImage,
-            freeText1,
-            freeText2
+          _id,
+          mother {
+            isOwned,
+            "dogRef": dogReference->_id,
+            name,
+            nickname,
+            "image": image { asset-> { _id, _ref }, crop, hotspot },
+            info,
+            healthResults,
+            additionalInfo
+          },
+          father {
+            isOwned,
+            "dogRef": dogReference->_id,
+            name,
+            nickname,
+            "image": image { asset-> { _id, _ref }, crop, hotspot },
+            info,
+            healthResults,
+            additionalInfo
+          },
+          puppyDetails,
+          mainImage { asset-> { _id, _ref }, crop, hotspot },
+          additionalImages[]{ asset-> { _id, _ref }, crop, hotspot },
+          textUnderImages,
+          dateOfBirth,
+          galleries,
+          expectedDateOfBirth,
+          textUnderMainImage,
+          freeText1,
+          freeText2
         }`,
         { id }
       )
       .then((data) => {
-        setLitter(data[0]);
-        setLoading(false);
+        const litterData = data[0];
+        const motherDogRef = litterData.mother.dogRef;
+        const fatherDogRef = litterData.father.dogRef;
+
+        return sanityClient
+          .fetch(
+            `*[_type == "dog" && _id in [$motherDogRef, $fatherDogRef]]{
+            _id,
+            name,
+            nickname,
+            image { asset-> { _id, _ref }, crop, hotspot },
+            info,
+            healthResults,
+            additionalInfo
+          }`,
+            { motherDogRef, fatherDogRef }
+          )
+          .then((dogData) => {
+            litterData.mother = {
+              ...litterData.mother,
+              ...dogData.find((dog) => dog._id === motherDogRef),
+            };
+            litterData.father = {
+              ...litterData.father,
+              ...dogData.find((dog) => dog._id === fatherDogRef),
+            };
+
+            setLitter(litterData);
+            setLoading(false);
+          });
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -67,11 +109,9 @@ const LittersDetail = () => {
   }
 
   const calculateTotalPuppies = () => {
-    if (!litter.puppyDetails || litter.puppyDetails.length === 0) {
-      return 0;
-    }
-
-    return litter.puppyDetails.reduce((total, puppy) => total + puppy.count, 0);
+    return (
+      litter.puppyDetails?.reduce((total, puppy) => total + puppy.count, 0) || 0
+    );
   };
 
   const totalPuppies = calculateTotalPuppies();
@@ -99,13 +139,9 @@ const LittersDetail = () => {
       : "tispe";
   };
 
-  const openImageModal = (image) => {
-    setSelectedImage(image);
-  };
+  const openImageModal = (image) => setSelectedImage(image);
 
-  const closeImageModal = () => {
-    setSelectedImage(null);
-  };
+  const closeImageModal = () => setSelectedImage(null);
 
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString("no-NO", {
@@ -113,6 +149,54 @@ const LittersDetail = () => {
       month: "2-digit",
       day: "2-digit",
     });
+  };
+
+  const renderParentInfo = (parent) => {
+    const {
+      isOwned,
+      name,
+      nickname,
+      image,
+      dogReference,
+      healthResults,
+      additionalInfo,
+    } = parent;
+    const displayName = isOwned && dogReference ? dogReference.name : name;
+    const displayNickname =
+      isOwned && dogReference ? dogReference.nickname : nickname;
+    const displayImage = isOwned && dogReference ? dogReference.image : image;
+
+    return (
+      <>
+        {displayImage && (
+          <ParentImage
+            src={urlFor(displayImage)}
+            alt={displayName}
+            onClick={() => openImageModal(urlFor(displayImage))}
+          />
+        )}
+        <div className="mt-2">
+          {displayNickname && <h4>{displayNickname}</h4>}
+          {healthResults && healthResults.length > 0 && (
+            <div>
+              <ul className="list-unstyled mt-2">
+                {healthResults.map((result, index) => (
+                  <li key={index}>
+                    <strong>{result.title}: </strong>
+                    <span>{result.description}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {additionalInfo && (
+            <div className="mt-2">
+              <span>{additionalInfo}</span>
+            </div>
+          )}
+        </div>
+      </>
+    );
   };
 
   return (
@@ -125,16 +209,7 @@ const LittersDetail = () => {
             {litter.mother.name}
           </h3>
           <div className="col-12 m-auto text-center">
-            {litter.mother.image && (
-              <ParentImage
-                src={urlFor(litter.mother.image)}
-                alt={litter.mother.name}
-              />
-            )}
-            <div className="mt-2">
-              {litter.mother.nickname && <h4>{litter.mother.nickname}</h4>}
-              {litter.mother.info && litter.mother.info}
-            </div>
+            {renderParentInfo(litter.mother)}
           </div>
         </ParentInfo>
         <ParentInfo className="col-6">
@@ -142,19 +217,11 @@ const LittersDetail = () => {
             <strong> Far:</strong> {litter.father.name}
           </h3>
           <div className="col-12 m-auto text-center">
-            {litter.father.image && (
-              <ParentImage
-                src={urlFor(litter.father.image)}
-                alt={litter.father.name}
-              />
-            )}
-            <div className="mt-2">
-              {litter.father.nickname && <h4>{litter.father.nickname}</h4>}
-              {litter.father.info && litter.father.info}
-            </div>
+            {renderParentInfo(litter.father)}
           </div>
         </ParentInfo>
       </ParentInfoContainer>
+
       <PuppiesContainer className="col-12 col-md-10 m-auto">
         <div className="d-flex align-items-baseline col-10 m-auto justify-content-center">
           {litter.dateOfBirth ? (
@@ -185,7 +252,7 @@ const LittersDetail = () => {
               <img
                 className="mb-2 rounded"
                 src={urlFor(litter.mainImage)}
-                alt={`Valpene til${litter.mother.nickname} og ${litter.father.nickname}`}
+                alt={`Valpene til ${litter.mother.nickname} og ${litter.father.nickname}`}
                 onClick={() => openImageModal(urlFor(litter.mainImage))}
               />
             </MainImgContainer>
@@ -194,40 +261,37 @@ const LittersDetail = () => {
             </div>
           </>
         )}
-        <div className="mb-3 mt-3">
-          {litter.puppyDetails && litter.puppyDetails.length > 0 ? (
-            <>
-              <h4 className="text-center">
-                Det ble født {totalPuppies} valper!
-              </h4>
-              <h5 className="text-center">
-                {litter.puppyDetails
-                  .reduce((acc, puppy) => {
-                    const gender = puppy.gender;
-                    const color = puppy.color;
 
-                    const existing = acc.find(
-                      (item) => item.color === color && item.gender === gender
-                    );
-                    if (existing) {
-                      existing.count += puppy.count;
-                    } else {
-                      acc.push({ color, gender, count: puppy.count });
-                    }
-                    return acc;
-                  }, [])
-                  .map(
-                    (item) =>
-                      `${item.count} ${getColorPlural(
-                        item.color,
-                        item.count
-                      )} ${getGenderPlural(item.gender, item.count)}`
-                  )
-                  .join(", ")}
-              </h5>
-            </>
-          ) : null}
-        </div>
+        {litter.puppyDetails && litter.puppyDetails.length > 0 && (
+          <>
+            <h4 className="text-center">Det ble født {totalPuppies} valper!</h4>
+            <h5 className="text-center">
+              {litter.puppyDetails
+                .reduce((acc, puppy) => {
+                  const gender = puppy.gender;
+                  const color = puppy.color;
+
+                  const existing = acc.find(
+                    (item) => item.color === color && item.gender === gender
+                  );
+                  if (existing) {
+                    existing.count += puppy.count;
+                  } else {
+                    acc.push({ color, gender, count: puppy.count });
+                  }
+                  return acc;
+                }, [])
+                .map(
+                  (item) =>
+                    `${item.count} ${getColorPlural(
+                      item.color,
+                      item.count
+                    )} ${getGenderPlural(item.gender, item.count)}`
+                )
+                .join(", ")}
+            </h5>
+          </>
+        )}
 
         {litter.freeText1 && (
           <div className="mb-3 col-10 m-auto">
@@ -236,14 +300,16 @@ const LittersDetail = () => {
         )}
 
         {litter.galleries && litter.galleries.length > 0 && (
-          <div className="container mt-5 ">
+          <div className="container mt-5">
             <PuppyGalleryImages litterId={id} />
           </div>
         )}
 
-        <div className="container text-center my-5">
-          {litter.freeText2 && <p>{litter.freeText2}</p>}
-        </div>
+        {litter.freeText2 && (
+          <div className="container text-center my-5">
+            <p>{litter.freeText2}</p>
+          </div>
+        )}
       </PuppiesContainer>
 
       {selectedImage && (
