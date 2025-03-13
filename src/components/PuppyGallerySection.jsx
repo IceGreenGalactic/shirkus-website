@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import sanityClient from "../sanityClient";
 import { urlFor } from "../utils/sanityImage";
 import GalleryImageModal from "../utils/GalleryImageModal";
-import { GalleryContainer,GalleryImage } from "../styles/galleryImages.styled";
+import { GalleryContainer, GalleryImage } from "../styles/galleryImages.styled";
 
 const PuppyGalleryImages = ({ litterId }) => {
   const [galleryData, setGalleryData] = useState([]);
@@ -25,13 +25,16 @@ const PuppyGalleryImages = ({ litterId }) => {
       )
       .then((data) => {
         const litter = data[0];
-        const galleryData = litter.galleries.map((gallery, index) => ({
-          images: gallery.images,
-          text: gallery.description,
-          title: gallery.title || `Galleri ${index + 1}`,
-        }));
-  
-        setGalleryData(galleryData);
+        if (litter.galleries) {
+          const galleryData = litter.galleries.map((gallery, index) => ({
+            images: gallery.images,
+            text: gallery.description,
+            title: gallery.title || `Galleri ${index + 1}`,
+          }));
+          setGalleryData(galleryData);
+        } else {
+          setGalleryData([]);
+        }
         setLoading(false);
       })
       .catch((error) => {
@@ -66,7 +69,7 @@ const PuppyGalleryImages = ({ litterId }) => {
 
   return (
     <div>
-      {galleryData.length > 0 &&
+      {galleryData.length > 0 ? (
         galleryData.map((gallery, galleryIndex) => (
           <GalleryContainer key={galleryIndex} className="mb-4">
             <h4>{gallery.title}</h4>
@@ -83,7 +86,10 @@ const PuppyGalleryImages = ({ litterId }) => {
             </div>
             {gallery.text && <p className="mt-2">{gallery.text}</p>}
           </GalleryContainer>
-        ))}
+        ))
+      ) : (
+        <div>No gallery available for this litter.</div>
+      )}
 
       {isGalleryModalOpen && galleryData[currentGalleryIndex] && (
         <GalleryImageModal
