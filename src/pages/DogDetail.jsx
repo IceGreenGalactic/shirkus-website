@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import sanityClient from "../sanityClient";
 import Modal from "../utils/ImageModal";
 import GalleryImageModal from "../utils/GalleryImageModal";
@@ -19,6 +19,7 @@ import { GalleryContainer, GalleryImage } from "../styles/galleryImages.styled";
 const DogDetail = () => {
   const { id } = useParams();
   const [dog, setDog] = useState(null);
+  const [litters, setLitters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
@@ -60,13 +61,49 @@ const DogDetail = () => {
             crop,
             hotspot
           },
-          description
+          description,
+          "mother": mother->{
+            _id,
+            name,
+            nickname
+          },
+          "father": father->{
+            _id,
+            name,
+            nickname
+          }
         }`,
         { id }
       )
       .then((data) => {
         setDog(data[0]);
         setLoading(false);
+
+        const dogId = data[0]?._id;
+
+        const fetchLitters = async () => {
+          const littersData = await sanityClient.fetch(
+            `*[_type == "litter" && (mother.dogReference._ref == "71dfb670-4326-44bf-824c-f2257cb4236f" || father.dogReference._ref == "71dfb670-4326-44bf-824c-f2257cb4236f")] {
+  _id,
+  mother->{
+    name,
+    nickname
+  },
+  father->{
+    name,
+    nickname
+  },
+  dateOfBirth
+}
+`,
+            {
+              dogId,
+            }
+          );
+          setLitters(littersData);
+        };
+
+        fetchLitters();
       })
       .catch(console.error);
   }, [id]);
@@ -146,7 +183,7 @@ const DogDetail = () => {
                     <strong>Kjønn:</strong>{" "}
                     {dog.gender === "male"
                       ? "Hann"
-                      : dog.gender === "female" || "femail"
+                      : dog.gender === "female"
                       ? "Tispe"
                       : dog.gender}
                   </DogInfo>
@@ -192,10 +229,44 @@ const DogDetail = () => {
                   )}
                 </div>
 
-                {dog.breedingNotes && (
-                  <div className="mt-2">
+                {(dog.breedingNotes || litters.length > 0) && (
+                  <div className="mt-4">
                     <strong>Valpekull:</strong>
-                    <p className="ms-1">{dog.breedingNotes && dog.breedingNotes}</p>
+                    {litters.length > 0 && (
+                      <div className="litters-list ms-1">
+                        {litters.map((litter, index) => (
+                          <div key={litter._id} className="litter-item">
+                            <Link
+                              to={`/litters/${litter._id}`}
+                              style={{
+                                textDecoration: "underline",
+                                cursor: "pointer",
+                              }}
+                            >
+                              <div className="d-flex flex-column">
+                                {litter.dateOfBirth && (
+                                  <div>
+                                    {new Date(
+                                      litter.dateOfBirth
+                                    ).toLocaleDateString("no-NO", {
+                                      day: "2-digit",
+                                      month: "2-digit",
+                                      year: "numeric",
+                                    })}
+                                  </div>
+                                )}
+                              </div>
+                            </Link>
+                          </div>
+                        ))}{" "}
+                        {/* Breeding Notes added by user */}
+                        {dog.breedingNotes && (
+                          <div className="breeding-notes">
+                            <p>{dog.breedingNotes}</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
               </InfoWrapper>
