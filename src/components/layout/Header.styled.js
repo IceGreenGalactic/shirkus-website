@@ -87,11 +87,12 @@ export const NavContainer = styled.nav`
 
       &.active {
         color: black;
-        border-bottom: 1px solid
-          ${(props) => props.theme.colors.accentTransparent};
+        border-bottom: 1px solid ${(props) => props.theme.colors.white};
         display: inline-block;
         width: max-content;
-
+        @media (min-width: 992px) {
+          border-bottom: 1px solid ${(props) => props.theme.colors.accent};
+        }
         span::after {
           content: "";
           position: absolute;
