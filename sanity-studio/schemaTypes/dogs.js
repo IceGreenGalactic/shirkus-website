@@ -1,6 +1,6 @@
 export default {
   name: 'dog',
-  title: 'Dog',
+  title: 'Hunder',
   type: 'document',
   fields: [
     {
@@ -29,8 +29,20 @@ export default {
       type: 'string',
       options: {
         list: [
-          {title: 'Hann', value: 'Hann'},
-          {title: 'Tispe', value: 'Tispe'},
+          {title: 'Hann', value: 'male'},
+          {title: 'Tispe', value: 'female'},
+        ],
+      },
+    },
+    {
+      name: 'dogType',
+      title: 'Dog Type',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Nåværende hund', value: 'current'},
+          {title: 'Avlshund', value: 'breeding'},
+          {title: 'Tidligere hund', value: 'deceased'},
         ],
       },
     },
@@ -38,6 +50,25 @@ export default {
       name: 'dateOfBirth',
       title: 'Date of Birth',
       type: 'date',
+      options: {
+        dateFormat: 'DD.MM.YYYY',
+      },
+      description: 'Velg dato for fødsel.',
+    },
+
+    {
+      name: 'dateOfDeath',
+      title: 'Date of Death',
+      type: 'date',
+      options: {
+        dateFormat: 'DD.MM.YYYY',
+      },
+      hidden: ({document}) => document?.dogType !== 'deceased',
+    },
+    {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
     },
     {
       name: 'registrationNumber',
@@ -48,6 +79,7 @@ export default {
       name: 'healthResults',
       title: 'Helse Resultater',
       type: 'array',
+      description: 'titel = AD, HD etc. Resultater = 0, A osv ',
       of: [
         {
           type: 'object',
@@ -55,12 +87,12 @@ export default {
             {
               name: 'title',
               title: 'Tittel',
-              type: 'string', // Her kan hun skrive inn tittel som HD, AD, NE, mentaltest osv.
+              type: 'string',
             },
             {
               name: 'description',
-              title: 'Beskrivelse',
-              type: 'text', // Her kan hun skrive inn resultatet eller mer informasjon.
+              title: 'Resultater',
+              type: 'text',
             },
           ],
         },
@@ -78,11 +110,50 @@ export default {
       name: 'pedigree',
       title: 'Pedigree',
       type: 'image',
+      description: 'Pedigree-bilde av hunden (stamtavle).',
+    },
+    {
+      name: 'gallery',
+      title: 'Gallery',
+      type: 'array',
+      of: [{type: 'image', options: {hotspot: true}}],
+      validation: (Rule) => Rule.max(5).warning('Maks 5 bilder i galleriet'),
     },
     {
       name: 'description',
       title: 'Description',
-      type: 'text', // Generelt felt for fri tekst
+      type: 'text',
+    },
+    {
+      name: 'breedingNotes',
+      title: 'kull informasjon',
+      type: 'text',
+      options: {},
+      description: 'informasjon om tidligere valpekull',
+    },
+
+    {
+      name: 'breedingDogsInfo',
+      title: 'Avlshund informasjon',
+      type: 'text',
+      description: 'informasjon om avlshund - havner i en text boks',
+      options: {},
+      hidden: ({document}) => document?.dogType !== 'breeding',
     },
   ],
+
+  preview: {
+    select: {
+      title: 'nickname',
+      subtitle: 'breed',
+      media: 'image',
+    },
+    prepare({title, subtitle, media}) {
+      return {
+        title: title || 'Uten navn',
+        subtitle: subtitle || 'Ingen rase spesifisert',
+        media: media || undefined,
+      }
+    },
+  },
 }

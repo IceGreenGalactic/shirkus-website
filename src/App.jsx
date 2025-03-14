@@ -8,19 +8,31 @@ import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import OurDogs from "./pages/OurDogs";
 import DogDetail from "./pages/DogDetail";
+import Litters from "./pages/Litters";
+import LittersDetail from "./pages/LittersDetail";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Gallery from "./pages/Gallery";
+import GalleryDetail from "./pages/GalleryDetail";
 
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/dogs" element={<OurDogs />} />
-            <Route path="/dogs/:id" element={<DogDetail />} /> 
-          </Routes>
-        </Layout>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="dogs" element={<OurDogs />} />
+            <Route path="dogs/:id" element={<DogDetail />} />
+            <Route path="litters" element={<Litters />} />
+            <Route path="litters/:id" element={<LittersDetail />} />
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="gallery" element={<Gallery />} />
+            <Route path="gallery/:id" element={<GalleryDetail />} />
+          </Route>
+        </Routes>
       </Router>
     </ThemeProvider>
   );
