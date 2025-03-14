@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { HeaderContainer, HeroText, NavContainer } from "./Header.styled";
-import backgroundImage from "../../assets/images/poodleHero.jpg";
+import backgroundImage from "../../assets/images/ShirkusHeader2.jpg";
 import { Navbar, Nav, Container } from "react-bootstrap";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import sanityClient from "../../sanityClient";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import sanityClient from "../../sanityClient";
 
@@ -164,6 +167,9 @@ const Header = () => {
           alt="Hero Image of five poodles sitting in the grass"
           className="hero-image"
         />
+        <HeroText className="col-12 m-auto text-center d-none d-lg-block py-2">
+          <a href="/"> Kennel Shirkus</a>
+        </HeroText>
         <HeroText className="col-12 m-auto text-center d-none d-lg-block py-2">
           <a href="/"> Kennel Shirkus</a>
         </HeroText>

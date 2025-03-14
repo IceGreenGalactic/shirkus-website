@@ -1,25 +1,24 @@
 import styled from "styled-components";
 
-export const DogsContainer = styled.div`
-  h2 {
+export const GalleryContainer = styled.div`
+  padding: 2rem;
+  text-align: center;
+  background-color: ${(props) => props.theme.colors.background};
+  h1 {
     font-size: 3rem;
     font-family: ${(props) => props.theme.fonts.accent};
     color: ${(props) => props.theme.colors.accent};
     font-weight: 900;
   }
-  .costum-border {
-    border-bottom: 1px solid ${(props) => props.theme.colors.accent};
-    padding: 20px 0;
-  }
 `;
 
-export const DogsGrid = styled.section`
+export const GalleryGrid = styled.div`
   display: grid;
   gap: 1rem;
   padding: 2rem;
 `;
 
-export const DogCard = styled.div`
+export const GalleryItem = styled.div`
   background: ${(props) => props.theme.colors.white};
   border-radius: 8px;
   overflow: hidden;
@@ -29,14 +28,6 @@ export const DogCard = styled.div`
 
   &:hover {
     transform: scale(1.05);
-  }
-
-  img {
-    width: 100%;
-    height: 50vh;
-    object-fit: cover;
-    object-position: center;
-    object-position: 40% 15%;
   }
 
   h3 {
@@ -55,4 +46,20 @@ export const DogCard = styled.div`
     text-decoration: none;
     color: inherit;
   }
+`;
+
+export const Image = styled.img`
+  width: 100%;
+  height: 50vh;
+  object-fit: cover;
+  object-position: center;
+  object-position: 40% 15%;
+`;
+
+export const Title = styled.h3`
+  margin: 0;
+  padding: 1rem;
+  background-color: ${(props) => props.theme.colors.white};
+  color: ${(props) => props.theme.colors.primary};
+  text-align: center;
 `;
