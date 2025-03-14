@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import React, { useState, useEffect, useRef } from "react";
 import { HeaderContainer, HeroText, NavContainer } from "./Header.styled";
 import backgroundImage from "../../assets/images/ShirkusHeader2.jpg";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import sanityClient from "../../sanityClient";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import sanityClient from "../../sanityClient";
 
@@ -13,13 +10,15 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("");
   const [activeLitter, setActiveLitter] = useState(null);
-  const [activeGallery, setActiveGallery] = useState(null);
-  const [activeDogs, setActiveDogs] = useState(null);
+  const [activeGallery, setActiveGallery] = useState(null); // For gallery data
+  const [activeDogs, setActiveDogs] = useState(null); // For dogs data
   const location = useLocation();
   const navigate = useNavigate();
   const navbarRef = useRef(null);
 
+  // Fetch data for litter, gallery, and dogs
   useEffect(() => {
+    // Fetch litter data
     sanityClient
       .fetch(
         `*[_type == "litter"]{
@@ -48,6 +47,7 @@ const Header = () => {
       })
       .catch(console.error);
 
+    // Fetch gallery data
     sanityClient
       .fetch(
         `*[_type == "gallery"]{
@@ -58,11 +58,12 @@ const Header = () => {
       )
       .then((data) => {
         if (data.length > 0) {
-          setActiveGallery(data);
+          setActiveGallery(data); // If galleries exist, set them
         }
       })
       .catch(console.error);
 
+    // Fetch dogs data
     sanityClient
       .fetch(
         `*[_type == "dog"]{
@@ -73,7 +74,7 @@ const Header = () => {
       )
       .then((data) => {
         if (data.length > 0) {
-          setActiveDogs(data);
+          setActiveDogs(data); // If dogs exist, set them
         }
       })
       .catch(console.error);
@@ -170,9 +171,6 @@ const Header = () => {
         <HeroText className="col-12 m-auto text-center d-none d-lg-block py-2">
           <a href="/"> Kennel Shirkus</a>
         </HeroText>
-        <HeroText className="col-12 m-auto text-center d-none d-lg-block py-2">
-          <a href="/"> Kennel Shirkus</a>
-        </HeroText>
       </HeaderContainer>
 
       <NavContainer ref={navbarRef}>
@@ -212,6 +210,7 @@ const Header = () => {
                   </NavLink>
                 )}
 
+                {/* Only show "Våre hunder" if there are dogs */}
                 {activeDogs && activeDogs.length > 0 && (
                   <div className="nav-item dropdown">
                     <NavLink
