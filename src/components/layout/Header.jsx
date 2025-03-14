@@ -8,14 +8,17 @@ import sanityClient from "../../sanityClient";
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [activeLitter, setActiveLitter] = useState(null);
-  const [activeDropdown, setActiveDropdown] = useState("");
   const [activeLink, setActiveLink] = useState("");
+  const [activeLitter, setActiveLitter] = useState(null);
+  const [activeGallery, setActiveGallery] = useState(null); // For gallery data
+  const [activeDogs, setActiveDogs] = useState(null); // For dogs data
   const location = useLocation();
   const navigate = useNavigate();
   const navbarRef = useRef(null);
 
+  // Fetch data for litter, gallery, and dogs
   useEffect(() => {
+    // Fetch litter data
     sanityClient
       .fetch(
         `*[_type == "litter"]{
@@ -26,14 +29,12 @@ const Header = () => {
       )
       .then((data) => {
         const today = new Date();
-
         const newLitters = data.filter((litter) => {
           if (!litter.dateOfBirth) return false;
           const birthDate = new Date(litter.dateOfBirth);
           const diffDays = (today - birthDate) / (1000 * 60 * 60 * 24);
           return diffDays < 70;
         });
-
         const upcomingLitters = data.filter(
           (litter) => !litter.dateOfBirth && litter.expectedDateOfBirth
         );
@@ -42,6 +43,38 @@ const Header = () => {
           setActiveLitter(newLitters[0]);
         } else if (upcomingLitters.length > 0) {
           setActiveLitter(upcomingLitters[0]);
+        }
+      })
+      .catch(console.error);
+
+    // Fetch gallery data
+    sanityClient
+      .fetch(
+        `*[_type == "gallery"]{
+          _id,
+          title,
+          "mainImageUrl": mainImage.asset->url
+        }`
+      )
+      .then((data) => {
+        if (data.length > 0) {
+          setActiveGallery(data); // If galleries exist, set them
+        }
+      })
+      .catch(console.error);
+
+    // Fetch dogs data
+    sanityClient
+      .fetch(
+        `*[_type == "dog"]{
+          _id,
+          name,
+          isBreedingDog
+        }`
+      )
+      .then((data) => {
+        if (data.length > 0) {
+          setActiveDogs(data); // If dogs exist, set them
         }
       })
       .catch(console.error);
@@ -72,7 +105,6 @@ const Header = () => {
     setActiveLink(linkName);
     setIsNavOpen(false);
     setIsDropdownOpen(false);
-    setActiveDropdown("");
   };
 
   const handleDropdownClick = (sectionId) => {
@@ -169,53 +201,54 @@ const Header = () => {
                 {activeLitter && (
                   <NavLink
                     to={`/litters/${activeLitter._id}`}
-                    key={activeLitter._id}
                     onClick={() => handleLinkClick("nytt-kull")}
-                    className={` nytt-kullnav-link text-warning ${
-                      activeLink === "active" ? "nytt-kull" : ""
+                    className={`nav-link nytt-kull ${
+                      activeLink === "nytt-kull" ? "active" : ""
                     }`}
                   >
-                    🐶{"Nytt kull! "}
-                  
+                    🐶 Nytt kull!
                   </NavLink>
                 )}
 
-                <div className="nav-item dropdown">
-                  <NavLink
-                    to="#"
-                    className={`nav-link dropdown-toggle ${
-                      location.pathname === "/dogs" ? "active" : "no-active"
-                    }`}
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  >
-                    Våre hunder
-                  </NavLink>
-                  {isDropdownOpen && (
-                    <div className="dropdown-menu">
-                      <NavLink
-                        to="/dogs#current"
-                        onClick={() => handleDropdownClick("current")}
-                        className="nav-link no-active"
-                      >
-                        Alle hundene
-                      </NavLink>
-                      <NavLink
-                        to="/dogs#breeding"
-                        onClick={() => handleDropdownClick("breeding")}
-                        className="nav-link no-active"
-                      >
-                        Avlshunder
-                      </NavLink>
-                      <NavLink
-                        to="/dogs#deceased"
-                        onClick={() => handleDropdownClick("deceased")}
-                        className="nav-link no-active"
-                      >
-                        Tidligere hunder
-                      </NavLink>
-                    </div>
-                  )}
-                </div>
+                {/* Only show "Våre hunder" if there are dogs */}
+                {activeDogs && activeDogs.length > 0 && (
+                  <div className="nav-item dropdown">
+                    <NavLink
+                      to="#"
+                      className={`nav-link dropdown-toggle ${
+                        location.pathname === "/dogs" ? "active" : "no-active"
+                      }`}
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    >
+                      Våre hunder
+                    </NavLink>
+                    {isDropdownOpen && (
+                      <div className="dropdown-menu">
+                        <NavLink
+                          to="/dogs#current"
+                          onClick={() => handleDropdownClick("current")}
+                          className="nav-link no-active"
+                        >
+                          Alle hundene
+                        </NavLink>
+                        <NavLink
+                          to="/dogs#breeding"
+                          onClick={() => handleDropdownClick("breeding")}
+                          className="nav-link no-active"
+                        >
+                          Avlshunder
+                        </NavLink>
+                        <NavLink
+                          to="/dogs#deceased"
+                          onClick={() => handleDropdownClick("deceased")}
+                          className="nav-link no-active"
+                        >
+                          Tidligere hunder
+                        </NavLink>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 <NavLink
                   to="/litters"
@@ -226,16 +259,20 @@ const Header = () => {
                 >
                   Valpekull
                 </NavLink>
-                <NavLink
-                  to="/gallery"
-                  onClick={() => handleLinkClick("gallery")}
-                  className={`nav-link ${
-                    activeLink === "gallery" ? "active" : ""
-                  }`}
-                >
-                  📸 Galleri
-                </NavLink>
-                
+
+                {/* Only show "Galleri" if there are galleries */}
+                {activeGallery && activeGallery.length > 0 && (
+                  <NavLink
+                    to="/gallery"
+                    onClick={() => handleLinkClick("galleri")}
+                    className={`nav-link ${
+                      activeLink === "galleri" ? "active" : ""
+                    }`}
+                  >
+                    📸 Galleri
+                  </NavLink>
+                )}
+
                 <NavLink
                   to="/about"
                   onClick={() => handleLinkClick("om-oss")}

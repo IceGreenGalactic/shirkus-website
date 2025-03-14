@@ -76,6 +76,12 @@ export const NavContainer = styled.nav`
       transition: all 0.3s ease;
       display: inline-block;
       position: relative;
+      &.nytt-kull {
+        color: ${(props) => props.theme.colors.white};
+        @media (min-width: 992px) {
+          color: ${(props) => props.theme.colors.accent};
+        }
+      }
 
       &:hover {
         color: ${(props) => props.theme.colors.accent};
