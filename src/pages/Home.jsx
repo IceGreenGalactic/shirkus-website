@@ -29,7 +29,6 @@ const Home = () => {
         alt="Hero Image"
         className="hero-image col-10 col-md-8"
       />
-      
       <Description className="col-10 col-md-8 col-lg-6 m-auto my-3">
         {siteInfo.introText}
       </Description>
