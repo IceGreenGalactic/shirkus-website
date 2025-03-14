@@ -12,6 +12,8 @@ import Litters from "./pages/Litters";
 import LittersDetail from "./pages/LittersDetail";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Gallery from "./pages/Gallery";
+import GalleryDetail from "./pages/GalleryDetail";
 
 const App = () => {
   return (
@@ -27,6 +29,8 @@ const App = () => {
             <Route path="litters/:id" element={<LittersDetail />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
+            <Route path="gallery" element={<Gallery />} />
+            <Route path="gallery/:id" element={<GalleryDetail />} />
           </Route>
         </Routes>
       </Router>

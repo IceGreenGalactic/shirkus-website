@@ -52,20 +52,21 @@ const Header = () => {
     if (path === "/") {
       setActiveLink("hjem");
     } else if (path === "/litters") {
-      setActiveLink("valpekull"); 
+      setActiveLink("valpekull");
     } else if (path.startsWith("/litters/")) {
-      setActiveLink("no-active"); 
+      setActiveLink("no-active");
     } else if (path === "/about") {
       setActiveLink("om-oss");
     } else if (path === "/contact") {
       setActiveLink("kontakt");
     } else if (path === "/dogs") {
       setActiveLink("våre-hunder");
+    } else if (path === "/gallery") {
+      setActiveLink("galleri");
     } else {
       setActiveLink("");
     }
   }, [location]);
-  
 
   const handleLinkClick = (linkName) => {
     setActiveLink(linkName);
@@ -174,10 +175,8 @@ const Header = () => {
                       activeLink === "active" ? "nytt-kull" : ""
                     }`}
                   >
-                    🐶{" "}
-                    {activeLitter.dateOfBirth
-                      ? "Nytt valpekull!"
-                      : "Kommende valpekull!"}
+                    🐶{"Nytt kull! "}
+                  
                   </NavLink>
                 )}
 
@@ -227,7 +226,16 @@ const Header = () => {
                 >
                   Valpekull
                 </NavLink>
-
+                <NavLink
+                  to="/gallery"
+                  onClick={() => handleLinkClick("gallery")}
+                  className={`nav-link ${
+                    activeLink === "gallery" ? "active" : ""
+                  }`}
+                >
+                  📸 Galleri
+                </NavLink>
+                
                 <NavLink
                   to="/about"
                   onClick={() => handleLinkClick("om-oss")}
