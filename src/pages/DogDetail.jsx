@@ -83,22 +83,22 @@ const DogDetail = () => {
 
         const fetchLitters = async () => {
           const littersData = await sanityClient.fetch(
-            `*[_type == "litter" && (mother.dogReference._ref == "71dfb670-4326-44bf-824c-f2257cb4236f" || father.dogReference._ref == "71dfb670-4326-44bf-824c-f2257cb4236f")] {
-  _id,
-  mother->{
-    name,
-    nickname
-  },
-  father->{
-    name,
-    nickname
-  },
-  dateOfBirth
-}
-`,
-            {
-              dogId,
-            }
+            `*[_type == "litter" && (
+              mother.dogReference._ref == $dogId || 
+              father.dogReference._ref == $dogId
+            )] {
+              _id,
+              mother->{
+                name,
+                nickname
+              },
+              father->{
+                name,
+                nickname
+              },
+              dateOfBirth
+            }`,
+            { dogId }
           );
           setLitters(littersData);
         };
@@ -229,7 +229,7 @@ const DogDetail = () => {
                   )}
                 </div>
 
-                {(dog.breedingNotes || litters.length > 0) && (
+                {(litters.length > 0 || dog.breedingNotes) && (
                   <div className="mt-4">
                     <strong>Valpekull:</strong>
                     {litters.length > 0 && (
@@ -258,13 +258,12 @@ const DogDetail = () => {
                               </div>
                             </Link>
                           </div>
-                        ))}{" "}
-                        {/* Breeding Notes added by user */}
-                        {dog.breedingNotes && (
-                          <div className="breeding-notes">
-                            <p>{dog.breedingNotes}</p>
-                          </div>
-                        )}
+                        ))}
+                      </div>
+                    )}
+                    {dog.breedingNotes && (
+                      <div className="breeding-notes">
+                        <p>{dog.breedingNotes}</p>
                       </div>
                     )}
                   </div>
