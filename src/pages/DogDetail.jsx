@@ -25,6 +25,7 @@ const DogDetail = () => {
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(null);
   const [currentGalleryIndex, setCurrentGalleryIndex] = useState(0);
+  const [totalPuppies, setTotalPuppies] = useState(0);
 
   useEffect(() => {
     sanityClient
@@ -96,18 +97,27 @@ const DogDetail = () => {
                 name,
                 nickname
               },
-              dateOfBirth
+              dateOfBirth,
+              puppyDetails
             }`,
             { dogId }
           );
+          const totalPuppies = littersData.reduce((acc, litter) => {
+            const puppiesInLitter = litter.puppyDetails?.reduce(
+              (sum, puppy) => sum + (puppy.count || 0),
+              0
+            );
+            return acc + puppiesInLitter;
+          }, 0);
+
           setLitters(littersData);
+          setTotalPuppies(totalPuppies);
         };
 
         fetchLitters();
       })
       .catch(console.error);
   }, [id]);
-
   if (loading) return <div>Laster...</div>;
   if (!dog) return <div>Fant ingen hund.</div>;
 
@@ -234,33 +244,47 @@ const DogDetail = () => {
                     <strong>Valpekull:</strong>
                     {litters.length > 0 && (
                       <div className="litters-list ms-1">
-                        {litters.map((litter, index) => (
-                          <div key={litter._id} className="litter-item">
-                            <Link
-                              to={`/litters/${litter._id}`}
-                              style={{
-                                textDecoration: "underline",
-                                cursor: "pointer",
-                              }}
-                            >
-                              <div className="d-flex flex-column">
-                                {litter.dateOfBirth && (
+                        {litters.map((litter, index) => {
+                          const dateOfBirth = litter.dateOfBirth
+                            ? new Date(litter.dateOfBirth).toLocaleDateString(
+                                "no-NO",
+                                {
+                                  day: "2-digit",
+                                  month: "2-digit",
+                                  year: "numeric",
+                                }
+                              )
+                            : "Ukjent dato";
+
+                          const totalPuppies = litter.puppyDetails
+                            ? litter.puppyDetails.reduce(
+                                (sum, puppy) => sum + (puppy.count || 0),
+                                0
+                              )
+                            : 0;
+
+                          return (
+                            <div key={litter._id} className="litter-item mb-2">
+                              <Link
+                                to={`/litters/${litter._id}`}
+                                style={{
+                                  textDecoration: "underline",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                <div className="d-flex justify-content-start align-items-center">
                                   <div>
-                                    {new Date(
-                                      litter.dateOfBirth
-                                    ).toLocaleDateString("no-NO", {
-                                      day: "2-digit",
-                                      month: "2-digit",
-                                      year: "numeric",
-                                    })}
+                                  {dateOfBirth} -{" "}
+                                    {totalPuppies} valper
                                   </div>
-                                )}
-                              </div>
-                            </Link>
-                          </div>
-                        ))}
+                                </div>
+                              </Link>
+                            </div>
+                          );
+                        })}
                       </div>
                     )}
+
                     {dog.breedingNotes && (
                       <div className="breeding-notes">
                         <p>{dog.breedingNotes}</p>
