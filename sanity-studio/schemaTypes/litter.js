@@ -316,13 +316,18 @@ export default {
     select: {
       title: 'mother.nickname',
       subtitle: 'father.nickname',
+      dateOfBirth: 'dateOfBirth',
       media: 'mainImage',
     },
     prepare(selection) {
-      const {title, subtitle, media} = selection
+      const {title, subtitle, media, dateOfBirth} = selection
+      const formattedDateOfBirth = dateOfBirth
+        ? new Date(dateOfBirth).toLocaleDateString('no-NO')
+        : 'Ingen dato oppgitt'
+
       return {
         title: title || 'Uten navn',
-        subtitle: subtitle || 'Ingen far oppgitt',
+        subtitle: `${subtitle || 'Ingen far oppgitt'} | ${formattedDateOfBirth}`,
         media: media || 'no-image-icon',
       }
     },
