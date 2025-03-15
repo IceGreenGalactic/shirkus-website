@@ -23,10 +23,10 @@ export const ParentInfoContainer = styled.div`
   align-items: flex-start;
   h3 {
     font-size: 1.5rem;
-    text-align: center;
+    
   }
   .title-text {
-    height: 1rem;
+    height: 1.5rem;
     font-size: 1rem;
     marign: 0px;
     padding: 0px;
@@ -38,6 +38,9 @@ export const ParentInfoContainer = styled.div`
       font-size: 0.8rem;
       min-height: 2rem;
     }
+       @media (min-width: 1280){
+       
+       }
   }
   .litter-name {
     min-height: 3.5rem;
@@ -58,7 +61,6 @@ export const ParentInfoContainer = styled.div`
 `;
 
 export const ParentInfo = styled.div`
-  text-align: center;
   margin-bottom: 2rem;
   padding: 0.1rem;
 `;

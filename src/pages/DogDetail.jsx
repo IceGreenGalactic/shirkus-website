@@ -151,7 +151,7 @@ const DogDetail = () => {
   };
 
   return (
-    <DetailContainer className="col-12 col-xl-10">
+    <DetailContainer className="col-10 col-xl-8">
       <div className="mb-5 mt-2 text-center">
         <DogName className="text-center">{dog.title}</DogName>
         <DogName className="text-center">{dog.name}</DogName>
@@ -274,8 +274,7 @@ const DogDetail = () => {
                               >
                                 <div className="d-flex justify-content-start align-items-center">
                                   <div>
-                                  {dateOfBirth} -{" "}
-                                    {totalPuppies} valper
+                                    {dateOfBirth} - {totalPuppies} valper
                                   </div>
                                 </div>
                               </Link>
@@ -321,7 +320,7 @@ const DogDetail = () => {
       )}
 
       {dog.breedingDogsInfo && (
-        <DogInfo className="d-flex flex-column border col-8 m-auto p-4">
+        <DogInfo className="d-flex flex-column border col-10 col-md-8 m-auto p-4">
           {dog.breedingDogsInfo}
         </DogInfo>
       )}
