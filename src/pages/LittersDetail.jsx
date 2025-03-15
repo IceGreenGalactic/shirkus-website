@@ -222,9 +222,10 @@ father {
             </h3>
             <p className="title-text">
               {litter.mother.title ? (
-                <p>{litter.mother.title}</p>
+               <span>
+               {litter.mother.title}</span>
               ) : (
-                <p>&nbsp;</p>
+                <span>&nbsp;</span>
               )}
             </p>
 
@@ -239,9 +240,9 @@ father {
             </h3>
             <p className="title-text">
               {litter.father.title ? (
-                <p>{litter.father.title}</p>
+                <span>{litter.father.title}</span>
               ) : (
-                <p>&nbsp;</p>
+                <span>&nbsp;</span>
               )}
             </p>
           </div>
