@@ -1,10 +1,11 @@
 import React from "react";
 import {
-  CarouselContainer,
+  CarouselImageContainer,
   CarouselImage,
   CarouselNav,
   PositionIndicator,
   CarouselCaptionContainer,
+  CarouselContainer,
 } from "./Carousel.styled";
 
 const Carousel = ({ images, currentIndex, setCurrentImageIndex }) => {
@@ -21,26 +22,25 @@ const Carousel = ({ images, currentIndex, setCurrentImageIndex }) => {
   };
 
   return (
-    <CarouselContainer className="col-lg-10 col-xl-8 col-xxl-6 mx-auto">
-      <CarouselNav onClick={prevImage}>❮</CarouselNav>
+    <CarouselContainer>
+      <CarouselImageContainer className="col-lg-10 col-xl-8 col-xxl-6 mx-auto">
+        <CarouselNav onClick={prevImage}>❮</CarouselNav>
 
-      <CarouselImage src={imageUrl} alt={caption} />
+        <CarouselImage src={imageUrl} alt={caption} />
 
-      {caption && (
-        <CarouselCaptionContainer>
-          <p>{caption}</p>
-        </CarouselCaptionContainer>
-      )}
+        <PositionIndicator>
+          <span>
+            {currentIndex + 1}/{images.length}
+          </span>
+        </PositionIndicator>
 
-      <PositionIndicator>
-        <span>
-          {currentIndex + 1}/{images.length}
-        </span>
-      </PositionIndicator>
+        <CarouselNav onClick={nextImage}>❯</CarouselNav>
+      </CarouselImageContainer>
 
-      <CarouselNav onClick={nextImage}>❯</CarouselNav>
+      <CarouselCaptionContainer>
+        <p className="col-lg-8 m-auto">{caption}</p>
+      </CarouselCaptionContainer>
     </CarouselContainer>
   );
 };
-
 export default Carousel;
