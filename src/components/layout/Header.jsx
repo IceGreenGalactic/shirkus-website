@@ -10,15 +10,15 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("");
   const [activeLitter, setActiveLitter] = useState(null);
-  const [activeGallery, setActiveGallery] = useState(null); // For gallery data
-  const [activeDogs, setActiveDogs] = useState(null); // For dogs data
+  const [activeGallery, setActiveGallery] = useState(null);
+  const [activeDogs, setActiveDogs] = useState(null);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+
   const location = useLocation();
   const navigate = useNavigate();
   const navbarRef = useRef(null);
 
-  // Fetch data for litter, gallery, and dogs
   useEffect(() => {
-    // Fetch litter data
     sanityClient
       .fetch(
         `*[_type == "litter"]{
@@ -47,7 +47,6 @@ const Header = () => {
       })
       .catch(console.error);
 
-    // Fetch gallery data
     sanityClient
       .fetch(
         `*[_type == "gallery"]{
@@ -58,12 +57,11 @@ const Header = () => {
       )
       .then((data) => {
         if (data.length > 0) {
-          setActiveGallery(data); // If galleries exist, set them
+          setActiveGallery(data);
         }
       })
       .catch(console.error);
 
-    // Fetch dogs data
     sanityClient
       .fetch(
         `*[_type == "dog"]{
@@ -74,7 +72,7 @@ const Header = () => {
       )
       .then((data) => {
         if (data.length > 0) {
-          setActiveDogs(data); // If dogs exist, set them
+          setActiveDogs(data);
         }
       })
       .catch(console.error);
@@ -210,7 +208,6 @@ const Header = () => {
                   </NavLink>
                 )}
 
-                {/* Only show "Våre hunder" if there are dogs */}
                 {activeDogs && activeDogs.length > 0 && (
                   <div className="nav-item dropdown">
                     <NavLink
@@ -260,7 +257,6 @@ const Header = () => {
                   Valpekull
                 </NavLink>
 
-                {/* Only show "Galleri" if there are galleries */}
                 {activeGallery && activeGallery.length > 0 && (
                   <NavLink
                     to="/gallery"
