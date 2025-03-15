@@ -29,26 +29,31 @@ const LittersDetail = () => {
       .fetch(
         `*[_type == "litter" && _id == $id]{
           _id,
-          mother {
-            isOwned,
-            "dogRef": dogReference->_id,
-            name,
-            nickname,
-            "image": image { asset-> { _id, _ref }, crop, hotspot },
-            info,
-            healthResults,
-            additionalInfo
-          },
-          father {
-            isOwned,
-            "dogRef": dogReference->_id,
-            name,
-            nickname,
-            "image": image { asset-> { _id, _ref }, crop, hotspot },
-            info,
-            healthResults,
-            additionalInfo
-          },
+        mother {
+  isOwned,
+  "dogRef": dogReference->_id,
+  name,
+  nickname,
+  title,
+  registrationNumber,
+  "image": image { asset-> { _id, _ref }, crop, hotspot },
+  info,
+  healthResults,
+  additionalInfo
+},
+father {
+  isOwned,
+  "dogRef": dogReference->_id,
+  name,
+  nickname,
+  title,
+  registrationNumber,
+  "image": image { asset-> { _id, _ref }, crop, hotspot },
+  info,
+  healthResults,
+  additionalInfo
+},
+
           puppyDetails,
           mainImage { asset-> { _id, _ref }, crop, hotspot },
           additionalImages[]{ asset-> { _id, _ref }, crop, hotspot },
@@ -73,6 +78,8 @@ const LittersDetail = () => {
             _id,
             name,
             nickname,
+              title,
+    registrationNumber,
             image { asset-> { _id, _ref }, crop, hotspot },
             info,
             healthResults,
@@ -176,7 +183,12 @@ const LittersDetail = () => {
           />
         )}
         <div className="mt-2">
-          {displayNickname && <h4>{displayNickname}</h4>}
+          {displayNickname && <h5>{displayNickname}</h5>}
+          {parent.registrationNumber && (
+            <p>
+              <strong>Reg.nr:</strong> {parent.registrationNumber}
+            </p>
+          )}
           {healthResults && healthResults.length > 0 && (
             <div>
               <ul className="list-unstyled mt-2">
@@ -202,27 +214,43 @@ const LittersDetail = () => {
   return (
     <LitterContainer className="col-10 m-auto">
       <h2 className="text-center">Kull Detaljer</h2>
-      <ParentInfoContainer className="m-auto mt-4 d-flex flex-row flex-md-row col-12 col-md-6">
+      <ParentInfoContainer className="m-auto  d-flex flex-row col-12 col-md-11 col-lg-10 col-xl-8">
         <ParentInfo className="col-6">
-          <h3 className="d-flex flex-column">
-            <strong> Mor: </strong>
-            {litter.mother.name}
-          </h3>
-          <div className="col-12 m-auto text-center">
-            {renderParentInfo(litter.mother)}
+          <div className=" mt-3">
+            <h3>
+              <strong> Mor</strong>
+            </h3>
+            <p className="title-text">
+              {litter.mother.title ? (
+                <p>{litter.mother.title}</p>
+              ) : (
+                <p>&nbsp;</p>
+              )}
+            </p>
+
+            <h3 className="litter-name">{litter.mother.name}</h3>
           </div>
+          <div className="col-12">{renderParentInfo(litter.mother)}</div>
         </ParentInfo>
         <ParentInfo className="col-6">
-          <h3 className="d-flex flex-column">
-            <strong> Far:</strong> {litter.father.name}
-          </h3>
-          <div className="col-12 m-auto text-center">
-            {renderParentInfo(litter.father)}
+          <div className="mt-3">
+            <h3>
+              <strong> Far</strong>
+            </h3>
+            <p className="title-text">
+              {litter.father.title ? (
+                <p>{litter.father.title}</p>
+              ) : (
+                <p>&nbsp;</p>
+              )}
+            </p>
           </div>
+          <h3 className="litter-name">{litter.father.name}</h3>
+          <div className="col-12">{renderParentInfo(litter.father)}</div>
         </ParentInfo>
       </ParentInfoContainer>
 
-      <PuppiesContainer className="col-12 col-md-10 m-auto">
+      <PuppiesContainer className="col-12 col-lg-10 m-auto">
         <div className="d-flex align-items-baseline col-10 m-auto justify-content-center">
           {litter.dateOfBirth ? (
             <div className="date-container text-center">
@@ -232,7 +260,7 @@ const LittersDetail = () => {
           ) : (
             litter.expectedDateOfBirth && (
               <h4>
-                Valper ventes:{" "}
+                Valper ventes:
                 {new Date(litter.expectedDateOfBirth).toLocaleDateString(
                   "no-NO",
                   {
@@ -248,7 +276,7 @@ const LittersDetail = () => {
 
         {litter.mainImage && (
           <>
-            <MainImgContainer className="m-auto col-10 col-md-8 col-xl-6 d-flex">
+            <MainImgContainer className="m-auto col-10 col-lg-8 col-xl-6 d-flex">
               <img
                 className="mb-2 rounded"
                 src={urlFor(litter.mainImage)}

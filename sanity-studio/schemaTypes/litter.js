@@ -107,14 +107,23 @@ export default {
             if (reference) {
               const dog = await reference.get()
               return {
+                title: dog?.title || '',
                 name: dog?.name || '',
                 nickname: dog?.nickname || '',
                 image: dog?.image || null,
                 info: dog?.info || '',
+                regNr: dog?.registrationNumber || '',
               }
             }
             return {}
           },
+        },
+        {
+          name: 'title',
+          title: 'Tittel',
+          type: 'string',
+          hidden: ({parent}) => parent?.isOwned === true,
+          description: 'Hundens offesielle titler',
         },
         {
           name: 'name',
@@ -127,6 +136,11 @@ export default {
           title: 'Kallenavn',
           type: 'string',
           hidden: ({parent}) => parent?.isOwned === true,
+        },
+        {
+          name: 'registrationNumber',
+          title: 'Registration Number',
+          type: 'string',
         },
         {
           name: 'overrideInfo',

@@ -22,13 +22,38 @@ export const ParentInfoContainer = styled.div`
   justify-content: center;
   align-items: flex-start;
   h3 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    margin-bottom: 1rem;
     font-size: 1.5rem;
     text-align: center;
+  }
+  .title-text {
+    height: 1rem;
+    font-size: 1rem;
+    marign: 0px;
+    padding: 0px;
+    font-weight: 600;
+     @media (max-width: 667px){
+      min-height: 2.5rem;
+     }
+    @media (max-width: 400px) {
+      font-size: 0.8rem;
+      min-height: 2rem;
+    }
+  }
+  .litter-name {
+    min-height: 3.5rem;
+    marign: 0px;
+    padding: 0px;
+    
+
+    @media (max-width: 400px) {
+      min-height: 1rem;
+      font-size: 1.1rem;
+    }
+      
+    @media (max-width: 880px) {
+      font-size: 1.4rem;
+    }
+  }
   }
 `;
 
