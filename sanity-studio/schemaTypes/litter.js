@@ -27,9 +27,11 @@ export default {
               return {
                 name: dog?.name || '',
                 nickname: dog?.nickname || '',
-                image: dog?.image || null,
+                image: dog?.image || null, 
                 healthResults: dog?.healthResults || [],
                 additionalInfo: dog?.additionalInfo || '',
+                overrideImageButton: typeof litter?.overrideImageButton === 'boolean' ? dog.overrideImageButton : false,
+                overrideImage: litter?.overrideImage || null, 
               }
             }
             return {}
@@ -48,11 +50,19 @@ export default {
           hidden: ({parent}) => parent?.isOwned === true,
         },
         {
-          name: 'overrideImage',
+          name: 'overrideImageButton',
           title: 'Bruk et annet bilde?',
           type: 'boolean',
           description: 'Mor burde se til høyere.',
           hidden: ({parent}) => parent?.isOwned === false,
+        },
+        {
+          name: 'overrideImage',
+          title: 'Bruk et annet bilde',
+          type: 'image',
+          options: {hotspot: true},
+          description: 'Velg et bilde for å overstyre referansebildet.',
+          hidden: ({parent}) => !parent?.overrideImageButton,
         },
         {
           name: 'image',
@@ -60,9 +70,9 @@ export default {
           type: 'image',
           options: {hotspot: true},
           description: 'Mor burde se til høyere.',
-
-          hidden: ({parent}) => parent?.isOwned === true && !parent?.overrideImage,
+          hidden: ({parent}) => parent?.isOwned === true || parent?.overrideImageButton !== true,
         },
+
         {
           name: 'healthResults',
           title: 'Helse Resultater',
@@ -110,12 +120,13 @@ export default {
             if (reference) {
               const dog = await reference.get()
               return {
-                title: dog?.title || '',
                 name: dog?.name || '',
                 nickname: dog?.nickname || '',
-                image: dog?.image || null,
-                info: dog?.info || '',
-                regNr: dog?.registrationNumber || '',
+                image: dog?.image || null, 
+                healthResults: dog?.healthResults || [],
+                additionalInfo: dog?.additionalInfo || '',
+                overrideImageButton: typeof litter?.overrideImageButton === 'boolean' ? dog.overrideImageButton : false,
+                overrideImage: litter?.overrideImage || null, 
               }
             }
             return {}
@@ -151,21 +162,31 @@ export default {
           type: 'boolean',
           hidden: ({parent}) => parent?.isOwned === false,
         },
+
         {
-          name: 'overrideImage',
+          name: 'overrideImageButton',
           title: 'Bruk et annet bilde?',
           type: 'boolean',
-          description: 'Far burde se til venstre.',
+          description: 'Mor burde se til høyere.',
           hidden: ({parent}) => parent?.isOwned === false,
+        },
+        {
+          name: 'overrideImage',
+          title: 'Bruk et annet bilde',
+          type: 'image',
+          options: {hotspot: true},
+          description: 'Velg et bilde for å overstyre referansebildet.',
+          hidden: ({parent}) => !parent?.overrideImageButton,
         },
         {
           name: 'image',
           title: 'Bilde',
           type: 'image',
           options: {hotspot: true},
-          description: 'Far burde se til venstre.',
-          hidden: ({parent}) => parent?.isOwned === true && !parent?.overrideImage,
+          description: 'Far burde se til høyere.',
+          hidden: ({parent}) => parent?.isOwned === true || parent?.overrideImageButton !== true,
         },
+
         {
           name: 'healthResults',
           title: 'Helse Resultater',
