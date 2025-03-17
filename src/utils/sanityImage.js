@@ -8,9 +8,5 @@ export function urlFor(image) {
     return null;
   }
 
-  if (image.asset && image.asset.url) {
-    return image.asset.url;
-  }
-
-  return builder.image(image).url();
+  return builder.image(image).fit("crop").auto("format").url();
 }
