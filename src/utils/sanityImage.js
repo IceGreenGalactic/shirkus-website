@@ -3,10 +3,11 @@ import sanityClient from "../sanityClient";
 
 const builder = imageUrlBuilder(sanityClient);
 
-export function urlFor(image) {
-  if (!image) {
+export function urlFor(image, overrideImage) {
+  const img = overrideImage || image;
+  if (!img) {
     return null;
   }
 
-  return builder.image(image).fit("crop").auto("format").url();
+  return builder.image(img).fit("crop").auto("format").url();
 }

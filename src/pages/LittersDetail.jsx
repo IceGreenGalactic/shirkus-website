@@ -37,6 +37,7 @@ const LittersDetail = () => {
   title,
   registrationNumber,
   "image": image { asset-> { _id, _ref }, crop, hotspot },
+   "overrideImage": overrideImage { asset-> { _id, _ref }, crop, hotspot },
   info,
   healthResults,
   additionalInfo
@@ -49,6 +50,7 @@ father {
   title,
   registrationNumber,
   "image": image { asset-> { _id, _ref }, crop, hotspot },
+   "overrideImage": overrideImage { asset-> { _id, _ref }, crop, hotspot },
   info,
   healthResults,
   additionalInfo
@@ -75,29 +77,43 @@ father {
         return sanityClient
           .fetch(
             `*[_type == "dog" && _id in [$motherDogRef, $fatherDogRef]]{
-            _id,
-            name,
-            nickname,
-              title,
-    registrationNumber,
-            image { asset-> { _id, _ref }, crop, hotspot },
-            info,
-            healthResults,
-            additionalInfo
-          }`,
+      _id,
+      name,
+      nickname,
+      title,
+      registrationNumber,
+      image { asset-> { _id, _ref }, crop, hotspot },
+      info,
+      healthResults,
+      additionalInfo,
+      overrideImage, 
+    }`,
             { motherDogRef, fatherDogRef }
           )
           .then((dogData) => {
+            const motherDog =
+              dogData.find((dog) => dog._id === motherDogRef) || {};
+            const fatherDog =
+              dogData.find((dog) => dog._id === fatherDogRef) || {};
             litterData.mother = {
               ...litterData.mother,
-              ...dogData.find((dog) => dog._id === motherDogRef),
+              ...motherDog,
+              overrideImage:
+                litterData.mother.overrideImage || motherDog.overrideImage,
             };
+
             litterData.father = {
               ...litterData.father,
-              ...dogData.find((dog) => dog._id === fatherDogRef),
+              ...fatherDog,
+              overrideImage:
+                litterData.father.overrideImage || fatherDog.overrideImage,
             };
 
             setLitter(litterData);
+            setLoading(false);
+          })
+          .catch((error) => {
+            console.error("Error fetching dog data:", error);
             setLoading(false);
           });
       })
@@ -167,16 +183,17 @@ father {
       dogReference,
       healthResults,
       additionalInfo,
+      overrideImage,
     } = parent;
     const displayName = isOwned && dogReference ? dogReference.name : name;
     const displayNickname =
       isOwned && dogReference ? dogReference.nickname : nickname;
-    const displayImage = isOwned && dogReference ? dogReference.image : image;
+    const displayImage = overrideImage?.asset ? overrideImage : image;
 
     return (
       <>
         {displayImage && (
-          <ParentImage
+                <ParentImage
             src={urlFor(displayImage)}
             alt={displayName}
             onClick={() => openImageModal(urlFor(displayImage))}
