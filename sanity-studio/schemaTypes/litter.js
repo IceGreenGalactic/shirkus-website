@@ -51,6 +51,7 @@ export default {
           name: 'overrideImage',
           title: 'Bruk et annet bilde?',
           type: 'boolean',
+          description: 'Mor burde se til høyere.',
           hidden: ({parent}) => parent?.isOwned === false,
         },
         {
@@ -58,6 +59,8 @@ export default {
           title: 'Bilde',
           type: 'image',
           options: {hotspot: true},
+          description: 'Mor burde se til høyere.',
+
           hidden: ({parent}) => parent?.isOwned === true && !parent?.overrideImage,
         },
         {
@@ -152,6 +155,7 @@ export default {
           name: 'overrideImage',
           title: 'Bruk et annet bilde?',
           type: 'boolean',
+          description: 'Far burde se til venstre.',
           hidden: ({parent}) => parent?.isOwned === false,
         },
         {
@@ -159,6 +163,7 @@ export default {
           title: 'Bilde',
           type: 'image',
           options: {hotspot: true},
+          description: 'Far burde se til venstre.',
           hidden: ({parent}) => parent?.isOwned === true && !parent?.overrideImage,
         },
         {

@@ -3,13 +3,13 @@ import styled from "styled-components";
 export const LitterContainer = styled.div`
   margin: auto;
 
-  h2{
- font-size: 3rem;
-      font-family: ${(props) => props.theme.fonts.accent};
+  h2 {
+    font-size: 3rem;
+    font-family: ${(props) => props.theme.fonts.accent};
     color: ${(props) => props.theme.colors.accent};
-    font-weight:900;
-}
-    .costum-border {
+    font-weight: 900;
+  }
+  .costum-border {
     border-bottom: 1px solid ${(props) => props.theme.colors.accent};
   }
 `;
@@ -19,7 +19,7 @@ export const LitterCard = styled.div`
   border-radius: 8px;
   overflow: hidden;
   text-align: center;
-  box-shadow: ${(props) => props.theme.shadows.boxShadow}; 
+  box-shadow: ${(props) => props.theme.shadows.boxShadow};
   transition: transform 0.2s;
 
   &:hover {
@@ -27,10 +27,21 @@ export const LitterCard = styled.div`
   }
 
   img {
-    width: 100%;
-    height: 15rem; 
+    width: 50%;
+    height: 15rem;
     object-fit: cover;
     object-position: center;
+
+    &:first-child {
+      object-position: right;
+    }
+
+    &:last-child {
+      object-position: left;
+    }
+    @media (max-width: 400px) {
+      height: 12rem;
+    }
   }
 
   h3 {
@@ -43,7 +54,6 @@ export const LitterCard = styled.div`
     margin: 5px 0;
     font-size: 1.2rem;
     color: ${(props) => props.theme.colors.secondary};
-    
   }
 
   a {
@@ -51,6 +61,3 @@ export const LitterCard = styled.div`
     color: inherit;
   }
 `;
-
-
-
