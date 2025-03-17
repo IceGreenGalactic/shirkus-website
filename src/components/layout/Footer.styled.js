@@ -7,4 +7,7 @@ export const FooterContainer = styled.footer`
   padding: 1rem;
   text-align: center;
   margin-top: 20px;
+  .made-by {
+    font-size: 0.8rem;
+  }
 `;
