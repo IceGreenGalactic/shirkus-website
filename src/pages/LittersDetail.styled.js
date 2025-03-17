@@ -67,11 +67,16 @@ export const ParentInfo = styled.div`
 
 export const ParentImage = styled.img`
   width: 100%;
-  height: auto;
-  max-width: 100%;
+  height: auto; 
+  max-width: 100%; 
   border-radius: 10px;
   object-fit: contain;
+  object-position: center;
+  min-height: 200px; 
+  max-height: 500px; 
+  aspect-ratio: 1 / 1;
 `;
+
 
 export const PuppiesContainer = styled.div`
   img {
