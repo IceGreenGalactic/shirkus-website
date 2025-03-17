@@ -193,7 +193,7 @@ father {
     return (
       <>
         {displayImage && (
-                <ParentImage
+          <ParentImage
             src={urlFor(displayImage)}
             alt={displayName}
             onClick={() => openImageModal(urlFor(displayImage))}
@@ -233,18 +233,13 @@ father {
       <h2 className="text-center">Kull Detaljer</h2>
       <ParentInfoContainer className="m-auto d-flex flex-row col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">
         <ParentInfo className="col-6">
-          <div className=" mt-3">
+          <div className="mt-3">
             <h3>
               <strong> Mor</strong>
             </h3>
             <p className="title-text">
-              {litter.mother.title ? (
-                <span>{litter.mother.title}</span>
-              ) : (
-                <span>&nbsp;</span>
-              )}
+              {litter.mother.title && <span>{litter.mother.title}</span>}
             </p>
-
             <h3 className="litter-name">{litter.mother.name}</h3>
           </div>
           <div className="col-12">{renderParentInfo(litter.mother)}</div>
@@ -255,14 +250,10 @@ father {
               <strong> Far</strong>
             </h3>
             <p className="title-text">
-              {litter.father.title ? (
-                <span>{litter.father.title}</span>
-              ) : (
-                <span>&nbsp;</span>
-              )}
+              {litter.father.title && <span>{litter.father.title}</span>}
             </p>
+            <h3 className="litter-name">{litter.father.name}</h3>
           </div>
-          <h3 className="litter-name">{litter.father.name}</h3>
           <div className="col-12">{renderParentInfo(litter.father)}</div>
         </ParentInfo>
       </ParentInfoContainer>
@@ -277,15 +268,7 @@ father {
           ) : (
             litter.expectedDateOfBirth && (
               <h4>
-                Valper ventes:
-                {new Date(litter.expectedDateOfBirth).toLocaleDateString(
-                  "no-NO",
-                  {
-                    year: "numeric",
-                    month: "2-digit",
-                    day: "2-digit",
-                  }
-                )}
+                Valper ventes: {formatDate(litter.expectedDateOfBirth)}
               </h4>
             )
           )}
@@ -307,7 +290,7 @@ father {
           </>
         )}
 
-        {litter.puppyDetails && litter.puppyDetails.length > 0 && (
+        {litter.puppyDetails?.length > 0 && (
           <>
             <h4 className="text-center">Det ble født {totalPuppies} valper!</h4>
             <h5 className="text-center">
@@ -315,7 +298,6 @@ father {
                 .reduce((acc, puppy) => {
                   const gender = puppy.gender;
                   const color = puppy.color;
-
                   const existing = acc.find(
                     (item) => item.color === color && item.gender === gender
                   );
@@ -344,7 +326,7 @@ father {
           </div>
         )}
 
-        {litter.galleries && litter.galleries.length > 0 && (
+        {litter.galleries?.length > 0 && (
           <div className="container mt-5">
             <PuppyGalleryImages litterId={id} />
           </div>
