@@ -45,7 +45,7 @@ export const ParentInfoContainer = styled.div`
   .litter-name {
     min-height: 3.5rem;
     marign: 0px;
-    padding: 0px;
+    padding: 0px 0px 0px 10px;
     
 
     @media (max-width: 400px) {
@@ -67,16 +67,15 @@ export const ParentInfo = styled.div`
 
 export const ParentImage = styled.img`
   width: 100%;
-  height: auto; 
-  max-width: 100%; 
+  height: auto;
+  max-width: 100%;
   border-radius: 10px;
   object-fit: contain;
   object-position: center;
-  min-height: 200px; 
-  max-height: 500px; 
+  min-height: 200px;
+  max-height: 500px;
   aspect-ratio: 1 / 1;
 `;
-
 
 export const PuppiesContainer = styled.div`
   img {
