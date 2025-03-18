@@ -1,11 +1,8 @@
 import { SitemapStream } from 'sitemap';
 import { createWriteStream } from 'fs';
-import fetch from 'node-fetch'; // If you're fetching dynamic content
 
-const hostname = 'https://shirkus.no';
-
-// Static routes
-const staticUrls = [
+// Define a list of static URLs
+const urls = [
   { url: '/', changefreq: 'weekly', priority: 1.0 },
   { url: '/dogs', changefreq: 'weekly', priority: 0.9 },
   { url: '/litters', changefreq: 'weekly', priority: 0.9 },
@@ -14,37 +11,29 @@ const staticUrls = [
   { url: '/gallery', changefreq: 'weekly', priority: 0.9 },
 ];
 
-async function generateSitemap() {
-  const stream = new SitemapStream({ hostname });
-  const writeStream = createWriteStream('./public/sitemap.xml');
-  stream.pipe(writeStream);
+// Simulated dynamic pages (replace with real slugs)
+const dogSlugs = ['bella', 'max', 'rocky']; // Example dog pages
+const litterSlugs = ['litter-a', 'litter-b']; // Example litter pages
+const gallerySlugs = ['image1', 'image2']; // Example gallery pages
 
-  // Add static URLs
-  staticUrls.forEach(url => stream.write(url));
+// Generate URLs dynamically
+dogSlugs.forEach(slug => urls.push({ url: `/dogs/${slug}`, changefreq: 'monthly', priority: 0.7 }));
+litterSlugs.forEach(slug => urls.push({ url: `/litters/${slug}`, changefreq: 'monthly', priority: 0.7 }));
+gallerySlugs.forEach(slug => urls.push({ url: `/gallery/${slug}`, changefreq: 'monthly', priority: 0.7 }));
 
-  try {
-    // Fetch dynamic content (example for dogs, litters, and gallery)
-    const [dogs, litters, galleries] = await Promise.all([
-      fetch(`${hostname}/api/dogs`).then(res => res.json()),
-      fetch(`${hostname}/api/litters`).then(res => res.json()),
-      fetch(`${hostname}/api/gallery`).then(res => res.json()),
-    ]);
+// Create a stream for the sitemap
+const stream = new SitemapStream({ hostname: 'https://shirkus.no' });
+const writeStream = createWriteStream('./public/sitemap.xml');
 
-    // Add dynamic dog pages
-    dogs.forEach(dog => stream.write({ url: `/dogs/${dog.slug}`, changefreq: 'monthly', priority: 0.7 }));
+// Pipe the stream
+stream.pipe(writeStream);
 
-    // Add dynamic litter pages
-    litters.forEach(litter => stream.write({ url: `/litters/${litter.slug}`, changefreq: 'monthly', priority: 0.7 }));
+// Add URLs to the stream
+urls.forEach(url => stream.write(url));
 
-    // Add dynamic gallery pages
-    galleries.forEach(image => stream.write({ url: `/gallery/${image.slug}`, changefreq: 'monthly', priority: 0.7 }));
+// End the stream
+stream.end();
 
-  } catch (error) {
-    console.error("Error fetching dynamic content:", error);
-  }
-
-  stream.end();
-  writeStream.on('finish', () => console.log('✅ Sitemap generated successfully!'));
-}
-
-generateSitemap();
+// Handle events
+writeStream.on('finish', () => console.log('✅ Sitemap generated and saved!'));
+writeStream.on('error', error => console.error('❌ Error generating sitemap:', error));
