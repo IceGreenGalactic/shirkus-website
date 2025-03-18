@@ -33,7 +33,9 @@ const LitterCardItem = ({ litter }) => {
     >
       <LitterCard>
         <Link to={`/litters/${litter._id}`}>
-          <h3>{motherName} & {fatherName}</h3>
+          <h3>
+            {motherName} & {fatherName}
+          </h3>
           <div className="d-flex justify-content-center mb-2">
             {motherImage && (
               <img
@@ -58,12 +60,13 @@ const LitterCardItem = ({ litter }) => {
           {!litter.dateOfBirth && litter.expectedDateOfBirth && (
             <p>
               Forventes:{" "}
-              {new Date(
-                litter.expectedDateOfBirth
-              ).toLocaleDateString("no-NO", {
-                month: "long",
-                year: "numeric",
-              })}
+              {new Date(litter.expectedDateOfBirth).toLocaleDateString(
+                "no-NO",
+                {
+                  month: "long",
+                  year: "numeric",
+                }
+              )}
             </p>
           )}
           {/* Display actual birth date only if it exists */}
@@ -77,15 +80,12 @@ const LitterCardItem = ({ litter }) => {
               })}
             </p>
           )}
-          {litter.puppyCount && (
-            <p>Antall valper: {litter.puppyCount}</p>
-          )}
+          {litter.puppyCount && <p>Antall valper: {litter.puppyCount}</p>}
         </Link>
       </LitterCard>
     </div>
   );
 };
-
 
 // LitterCardList component to reuse the rendering logic for multiple litters
 const LitterCardList = ({ litters, title }) => (
@@ -127,6 +127,11 @@ const Litters = () => {
         }`
       )
       .then((data) => {
+        const sortedLitters = data.sort((a, b) => {
+          if (!a.dateOfBirth) return 1;
+          if (!b.dateOfBirth) return -1;
+          return new Date(b.dateOfBirth) - new Date(a.dateOfBirth);
+        });
         setLitters(data);
         setLoading(false);
       })
