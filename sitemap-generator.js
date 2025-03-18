@@ -2,17 +2,17 @@ import { SitemapStream } from 'sitemap';  // Import the required methods
 import fs from 'fs';
 import { createWriteStream } from 'fs';
 
-// Definer en liste med URL-er som skal være i sitemapen
+// Define a list of URLs to include in the sitemap
 const urls = [
   { url: '/', changefreq: 'weekly', priority: 1.0 },
   { url: '/about', changefreq: 'monthly', priority: 0.8 },
   { url: '/contact', changefreq: 'monthly', priority: 0.8 },
   { url: '/gallery', changefreq: 'weekly', priority: 0.9 },
-  // Legg til flere sider etter behov
+  // Add more pages as needed
 ];
 
-// Lag en stream for å generere sitemap
-const stream = new SitemapStream({ hostname: 'https://shrikus.netlify.app' });
+// Create a stream to generate the sitemap
+const stream = new SitemapStream({ hostname: 'https://shirkus.no' });
 const writeStream = createWriteStream('./public/sitemap.xml');
 
 // Handle the streaming process
@@ -20,7 +20,11 @@ stream.pipe(writeStream);
 
 // Add URLs to the stream
 urls.forEach(url => {
-  stream.write(url);
+  stream.write({
+    url: url.url, 
+    changefreq: url.changefreq, 
+    priority: url.priority
+  });
 });
 
 // End the stream after adding all URLs
@@ -28,7 +32,7 @@ stream.end();
 
 // Handle stream events
 writeStream.on('finish', () => {
-  console.log('Sitemap generert og lagret!');
+  console.log('Sitemap generated and saved!');
 });
 
 writeStream.on('error', (error) => {
