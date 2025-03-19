@@ -18,25 +18,25 @@ export const HeaderContainer = styled.header`
 `;
 
 export const HeroText = styled.h1`
-  position: absolute;
+    position: absolute;
   bottom: 0%;
-  font-size: 2.8rem;
-  font-family: ${(props) => props.theme.fonts.heading};
+  font-size: 3.2rem;
+  font-family: ${(props) => props.theme.fonts.accent};
   background: ${(props) => props.theme.colors.accentTransparent};
-
   color: ${(props) => props.theme.colors.white};
   text-shadow: ${(props) => props.theme.shadows.textShadow};
+  
   @media (max-width: 992px) {
     position: relative;
     bottom: 0%;
-    font-size: 3rem;
+    font-size: 3.5rem;
     background: transparent;
     display: flex;
     color: ${(props) => props.theme.colors.white};
     text-shadow: ${(props) => props.theme.shadows.textShadow};
   }
   @media (max-width: 600px) {
-    font-size: 2.4rem;
+    font-size: 3rem;
   }
   @media (max-width: 350px) {
     font-size: 2rem;
@@ -63,7 +63,7 @@ export const NavContainer = styled.nav`
   .dropdown-menu {
     background: ${(props) => props.theme.colors.accent};
     padding: 0px;
-    padding-bottom: 20px;
+    padding: 5px 0px;
 
     .nav-link.no-active {
       border-bottom: none;
