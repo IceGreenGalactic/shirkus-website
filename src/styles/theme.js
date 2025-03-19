@@ -12,7 +12,7 @@ export const theme = {
   },
   fonts: {
     body: "Roboto, sans-serif",
-    heading: "Playfair Display, serif",
+    heading: "Cormorant Garamond, serif",
     accent: "'Tangerine', cursive, sans-serif",
   },
   shadows: {
