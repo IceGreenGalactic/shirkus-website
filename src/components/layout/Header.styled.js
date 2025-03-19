@@ -20,7 +20,8 @@ export const HeaderContainer = styled.header`
 export const HeroText = styled.h1`
   position: absolute;
   bottom: 0%;
-  font-size: 2.6rem;
+  font-size: 2.8rem;
+  font-family: ${(props) => props.theme.fonts.heading};
   background: ${(props) => props.theme.colors.accentTransparent};
 
   color: ${(props) => props.theme.colors.white};
