@@ -70,7 +70,7 @@ export default {
           type: 'image',
           options: {hotspot: true},
           description: 'Mor burde se til høyere.',
-          hidden: ({parent}) => parent?.isOwned === true || parent?.overrideImageButton !== true,
+          hidden: ({parent}) => parent?.isOwned === true && parent?.overrideImageButton !== true,
         },
 
         {
@@ -184,7 +184,7 @@ export default {
           type: 'image',
           options: {hotspot: true},
           description: 'Far burde se til høyere.',
-          hidden: ({parent}) => parent?.isOwned === true && parent?.overrideImageButton === true,
+          hidden: ({parent}) => parent?.isOwned === true && parent?.overrideImageButton !== true,
         },
 
         {
