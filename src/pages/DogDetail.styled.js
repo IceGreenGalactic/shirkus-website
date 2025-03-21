@@ -2,6 +2,12 @@ import styled from "styled-components";
 
 export const DetailContainer = styled.section`
   margin: auto;
+
+  .nickname {
+    color: ${(props) => props.theme.colors.accent};
+    font-family: ${(props) => props.theme.fonts.accent};
+    font-size: 3rem;
+  }
 `;
 
 export const DogImage = styled.img`
@@ -38,9 +44,8 @@ export const HealthResults = styled.div`
 `;
 
 export const HealthResultItem = styled.li`
- font-size: 1rem;
+  font-size: 1rem;
   line-height: 2.5;
-  
 `;
 
 // Stamtavle-bildet (Pedigree)
