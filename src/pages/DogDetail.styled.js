@@ -33,6 +33,7 @@ export const DogInfo = styled.p`
   font-size: 1rem;
   line-height: 1.5;
   display: flex;
+  
 `;
 
 export const HealthResults = styled.div`

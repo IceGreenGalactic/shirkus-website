@@ -171,26 +171,30 @@ const DogDetail = () => {
 
         <div className=" col-10 col-md-6 mx-auto justify-content-center">
           <div className="row">
-            <div className="col-12 col-sm-7 col-lg-5 mx-auto">
+            <div className="col-12 col-sm-7  col-lg-6 mx-auto">
               <InfoWrapper className="m-auto mt-4">
                 {dog.registrationNumber && (
                   <DogInfo>
-                    <strong>Reg Nr:</strong> {dog.registrationNumber}
+                    <strong>Reg Nr</strong>
+                    {" : "} {dog.registrationNumber}
                   </DogInfo>
                 )}
                 {dog.breed && (
                   <DogInfo>
-                    <strong>Rase:</strong> {dog.breed}
+                    <strong>Rase</strong> {" : "}
+                    {dog.breed}
                   </DogInfo>
                 )}
                 {dog.color && (
                   <DogInfo>
-                    <strong>Farge:</strong> {dog.color}
+                    <strong>Farge</strong>
+                    {" : "} {dog.color}
                   </DogInfo>
                 )}
                 {dog.gender && (
                   <DogInfo>
-                    <strong>Kjønn:</strong>{" "}
+                    <strong>Kjønn</strong>
+                    {" : "}
                     {dog.gender === "male"
                       ? "Hann"
                       : dog.gender === "female"
@@ -204,7 +208,8 @@ const DogDetail = () => {
                     <>
                       {dog.dateOfBirth && (
                         <DogInfo className="d-flex flex-column">
-                          <strong>Fødselsdato:</strong>{" "}
+                          <strong>Fødselsdato:</strong>
+                          
                           {new Date(dog.dateOfBirth).toLocaleDateString(
                             "no-NO",
                             {
@@ -228,7 +233,8 @@ const DogDetail = () => {
                   ) : (
                     dog.dateOfBirth && (
                       <DogInfo>
-                        <strong>Fødselsdato:</strong>{" "}
+                        <strong>Fødselsdato</strong>
+                        {" : "}
                         {new Date(dog.dateOfBirth).toLocaleDateString("no-NO", {
                           day: "2-digit",
                           month: "2-digit",

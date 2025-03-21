@@ -6,7 +6,10 @@ const Footer = () => {
   return (
     <FooterContainer>
       <p>© Kennel Shirkus - ALL RIGHTS RESERVED</p>
-      <p className="made-by">Nettside laget av Kristine Tyrholm</p>
+      <p className="made-by">
+        Nettside laget av Kristine Tyrholm <br />
+        kennel.editor@gmail.com
+      </p>
     </FooterContainer>
   );
 };

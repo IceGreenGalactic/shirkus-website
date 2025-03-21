@@ -39,8 +39,10 @@ export const NavigationButton = styled.button`
   font-size: 30px;
   cursor: pointer;
   transform: translateY(-50%);
+  svg {
+    filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 1));
+  }
 `;
-
 
 export const Counter = styled.div`
   position: absolute;
