@@ -21,6 +21,9 @@ export const LitterCard = styled.div`
   text-align: center;
   box-shadow: ${(props) => props.theme.shadows.boxShadow};
   transition: transform 0.2s;
+  min-height: 200px;
+  align-content: center;
+
   &:hover {
     transform: scale(1.05);
   }

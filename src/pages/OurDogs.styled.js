@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const DogsContainer = styled.div`
+  align-content: center;
+  display: flex;
+  flex-direction: column;
   h2 {
     font-size: 3rem;
     font-family: ${(props) => props.theme.fonts.accent};
@@ -17,6 +20,7 @@ export const DogsGrid = styled.section`
   display: grid;
   gap: 1rem;
   padding: 2rem;
+  
 `;
 
 export const DogCard = styled.div`
@@ -26,6 +30,10 @@ export const DogCard = styled.div`
   text-align: center;
   box-shadow: ${(props) => props.theme.shadows.boxShadow};
   transition: transform 0.2s;
+  min-height: 200px;
+  align-content: center;
+
+  
 
   &:hover {
     transform: scale(1.05);
