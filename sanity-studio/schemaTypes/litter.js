@@ -27,15 +27,25 @@ export default {
               return {
                 name: dog?.name || '',
                 nickname: dog?.nickname || '',
-                image: dog?.image || null, 
+                image: dog?.image || null,
                 healthResults: dog?.healthResults || [],
                 additionalInfo: dog?.additionalInfo || '',
-                overrideImageButton: typeof litter?.overrideImageButton === 'boolean' ? dog.overrideImageButton : false,
-                overrideImage: litter?.overrideImage || null, 
+                overrideImageButton:
+                  typeof litter?.overrideImageButton === 'boolean'
+                    ? dog.overrideImageButton
+                    : false,
+                overrideImage: litter?.overrideImage || null,
               }
             }
             return {}
           },
+        },
+        {
+          name: 'title',
+          title: 'Tittel',
+          type: 'string',
+          hidden: ({parent}) => parent?.isOwned === true,
+          description: 'Hundens offesielle titler',
         },
         {
           name: 'name',
@@ -48,6 +58,17 @@ export default {
           title: 'Kallenavn',
           type: 'string',
           hidden: ({parent}) => parent?.isOwned === true,
+        },
+        {
+          name: 'registrationNumber',
+          title: 'Registration Number',
+          type: 'string',
+        },
+        {
+          name: 'overrideInfo',
+          title: 'Skriv inn egen info?',
+          type: 'boolean',
+          hidden: ({parent}) => parent?.isOwned === false,
         },
         {
           name: 'overrideImageButton',
@@ -96,6 +117,12 @@ export default {
             },
           ],
         },
+        {
+          name: 'additionalInfo',
+          title: 'Tilleggsinformasjon',
+          type: 'text',
+          description: 'Ekstra informasjon som ikke faller under helseresultatene.',
+        },
       ],
     },
     {
@@ -122,11 +149,14 @@ export default {
               return {
                 name: dog?.name || '',
                 nickname: dog?.nickname || '',
-                image: dog?.image || null, 
+                image: dog?.image || null,
                 healthResults: dog?.healthResults || [],
                 additionalInfo: dog?.additionalInfo || '',
-                overrideImageButton: typeof litter?.overrideImageButton === 'boolean' ? dog.overrideImageButton : false,
-                overrideImage: litter?.overrideImage || null, 
+                overrideImageButton:
+                  typeof litter?.overrideImageButton === 'boolean'
+                    ? dog.overrideImageButton
+                    : false,
+                overrideImage: litter?.overrideImage || null,
               }
             }
             return {}
@@ -167,7 +197,7 @@ export default {
           name: 'overrideImageButton',
           title: 'Bruk et annet bilde?',
           type: 'boolean',
-          description: 'Mor burde se til høyere.',
+          description: 'Far burde se til høyere.',
           hidden: ({parent}) => parent?.isOwned === false,
         },
         {
@@ -176,7 +206,7 @@ export default {
           type: 'image',
           options: {hotspot: true},
           description: 'Velg et bilde for å overstyre referansebildet.',
-          hidden: ({parent}) => !parent?.overrideImageButton,
+          hidden: ({parent}) => parent?.isOwned === false || parent?.overrideImageButton !== true,
         },
         {
           name: 'image',
