@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./styles/GlobalStyles";
-import { theme } from "./styles/theme";
+import { getTheme } from "./styles/theme";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import OurDogs from "./pages/OurDogs";
@@ -14,8 +14,14 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Gallery from "./pages/Gallery";
 import GalleryDetail from "./pages/GalleryDetail";
+import useSiteSettings from "./hooks/useSiteSettings";
 
 const App = () => {
+  const settings = useSiteSettings();
+
+  // Hvis settings ikke er lastet ennå, bruk en tomt objekt {}
+  const theme = getTheme(settings || {});
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
@@ -37,5 +43,6 @@ const App = () => {
     </ThemeProvider>
   );
 };
+
 
 export default App;
