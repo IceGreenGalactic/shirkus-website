@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import sanityClient from "../sanityClient";
-import { urlFor, videoUrlFor } from "../utils/sanityImage";
+import { urlFor } from "../utils/sanityImage";
 import GalleryImageModal from "../utils/GalleryImageModal";
 import {
   GalleryContainer,
   GalleryImage,
-  VideoContainer,
+  VideoThumbnail,
 } from "../styles/galleryImages.styled";
+import { FaPlayCircle } from "react-icons/fa";
 
 const PuppyGalleryImages = ({ litterId }) => {
   const [galleryData, setGalleryData] = useState([]);
@@ -19,13 +20,13 @@ const PuppyGalleryImages = ({ litterId }) => {
     sanityClient
       .fetch(
         `*[_type == "litter" && _id == $litterId]{
-        galleries[] {
-          title,
-          images[] { asset-> { _id, _ref }, crop, hotspot },
-video { asset-> { _id, url } },
-          description
-        }
-      }`,
+          galleries[] {
+            title,
+            images[] { asset-> { _id, _ref }, crop, hotspot },
+            video { asset-> { _id, url } },
+            description
+          }
+        }`,
         { litterId }
       )
       .then((data) => {
@@ -33,7 +34,7 @@ video { asset-> { _id, url } },
         if (litter.galleries) {
           const galleryData = litter.galleries.map((gallery, index) => ({
             images: gallery.images || [],
-            video: gallery.video?.asset?.url || null, // Fix for single video object
+            video: gallery.video?.asset?.url || null,
             text: gallery.description,
             title: gallery.title || `Galleri ${index + 1}`,
           }));
@@ -43,7 +44,6 @@ video { asset-> { _id, url } },
         }
         setLoading(false);
       })
-
       .catch((error) => {
         console.error("Error fetching gallery data:", error);
         setLoading(false);
@@ -52,52 +52,40 @@ video { asset-> { _id, url } },
 
   if (loading) return <div>Loading galleries...</div>;
 
-  const openGalleryModal = (galleryIndex, imageIndex) => {
+  const openGalleryModal = (galleryIndex, mediaIndex) => {
     setCurrentGalleryIndex(galleryIndex);
-    setCurrentImageIndex(imageIndex);
+    setCurrentImageIndex(mediaIndex);
     setIsGalleryModalOpen(true);
   };
 
   const prevImage = () => {
+    const mediaItems = getMediaItems(galleryData[currentGalleryIndex]);
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0
-        ? galleryData[currentGalleryIndex].images.length - 1
-        : prevIndex - 1
+      prevIndex === 0 ? mediaItems.length - 1 : prevIndex - 1
     );
   };
 
   const nextImage = () => {
+    const mediaItems = getMediaItems(galleryData[currentGalleryIndex]);
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === galleryData[currentGalleryIndex].images.length - 1
-        ? 0
-        : prevIndex + 1
+      prevIndex === mediaItems.length - 1 ? 0 : prevIndex + 1
     );
   };
 
-  // The renderMedia function is now utilized
-  const renderMedia = (asset) => {
-    if (!asset) return <div>Media unavailable</div>;
+  const getMediaItems = (gallery) => {
+    const mediaItems = gallery.images.map((image) => ({
+      type: "image",
+      asset: image.asset,
+    }));
 
-    // Handle image
-    if (asset._type === "image") {
-      const imageUrl = urlFor(asset);
-      return <img src={imageUrl} alt="Gallery Image" />;
+    if (gallery.video) {
+      mediaItems.push({
+        type: "video",
+        url: gallery.video,
+      });
     }
 
-    // Handle video
-    if (asset._type === "file" && asset._ref) {
-      const videoUrl = videoUrlFor(asset);
-      return (
-        <div>
-          <video controls>
-            <source src={videoUrl} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-      );
-    }
-
-    return null; // Return null if not an image or video
+    return mediaItems;
   };
 
   return (
@@ -107,25 +95,51 @@ video { asset-> { _id, url } },
           <GalleryContainer key={galleryIndex} className="mb-4">
             <h4>{gallery.title}</h4>
 
-            {/* Display video above images if available */}
-            {gallery.video && (
-              <VideoContainer className="col-5">
-                <video controls>
-                  <source src={gallery.video} type="video/mp4" loading="lazy" />
-                  Your browser does not support the video tag.
-                </video>
-              </VideoContainer>
-            )}
-
             <div className="row">
-              {gallery.images.map((image, imageIndex) => (
-                <div className="col-6 col-md-4 col-lg-3 mb-3" key={imageIndex}>
-                  <GalleryImage
-                    src={urlFor(image.asset)}
-                    alt={`Gallery Image ${imageIndex + 1}`}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => openGalleryModal(galleryIndex, imageIndex)}
-                  />
+              {getMediaItems(gallery).map((mediaItem, mediaIndex) => (
+                <div className="col-6 col-md-4 col-lg-3 mb-3" key={mediaIndex}>
+                  {mediaItem.type === "image" ? (
+                    <GalleryImage
+                      src={urlFor(mediaItem.asset)}
+                      alt={`Gallery Image ${mediaIndex + 1}`}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => openGalleryModal(galleryIndex, mediaIndex)}
+                    />
+                  ) : (
+                    <div className="row">
+                      <VideoThumbnail
+                        style={{
+                          cursor: "pointer",
+                          position: "relative",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                        onClick={() =>
+                          openGalleryModal(galleryIndex, mediaIndex)
+                        }
+                      >
+                        <video
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                          src={mediaItem.url}
+                          muted
+                        />
+                        <FaPlayCircle
+                          size={50}
+                          color="white"
+                          style={{
+                            position: "absolute",
+                            zIndex: 2,
+                            pointerEvents: "none",
+                          }}
+                        />
+                      </VideoThumbnail>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -139,10 +153,8 @@ video { asset-> { _id, url } },
 
       {isGalleryModalOpen && galleryData[currentGalleryIndex] && (
         <GalleryImageModal
-          images={galleryData[currentGalleryIndex].images.map((image) =>
-            urlFor(image.asset)
-          )}
-          currentImageIndex={currentImageIndex}
+          mediaItems={getMediaItems(galleryData[currentGalleryIndex])}
+          currentMediaIndex={currentImageIndex}
           onClose={() => setIsGalleryModalOpen(false)}
           onPrev={prevImage}
           onNext={nextImage}

@@ -7,33 +7,53 @@ import {
   ModalContent,
   CloseButton,
 } from "./Modals.styled";
+import { urlFor, videoUrlFor } from "./sanityImage";
 
 const GalleryImageModal = ({
-  images,
-  currentImageIndex,
+  mediaItems,
+  currentMediaIndex,
   onClose,
   onPrev,
   onNext,
 }) => {
+  const currentMedia = mediaItems[currentMediaIndex];
+  const videoUrl = videoUrlFor(currentMedia.url); // Fetch URL properly
+
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <CloseButton onClick={onClose}>×</CloseButton>
 
-        {/* Image Display */}
-        <img
-          src={images[currentImageIndex]}
-          alt={`Gallery image ${currentImageIndex + 1}`}
-          style={{
-            maxWidth: "90vw",
-            maxHeight: "90vh",
-            minWidth: "60vw",
-            minHeight: "60vh",
-            objectFit: "contain",
-          }}
-        />
+        {currentMedia.type === "image" ? (
+          <img
+            src={urlFor(currentMedia.asset)}
+            alt={`Gallery image ${currentMediaIndex + 1}`}
+            style={{
+              maxWidth: "90vw",
+              maxHeight: "90vh",
+              minWidth: "60vw",
+              minHeight: "60vh",
+              objectFit: "contain",
+            }}
+          />
+        ) : (
+          <div>
+            <video
+              controls
+              playsInline
+              style={{
+                maxWidth: "90vw",
+                maxHeight: "90vh",
+                minWidth: "60vw",
+                minHeight: "60vh",
+              }}
+            >
+              <source src={videoUrl} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        )}
 
-        {/* Navigation Arrows */}
         <NavigationButton direction="left" onClick={onPrev}>
           <FaAngleLeft />
         </NavigationButton>
@@ -41,9 +61,8 @@ const GalleryImageModal = ({
           <FaAngleRight />
         </NavigationButton>
 
-        {/* Image Counter */}
         <Counter>
-          {currentImageIndex + 1} / {images.length}
+          {currentMediaIndex + 1} / {mediaItems.length}
         </Counter>
       </ModalContent>
     </ModalOverlay>

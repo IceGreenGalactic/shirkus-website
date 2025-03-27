@@ -14,7 +14,7 @@ export function urlFor(image, overrideImage) {
 
 
 export function videoUrlFor(video) {
-  return video?.asset?.url || null;
+  if (!video) return null;
+  return typeof video === "string" ? video : video?.asset?.url || null;
 }
-
 

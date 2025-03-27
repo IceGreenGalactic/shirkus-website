@@ -27,6 +27,8 @@ export const CloseButton = styled.button`
   color: ${(props) => props.theme.colors.white};
   font-size: 24px;
   cursor: pointer;
+  text-shadow: ${(props) => props.theme.shadows.textShadow};
+  font-size: 3rem;
 `;
 
 export const NavigationButton = styled.button`
