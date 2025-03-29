@@ -19,7 +19,7 @@ export const HeaderContainer = styled.header`
       transform: scale(1.3);
     }
   }
-  @media (min-width: 992px) {
+  @media (min-width: 993px) {
     height: 40vh;
   }
 `;
@@ -32,7 +32,7 @@ export const HeroText = styled.h1`
   font-family: ${(props) => props.theme.fonts.accent};
   color: ${(props) => props.theme.colors.white};
   text-shadow: ${(props) => props.theme.shadows.textShadow};
-  @media (max-width: 992px) {
+  @media (max-width: 993px) {
     position: relative;
     bottom: 0%;
     font-size: 3rem;
@@ -84,7 +84,7 @@ export const NavContainer = styled.nav`
       position: relative;
       &.nytt-kull {
         color: ${(props) => props.theme.colors.primary};
-        @media (min-width: 992px) {
+        @media (min-width: 993px) {
           color: ${(props) => props.theme.colors.accent};
         }
       }
@@ -102,7 +102,7 @@ export const NavContainer = styled.nav`
         border-bottom: 1px solid ${(props) => props.theme.colors.primary};
         display: inline-block;
         width: max-content;
-        @media (min-width: 992px) {
+        @media (min-width: 993px) {
           border-bottom: 1px solid ${(props) => props.theme.colors.accent};
         }
         span::after {
@@ -115,7 +115,7 @@ export const NavContainer = styled.nav`
           background-color: ${(props) => props.theme.colors.white};
         }
 
-        @media (min-width: 992px) {
+        @media (min-width: 993px) {
           span::after {
             background-color: ${(props) => props.theme.colors.accent};
           }
@@ -123,13 +123,13 @@ export const NavContainer = styled.nav`
       }
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 993px) {
       background: ${(props) => props.theme.colors.background};
       top: 0px;
     }
   }
 
-  @media (min-width: 992px) {
+  @media (min-width: 993px) {
     position: static;
     padding: 0;
     width: 100%;
@@ -148,7 +148,7 @@ export const NavContainer = styled.nav`
     border: none;
     margin-left: 20px;
 
-    @media (min-width: 992px) {
+    @media (min-width: 993px) {
       background: ${(props) => props.theme.colors.background};
       top: 70%;
       justify-content: center;

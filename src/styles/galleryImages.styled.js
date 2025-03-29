@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 export const GalleryContainer = styled.div`
   margin-top: 2rem;
   text-align: center;
@@ -6,31 +7,29 @@ export const GalleryContainer = styled.div`
   h4 {
     margin-bottom: 1rem;
   }
+`;
 
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
+export const GalleryGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  justify-items: center;
 `;
 
 export const GalleryImage = styled.img`
+  width: 100%;
   max-width: 150px;
   height: auto;
-  with: 100%;
-  max-height: 150px;
+  max-height: 100px;
   border-radius: 10px;
   cursor: pointer;
+  object-position: 50% 30%;
   transition: transform 0.2s ease;
-  object-fit: contain;
+  overflow: hidden;
+  object-fit: cover;
 
   &:hover {
     transform: scale(1.05);
-  }
-  @media (max-width: 500px) {
-    max-width: 45%;
-    gap: 0px;
   }
 `;
 
