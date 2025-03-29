@@ -266,7 +266,7 @@ father {
     <LitterContainer className="col-10 m-auto">
       <h2 className="text-center">Kull Detaljer</h2>
       <ParentInfoContainer className="m-auto d-flex flex-row col-12 col-md-11 col-lg-9 col-xl-8 col-xxl-7 ">
-        <ParentInfo className="col-6 m-auto">
+        <ParentInfo className="col-6">
           <div className="mt-3">
             <h3>
               <strong> Mor</strong>
