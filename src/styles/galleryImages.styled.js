@@ -3,7 +3,10 @@ import styled from "styled-components";
 export const GalleryContainer = styled.div`
   margin-top: 2rem;
   text-align: center;
+  border-bottom: 1px solid ${(props) => props.theme.colors.accent};
 
+  border-top: 1px solid ${(props) => props.theme.colors.accent};
+  padding: 20px 0px;
   h4 {
     margin-bottom: 1rem;
   }
