@@ -63,13 +63,9 @@ export default {
           name: 'registrationNumber',
           title: 'Registration Number',
           type: 'string',
+          hidden: ({parent}) => parent?.isOwned === true,
         },
-        {
-          name: 'overrideInfo',
-          title: 'Skriv inn egen info?',
-          type: 'boolean',
-          hidden: ({parent}) => parent?.isOwned === false,
-        },
+
         {
           name: 'overrideImageButton',
           title: 'Bruk et annet bilde?',
@@ -185,12 +181,7 @@ export default {
           name: 'registrationNumber',
           title: 'Registration Number',
           type: 'string',
-        },
-        {
-          name: 'overrideInfo',
-          title: 'Skriv inn egen info?',
-          type: 'boolean',
-          hidden: ({parent}) => parent?.isOwned === false,
+          hidden: ({parent}) => parent?.isOwned === true,
         },
 
         {
@@ -296,6 +287,10 @@ export default {
                   {title: 'Hvit', value: 'white'},
                   {title: 'Grå', value: 'gray'},
                   {title: 'Sort', value: 'black'},
+                  {title: 'Brun', value: 'brown'},
+                  {title: 'Aprikos', value: 'apricot'},
+                  {title: 'Rød', value: 'red'},
+                  {title: 'Brun', value: 'brown'},
                 ],
                 validation: (Rule) => Rule.required().error('Farge må velges for hver valp'),
               },
@@ -348,20 +343,36 @@ export default {
               title: 'Bilder',
               type: 'array',
               of: [{type: 'image', options: {hotspot: true}}],
-              validation: (Rule) => Rule.max(8).warning('Maks 8 bilder per galleri'),
+              validation: (Rule) => Rule.max(8).error('Maks 8 bilder per galleri'),
               description: 'Legg til bilder fra valpens utvikling. Maks 8 bilder pr galleri',
             },
             {
-              name: 'description',
-              title: 'Tekst under Galleri',
-              type: 'text',
+              name: 'video',
+              title: 'Video',
+              type: 'file',
+              description: 'Legg til en video for dette galleriet. Maks 3 minutters video.',
+              options: {
+                accept: 'video/*',
+              },
+              validation: (Rule) =>
+                Rule.required().custom((file, context) => {
+                  const galleries = context.parent?.galleries || []
+
+                  // Sjekk at det kun finnes én video i galleriet
+                  const videoCount = galleries.filter((gallery) => gallery.video).length
+
+                  if (videoCount > 1) {
+                    return 'Maks én video per galleri'
+                  }
+
+                  return true
+                }),
             },
           ],
         },
       ],
-      validation: (Rule) => Rule.max(10).warning('Maks 10 gallerier'),
+      validation: (Rule) => Rule.max(10).error('Maks 10 gallerier'),
     },
-
     {
       name: 'freeText2',
       title: 'Fritekst 2',

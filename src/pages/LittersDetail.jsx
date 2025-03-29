@@ -11,7 +11,7 @@ import {
   PuppiesContainer,
   MainImgContainer,
 } from "./LittersDetail.styled";
-import PuppyGalleryImages from "../components/PuppyGallerySection";
+import GalleryModal from "../components/GalleryModal";
 
 const LittersDetail = () => {
   const { id } = useParams();
@@ -146,7 +146,13 @@ father {
       case "gray":
         return count > 1 ? "grå" : "grå";
       case "black":
-        return count > 1 ? "sorte" : "svart";
+        return count > 1 ? "sorte" : "sort";
+      case "brown":
+        return count > 1 ? "brune" : "brun";
+      case "apricot":
+        return count > 1 ? "aprikos" : "aprikos";
+      case "red":
+        return count > 1 ? "røde" : "rød";
       default:
         return color;
     }
@@ -194,6 +200,7 @@ father {
       <>
         {displayImage && (
           <ParentImage
+            className="no-theme"
             src={urlFor(displayImage)}
             alt={displayName}
             onClick={() => openImageModal(urlFor(displayImage))}
@@ -231,8 +238,8 @@ father {
   return (
     <LitterContainer className="col-10 m-auto">
       <h2 className="text-center">Kull Detaljer</h2>
-      <ParentInfoContainer className="m-auto d-flex flex-row col-12 col-md-11 col-lg-9 col-xl-8 col-xxl-7">
-        <ParentInfo className="col-6">
+      <ParentInfoContainer className="m-auto d-flex flex-row col-12 col-md-11 col-lg-9 col-xl-8 col-xxl-7 text-center">
+        <ParentInfo className="col-6 m-auto">
           <div className="mt-3">
             <h3>
               <strong> Mor</strong>
@@ -324,18 +331,16 @@ father {
           </div>
         )}
 
-        {litter.galleries?.length > 0 && (
-          <div className="container mt-5">
-            <PuppyGalleryImages litterId={id} />
-          </div>
-        )}
+        {litter.galleries?.length > 0 && <GalleryModal litterId={id} />}
+      </PuppiesContainer>
 
+      <div>
         {litter.freeText2 && (
           <div className="container text-center my-5">
             <p>{litter.freeText2}</p>
           </div>
         )}
-      </PuppiesContainer>
+      </div>
 
       {selectedImage && (
         <Modal imageUrl={selectedImage} onClose={closeImageModal} />
