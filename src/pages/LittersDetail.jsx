@@ -10,6 +10,7 @@ import {
   ParentImage,
   PuppiesContainer,
   MainImgContainer,
+  DogAbout,
 } from "./LittersDetail.styled";
 import GalleryModal from "../components/GalleryModal";
 
@@ -40,6 +41,7 @@ const LittersDetail = () => {
    "overrideImage": overrideImage { asset-> { _id, _ref }, crop, hotspot },
   info,
   healthResults,
+    extraInfoList,
   additionalInfo
 },
 father {
@@ -53,6 +55,7 @@ father {
    "overrideImage": overrideImage { asset-> { _id, _ref }, crop, hotspot },
   info,
   healthResults,
+  extraInfoList,
   additionalInfo
 },
 
@@ -86,6 +89,7 @@ father {
       info,
       healthResults,
       additionalInfo,
+        extraInfoList,
       overrideImage, 
     }`,
             { motherDogRef, fatherDogRef }
@@ -98,6 +102,10 @@ father {
             litterData.mother = {
               ...litterData.mother,
               ...motherDog,
+              extraInfoList:
+                litterData.mother.extraInfoList ||
+                motherDog.extraInfoList ||
+                [],
               overrideImage:
                 litterData.mother.overrideImage || motherDog.overrideImage,
             };
@@ -105,6 +113,10 @@ father {
             litterData.father = {
               ...litterData.father,
               ...fatherDog,
+              extraInfoList:
+                litterData.father.extraInfoList ||
+                fatherDog.extraInfoList ||
+                [],
               overrideImage:
                 litterData.father.overrideImage || fatherDog.overrideImage,
             };
@@ -190,7 +202,9 @@ father {
       healthResults,
       additionalInfo,
       overrideImage,
+      extraInfoList,
     } = parent;
+
     const displayName = isOwned && dogReference ? dogReference.name : name;
     const displayNickname =
       isOwned && dogReference ? dogReference.nickname : nickname;
@@ -206,31 +220,44 @@ father {
             onClick={() => openImageModal(urlFor(displayImage))}
           />
         )}
-        <div className="mt-2">
+        <DogAbout className="mt-2 d-flex flex-direction-column align-items-center">
           {displayNickname && <h5>{displayNickname}</h5>}
           {parent.registrationNumber && (
             <p>
               <strong>Reg.nr:</strong> {parent.registrationNumber}
             </p>
           )}
-          {healthResults && healthResults.length > 0 && (
+
+          {(healthResults && healthResults.length > 0) ||
+          (extraInfoList && extraInfoList.length > 0) ? (
             <div>
               <ul className="list-unstyled mt-2">
-                {healthResults.map((result, index) => (
-                  <li key={index}>
-                    <strong>{result.title}: </strong>
-                    <span>{result.description}</span>
-                  </li>
-                ))}
+                {healthResults &&
+                  healthResults.length > 0 &&
+                  healthResults.map((result, index) => (
+                    <li key={`health-${index}`}>
+                      <strong>{result.title}: </strong>
+                      <span>{result.description}</span>
+                    </li>
+                  ))}
+                {extraInfoList &&
+                  extraInfoList.length > 0 &&
+                  extraInfoList.map((item, index) => (
+                    <li key={`extra-${index}`}>
+                      <strong>{item.title}: </strong>
+                      <span>{item.description}</span>
+                    </li>
+                  ))}
               </ul>
             </div>
-          )}
+          ) : null}
+
           {additionalInfo && (
             <div className="mt-2">
               <span>{additionalInfo}</span>
             </div>
           )}
-        </div>
+        </DogAbout>
       </>
     );
   };
@@ -238,7 +265,7 @@ father {
   return (
     <LitterContainer className="col-10 m-auto">
       <h2 className="text-center">Kull Detaljer</h2>
-      <ParentInfoContainer className="m-auto d-flex flex-row col-12 col-md-11 col-lg-9 col-xl-8 col-xxl-7 text-center">
+      <ParentInfoContainer className="m-auto d-flex flex-row col-12 col-md-11 col-lg-9 col-xl-8 col-xxl-7 ">
         <ParentInfo className="col-6 m-auto">
           <div className="mt-3">
             <h3>

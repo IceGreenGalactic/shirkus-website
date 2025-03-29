@@ -94,6 +94,7 @@ export default {
           name: 'healthResults',
           title: 'Helse Resultater',
           type: 'array',
+          hidden: ({parent}) => parent?.isOwned === true,
           description: 'Resultater for helserelaterte tester, som AD, HD etc.',
           of: [
             {
@@ -109,6 +110,22 @@ export default {
                   title: 'Resultater',
                   type: 'text',
                 },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'extraInfoList',
+          title: 'Tilleggsopplysninger (om vår hund)',
+          type: 'array',
+          hidden: ({parent}) => parent?.isOwned === false,
+          description: 'Ekstra info som høyde, eier, utstilling etc.',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                {name: 'title', title: 'Tittel', type: 'string'},
+                {name: 'description', title: 'Beskrivelse', type: 'text'},
               ],
             },
           ],
@@ -212,7 +229,7 @@ export default {
           name: 'healthResults',
           title: 'Helse Resultater',
           type: 'array',
-          description: 'Resultater for helserelaterte tester, som AD, HD etc.',
+          description: 'informasjon og resultater for helserelaterte tester, som AD, HD etc.',
           of: [
             {
               type: 'object',
