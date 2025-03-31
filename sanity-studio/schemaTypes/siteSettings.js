@@ -4,63 +4,86 @@ export default {
   type: 'document',
   fields: [
     {
-      name: 'info',
-      title: '🖌 Veiledning for farger',
+      name: 'themeName',
+      title: 'Navn på tema',
       type: 'string',
-      readOnly: true,
-      initialValue:
-        'https://htmlcolorcodes.com/ - skriv # + hex kode for å endre farge, RGBA = R + G + B + 0,8',
+      validation: (Rule) => Rule.required().error('Tema må ha et navn'),
     },
     {
-      name: 'primaryColor',
-      title: 'Primærfarge (tekst)',
-      type: 'string',
-      description: 'Fargen som brukes for hovedteksten. Format: HEX (f.eks. #725A7A).',
-      initialValue: '#725A7A',
+      name: 'isActive',
+      title: 'Aktivt tema',
+      type: 'boolean',
+      initialValue: false,
+      description:
+        'Når du aktiverer dette temaet, deaktiveres eventuelle andre. Kun ett tema kan være aktivt om gangen.',
     },
     {
-      name: 'secondaryColor',
-      title: 'Sekundærfarge (bakgrunn)',
-      type: 'string',
-      description: 'Bakgrunnsfargen på nettsiden. Format: HEX (f.eks. #9F7D94).',
-      initialValue: '#9F7D94',
+      name: 'headerImage',
+      title: 'Headerbilde for tema',
+      type: 'image',
+      description: 'Vises øverst på siden. Hvis tomt, brukes standard bilde.',
+      options: {hotspot: true},
     },
     {
       name: 'accentColor',
-      title: 'Aksentfarge (knapper og lenker)',
-      type: 'string',
+      title: 'Aksentfarge (f.eks. menyer og h1)',
+      type: 'color',
       description:
-        'Fargen som brukes for overskrifter og mobil meny. Format: HEX (f.eks. #cc9fbd).',
-      initialValue: '#cc9fbd',
+        'Brukes for hamburger-meny, overskrifter (h1) og hover-effekter. Må ha god kontrast mot tekst og bakgrunn.',
+      options: {disableAlpha: true},
     },
     {
-      name: 'accentTransparent',
-      title: 'Gjennomsiktig aksentfarge',
-      type: 'string',
+      name: 'primaryColor',
+      title: 'Primærfarge (h2 og undertekster)',
+      type: 'color',
       description:
-        'Bruk en RGBA-fargekode for en gjennomsiktig variant av aksentfargen. Format: rgba(R, G, B, A) (f.eks. rgba(176, 136, 163, 0.8)).',
-      initialValue: 'rgba(176, 136, 163, 0.8)',
+        'Brukes på h2 og annen viktig tekst. Skal være støttende, men synlig.',
+      options: {disableAlpha: true},
     },
     {
       name: 'textColor',
       title: 'Tekstfarge',
-      type: 'string',
-      description: 'Fargen på tekst. Format: HEX (f.eks. #343434).',
-      initialValue: '#343434',
+      type: 'color',
+      description:
+        'Fargen for vanlig brødtekst. Bør være mørk for lesbarhet på lys bakgrunn.',
+      options: {disableAlpha: true},
     },
     {
       name: 'titleColor',
-      title: 'Overskriftfarge',
-      type: 'string',
-      description: 'Fargen på under overskrifter. Format: HEX (f.eks. #DA627D).',
-      initialValue: '#DA627D',
+      title: 'Farge for ekstra overskrifter',
+      type: 'color',
+      description: 'Kan brukes som sekundær overskriftstil.',
+      options: {disableAlpha: true},
     },
     {
       name: 'backgroundColor',
       title: 'Bakgrunnsfarge',
-      type: 'string',
-      description: 'Fargen som brukes som bakgrunn. Format: HEX (f.eks. #F9F9F9).',
-      initialValue: '#F9F9F9',
+      type: 'color',
+      description:
+        'Hovedbakgrunn for nettsiden. Bør være lys hvis tekst er mørk.',
+      options: {disableAlpha: true},
+    },
+    {
+      name: 'secondaryColor',
+      title: 'Sekundær bakgrunn',
+      type: 'color',
+      description:
+        'Brukes i seksjoner med kontrast, som cards, bokser eller footer.',
+      options: {disableAlpha: true},
     },
   ],
+
+  preview: {
+    select: {
+      title: 'themeName',
+      media: 'headerImage',
+      active: 'isActive',
+    },
+    prepare({title, media, active}) {
+      return {
+        title: `${title}${active ? ' ✅' : ''}`,
+        media,
+      }
+    },
+  },
 }

@@ -1,8 +1,10 @@
 // src/App.jsx
 import React from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./styles/GlobalStyles";
+import sanityClient from "./sanityClient";
 import { getTheme } from "./styles/theme";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
@@ -18,9 +20,18 @@ import useSiteSettings from "./hooks/useSiteSettings";
 
 const App = () => {
   const settings = useSiteSettings();
-
-  // Hvis settings ikke er lastet ennå, bruk en tomt objekt {}
-  const theme = getTheme(settings || {});
+  const [theme, setTheme] = useState(getTheme());
+  useEffect(() => {
+    sanityClient
+      .fetch(`*[_type == "siteSettings" && isActive == true][0]`)
+      .then((data) => {
+        setTheme(getTheme(data));
+      })
+      .catch((err) => {
+        console.error("Feil ved henting av tema:", err);
+        setTheme(getTheme());
+      });
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -43,6 +54,5 @@ const App = () => {
     </ThemeProvider>
   );
 };
-
 
 export default App;
