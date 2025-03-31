@@ -117,19 +117,26 @@ export default {
       title: 'Galleri bilder',
       type: 'array',
       of: [{type: 'image', options: {hotspot: true}}],
-      validation: (Rule) => Rule.max(5).warning('Maks 5 bilder i galleriet'),
-    },
-    {
-      name: 'description',
-      title: 'Beskrivelse av hund (ekstra)',
-      type: 'text',
+      validation: (Rule) =>
+        Rule.custom((value) => {
+          if (!value) return true
+          if (value.length > 8) return '🚫 For mange bilder – maks 8'
+          if (value.length === 7) {
+            return {
+              message: '⚠️ Bare plass til ett bilde til',
+              level: 'warning',
+            }
+          }
+          return true
+        }),
     },
     {
       name: 'breedingNotes',
       title: 'kull informasjon',
       type: 'text',
       options: {},
-      description: 'informasjon om tidligere valpekull - Hentes automatisk om hunden er registrert på valpekull',
+      description:
+        'informasjon om tidligere valpekull - Hentes automatisk om hunden er registrert på valpekull',
     },
 
     {
