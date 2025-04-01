@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import sanityClient from "../sanityClient";
+import LoadingSpinner from "../utils/LoadingSpinner";
 import { DogCard, DogsContainer } from "./OurDogs.styled";
 import { urlFor } from "../utils/sanityImage";
 
 const OurDogs = () => {
   const [dogs, setDogs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     sanityClient
@@ -27,32 +29,33 @@ const OurDogs = () => {
       }`
       )
       .then((data) => {
-        const sortedDogs = data
-          .sort((a, b) => {
-            if (a.dateOfBirth && b.dateOfBirth) {
-              return new Date(b.dateOfBirth) - new Date(a.dateOfBirth);
-            }
-            return 0;
-          });
+        const sortedDogs = data.sort((a, b) => {
+          if (a.dateOfBirth && b.dateOfBirth) {
+            return new Date(b.dateOfBirth) - new Date(a.dateOfBirth);
+          }
+          return 0;
+        });
         setDogs(sortedDogs);
+        setLoading(false);
       })
       .catch(console.error);
   }, []);
-  
+
   const filterAndSortDogs = (type) =>
     dogs
-      .filter((dog) => dog.dogType === type) 
+      .filter((dog) => dog.dogType === type)
       .sort((a, b) => {
         if (a.dateOfBirth && b.dateOfBirth) {
           return new Date(b.dateOfBirth) - new Date(a.dateOfBirth);
         }
         return 0;
       });
-  
 
   const currentDogs = filterAndSortDogs("current");
   const breedingDogs = filterAndSortDogs("breeding");
   const deceasedDogs = filterAndSortDogs("deceased");
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <DogsContainer className="container col-lg-10">

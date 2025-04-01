@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import sanityClient from "../sanityClient";
 import { urlFor } from "../utils/sanityImage";
+import LoadingSpinner from "../utils/LoadingSpinner";
 import Modal from "../utils/ImageModal";
 import {
   LitterContainer,
@@ -124,7 +125,7 @@ father {
   }, [id]);
 
   if (loading) {
-    return <div>Laster...</div>;
+    return <LoadingSpinner />;
   }
 
   if (!litter) {

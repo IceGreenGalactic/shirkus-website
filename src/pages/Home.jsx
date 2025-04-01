@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import sanityClient from "../sanityClient";
+import LoadingSpinner from "../utils/LoadingSpinner";
 import { HomeContainer, Description, Title } from "./Home.styled";
 
 const Home = () => {
@@ -17,7 +18,7 @@ const Home = () => {
   }, []);
 
   if (!siteInfo) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (

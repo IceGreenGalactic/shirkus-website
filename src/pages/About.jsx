@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import sanityClient from "../sanityClient";
 import { urlFor } from "../utils/sanityImage";
 import { AboutContainer, Title, Paragraph, SectionTitle } from "./About.styled";
+import LoadingSpinner from "../utils/LoadingSpinner";
 
 const About = () => {
   const [siteInfo, setSiteInfo] = useState(null);
@@ -18,7 +19,7 @@ const About = () => {
   }, []);
 
   if (!siteInfo) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (

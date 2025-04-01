@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import sanityClient from "../sanityClient";
 import { urlFor } from "../utils/sanityImage";
+import LoadingSpinner from "../utils/LoadingSpinner";
 import {
   ContactContainer,
   Title,
@@ -24,7 +25,7 @@ const Contact = () => {
   }, []);
 
   if (!siteInfo) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import sanityClient from "../sanityClient";
 import { LitterCard, LitterContainer } from "./Litters.styled";
 import { urlFor } from "../utils/sanityImage";
+import LoadingSpinner from "../utils/LoadingSpinner";
 
 // Helper function to get name
 const getDogName = (dog) => {
@@ -142,7 +143,7 @@ const Litters = () => {
   }, []);
 
   if (loading) {
-    return <div>Laster...</div>;
+    return <LoadingSpinner />;
   }
 
   // Function to check if the litter is less than 10 weeks old
