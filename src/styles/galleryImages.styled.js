@@ -3,25 +3,24 @@ import styled from "styled-components";
 export const GalleryContainer = styled.div`
   margin-top: 2rem;
   text-align: center;
-  border-bottom: 1px solid ${(props) => props.theme.colors.accent};
 
-  border-top: 1px solid ${(props) => props.theme.colors.accent};
-  padding: 20px 0px;
   h4 {
     margin-bottom: 1rem;
   }
+    
 `;
 
 export const GalleryGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, max-content));
   gap: 1rem;
-  justify-content: center;
+  justify-content: center; 
   justify-items: center;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1000px; 
   margin: 0 auto;
 `;
+
 
 export const GalleryImage = styled.img`
   width: 100%;

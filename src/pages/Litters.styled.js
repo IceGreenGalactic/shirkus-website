@@ -15,15 +15,12 @@ export const LitterContainer = styled.div`
 `;
 
 export const LitterCard = styled.div`
-  background: ${(props) => props.theme.colors.white};
+  background: ${(props) => props.theme.colors.background};
   border-radius: 8px;
   overflow: hidden;
   text-align: center;
   box-shadow: ${(props) => props.theme.shadows.boxShadow};
   transition: transform 0.2s;
-  min-height: 200px;
-  align-content: center;
-
   &:hover {
     transform: scale(1.05);
   }

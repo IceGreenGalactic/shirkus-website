@@ -15,7 +15,7 @@ export default {
       title: 'Hovedbilde',
       type: 'image',
       description: 'Velg et hovedbilde for galleriet. Dette vises i oversikten.',
-      options: {hotspot: true},
+      options: { hotspot: true },
       validation: (Rule) => Rule.required(),
     },
     {
@@ -29,25 +29,30 @@ export default {
       name: 'images',
       title: 'Bilder',
       type: 'array',
-      description:
-        'Legg til bilder i galleriet. Du kan også legge til en beskrivelse for hvert bilde.',
+      description: 'Legg til bilder i galleriet. Du kan også legge til en beskrivelse for hvert bilde.',
       of: [
         {
           type: 'image',
-          options: {hotspot: true},
+          options: { hotspot: true },
           fields: [
             {
               name: 'caption',
               title: 'Bildetekst',
               type: 'string',
-              description:
-                'Legg til en kort bildetekst (valgfritt). Dette kan for eksempel være en beskrivelse av bildet.',
-              options: {isHighlighted: true},
+              description: 'Legg til en kort bildetekst (valgfritt).',
+              fieldset: 'metadata',
+            },
+          ],
+          fieldsets: [
+            {
+              name: 'metadata',
+              title: 'Bildeinfo',
+              options: { collapsible: true, collapsed: true },
             },
           ],
         },
       ],
-      validation: (Rule) => Rule.max(20), // Begrensning på 20 bilder per galleri
+      validation: (Rule) => Rule.max(20),
     },
     {
       name: 'createdAt',
@@ -62,11 +67,11 @@ export default {
       title: 'title',
       media: 'mainImage',
     },
-    prepare({title, media}) {
+    prepare({ title, media }) {
       return {
         title,
         media,
-      }
+      };
     },
   },
-}
+};

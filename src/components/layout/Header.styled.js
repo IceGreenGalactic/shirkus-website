@@ -7,6 +7,7 @@ export const HeaderContainer = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 
   .hero-image {
     width: 100%;
@@ -14,35 +15,41 @@ export const HeaderContainer = styled.header`
     object-fit: cover;
     object-position: center;
     object-position: 50% 50%;
+      transition: opacity 0.5s ease-in-out;
+    @media (max-width: 762px) {
+      transform: scale(1.3);
+    }
+  }
+  @media (min-width: 993px) {
+    height: 40vh;
   }
 `;
 
 export const HeroText = styled.h1`
-    position: absolute;
+  position: absolute;
   bottom: 0%;
-  font-size: 3.2rem;
-  font-family: ${(props) => props.theme.fonts.accent};
+  font-size: 3rem;
   background: ${(props) => props.theme.colors.accentTransparent};
+  font-family: ${(props) => props.theme.fonts.accent};
   color: ${(props) => props.theme.colors.white};
   text-shadow: ${(props) => props.theme.shadows.textShadow};
-  
-  @media (max-width: 992px) {
+  @media (max-width: 993px) {
     position: relative;
     bottom: 0%;
-    font-size: 3.5rem;
+    font-size: 3rem;
     background: transparent;
     display: flex;
     color: ${(props) => props.theme.colors.white};
     text-shadow: ${(props) => props.theme.shadows.textShadow};
   }
   @media (max-width: 600px) {
-    font-size: 3rem;
+    font-size: 2.6rem;
   }
   @media (max-width: 350px) {
     font-size: 2rem;
   }
   a {
-    color: white;
+    color: ${(props) => props.theme.colors.white};
   }
 `;
 
@@ -62,7 +69,7 @@ export const NavContainer = styled.nav`
   .navbar,
   .dropdown-menu {
     background: ${(props) => props.theme.colors.accent};
-    padding: 5px 0px;
+    padding: 10px 0px;
 
     .nav-link.no-active {
       border-bottom: none;
@@ -77,8 +84,8 @@ export const NavContainer = styled.nav`
       display: inline-block;
       position: relative;
       &.nytt-kull {
-        color: ${(props) => props.theme.colors.white};
-        @media (min-width: 992px) {
+        color: ${(props) => props.theme.colors.primary};
+        @media (min-width: 993px) {
           color: ${(props) => props.theme.colors.accent};
         }
       }
@@ -93,10 +100,10 @@ export const NavContainer = styled.nav`
 
       &.active {
         color: black;
-        border-bottom: 1px solid ${(props) => props.theme.colors.white};
+        border-bottom: 1px solid ${(props) => props.theme.colors.primary};
         display: inline-block;
         width: max-content;
-        @media (min-width: 992px) {
+        @media (min-width: 993px) {
           border-bottom: 1px solid ${(props) => props.theme.colors.accent};
         }
         span::after {
@@ -109,7 +116,7 @@ export const NavContainer = styled.nav`
           background-color: ${(props) => props.theme.colors.white};
         }
 
-        @media (min-width: 992px) {
+        @media (min-width: 993px) {
           span::after {
             background-color: ${(props) => props.theme.colors.accent};
           }
@@ -117,13 +124,13 @@ export const NavContainer = styled.nav`
       }
     }
 
-    @media (min-width: 992px) {
+    @media (min-width: 993px) {
       background: ${(props) => props.theme.colors.background};
       top: 0px;
     }
   }
 
-  @media (min-width: 992px) {
+  @media (min-width: 993px) {
     position: static;
     padding: 0;
     width: 100%;
@@ -141,10 +148,8 @@ export const NavContainer = styled.nav`
     background-color: transparent;
     border: none;
     margin-left: 20px;
-    &.active-dropdown {
-      background: red;
-    }
-    @media (min-width: 992px) {
+
+    @media (min-width: 993px) {
       background: ${(props) => props.theme.colors.background};
       top: 70%;
       justify-content: center;
@@ -161,6 +166,7 @@ export const NavContainer = styled.nav`
     .navbar .show .dropdown-menu {
       display: block;
       padding-top: 200px;
+      background-color: transparent;
     }
   }
 `;

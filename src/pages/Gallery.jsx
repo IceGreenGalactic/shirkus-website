@@ -7,10 +7,13 @@ import {
   Image,
   Title,
 } from "./Gallery.styled";
+import LoadingSpinner from "../utils/LoadingSpinner";
 import sanityClient from "../sanityClient";
+
 
 const Gallery = () => {
   const [galleries, setGalleries] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     sanityClient
@@ -21,9 +24,14 @@ const Gallery = () => {
           "mainImageUrl": mainImage.asset->url
         }`
       )
-      .then((data) => setGalleries(data))
+      .then((data) => {
+        setGalleries(data);
+        setLoading(false);
+      })
       .catch(console.error);
   }, []);
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <GalleryContainer className="container col-lg-10 mx-auto">
