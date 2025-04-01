@@ -356,6 +356,11 @@ export default {
                 'Gi galleriet en passende tittel, f.eks. "Uke 1, uke2 osv (maks 10 gallerier)".',
             },
             {
+              name: 'description',
+              title: 'Tekst under Galleri',
+              type: 'text',
+            },
+            {
               name: 'images',
               title: 'Bilder',
               type: 'array',
@@ -363,6 +368,7 @@ export default {
               validation: (Rule) => Rule.max(8).error('Maks 8 bilder per galleri'),
               description: 'Legg til bilder fra valpens utvikling. Maks 8 bilder pr galleri',
             },
+
             {
               name: 'video',
               title: 'Video',
@@ -372,10 +378,9 @@ export default {
                 accept: 'video/*',
               },
               validation: (Rule) =>
-                Rule.required().custom((file, context) => {
+                Rule.custom((file, context) => {
+                  if (!file) return true
                   const galleries = context.parent?.galleries || []
-
-                  // Sjekk at det kun finnes én video i galleriet
                   const videoCount = galleries.filter((gallery) => gallery.video).length
 
                   if (videoCount > 1) {
