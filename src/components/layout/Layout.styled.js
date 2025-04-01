@@ -8,5 +8,6 @@ export const LayoutContainer = styled.div`
 
   main {
     flex: 1;
+     min-height: 60vh;
   }
 `;
