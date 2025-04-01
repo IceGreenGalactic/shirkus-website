@@ -15,6 +15,7 @@ export const HeaderContainer = styled.header`
     object-fit: cover;
     object-position: center;
     object-position: 50% 50%;
+      transition: opacity 0.5s ease-in-out;
     @media (max-width: 762px) {
       transform: scale(1.3);
     }

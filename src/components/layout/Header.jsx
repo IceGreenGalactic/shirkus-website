@@ -5,6 +5,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import sanityClient from "../../sanityClient";
 import { urlFor } from "../../utils/sanityImage";
+import SkeletonLayout from "../skeletons/SkeletonLayout";
 
 const Header = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -19,6 +20,7 @@ const Header = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [pageTitle, setPageTitle] = useState("Vår Kennel");
   const [headerImageUrl, setHeaderImageUrl] = useState(null);
+  const [isHeaderReady, setIsHeaderReady] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -114,20 +116,33 @@ const Header = () => {
     sanityClient
       .fetch(
         `*[_type == "siteSettings" && isActive == true][0]{
-        headerImage {
-          asset-> {
-            _id,
-            url
+          headerImage {
+            asset-> {
+              _id,
+              url
+            }
           }
-        }
-      }`
+        }`
       )
       .then((theme) => {
         if (theme?.headerImage?.asset?.url) {
-          setHeaderImageUrl(theme.headerImage.asset.url);
+          const img = new Image();
+          img.src = theme.headerImage.asset.url;
+
+          img.onload = () => {
+            setHeaderImageUrl(theme.headerImage.asset.url);
+            setIsHeaderReady(true);
+          };
+        } else {
+          setHeaderImageUrl(backgroundImage);
+          setIsHeaderReady(true);
         }
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error(err);
+        setHeaderImageUrl(backgroundImage);
+        setIsHeaderReady(true);
+      });
   }, []);
 
   useEffect(() => {
@@ -184,6 +199,10 @@ const Header = () => {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
+
+  if (!isHeaderReady) {
+    return <SkeletonLayout />;
+  }
 
   return (
     <>
