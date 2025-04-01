@@ -8,7 +8,8 @@ const extractHex = (val, fallback) => {
   return fallback;
 };
 
-export const getTheme = (settings = {}) => {
+export const getTheme = (settings) => {
+  settings = settings || {};
   const accent = extractHex(settings.accentColor, "#cc9fbd");
 
   return {
