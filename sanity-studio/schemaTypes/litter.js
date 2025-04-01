@@ -292,7 +292,6 @@ export default {
                   {title: 'Hann', value: 'male'},
                   {title: 'Tispe', value: 'female'},
                 ],
-                validation: (Rule) => Rule.required().error('Kjønn må velges for hver valp'),
               },
             },
             {
@@ -307,9 +306,7 @@ export default {
                   {title: 'Brun', value: 'brown'},
                   {title: 'Aprikos', value: 'apricot'},
                   {title: 'Rød', value: 'red'},
-                  {title: 'Brun', value: 'brown'},
                 ],
-                validation: (Rule) => Rule.required().error('Farge må velges for hver valp'),
               },
             },
             {
@@ -317,10 +314,41 @@ export default {
               title: 'Antall',
               type: 'number',
               description: 'Antall valper av denne typen.',
-              validation: (Rule) =>
-                Rule.min(1).integer().error('Antall må være et positivt heltall'),
             },
           ],
+          validation: (Rule) =>
+            Rule.custom((valp) => {
+              if (!valp) return true
+
+              if (!valp.gender) return 'Kjønn må velges for hver valp'
+              if (!valp.color) return 'Farge må velges for hver valp'
+              if (!valp.count || valp.count < 1) return 'Antall må være minst 1'
+
+              return true
+            }),
+          preview: {
+            select: {
+              gender: 'gender',
+              color: 'color',
+              count: 'count',
+            },
+            prepare({gender, color, count}) {
+              const genderLabel = gender === 'male' ? 'hann' : 'tispe'
+              const colorLabel =
+                {
+                  white: 'hvit',
+                  gray: 'grå',
+                  black: 'sort',
+                  brown: 'brun',
+                  apricot: 'aprikos',
+                  red: 'rød',
+                }[color] || color
+
+              return {
+                title: `${count || 0} ${colorLabel || 'ukjent'} ${genderLabel || ''}${count === 1 ? '' : 'r'}`,
+              }
+            },
+          },
         },
       ],
     },

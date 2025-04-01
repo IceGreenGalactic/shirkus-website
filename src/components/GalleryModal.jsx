@@ -112,58 +112,60 @@ const GalleryModal = ({ litterId, dogId }) => {
         ? galleryData.map((gallery, galleryIndex) => (
             <GalleryContainer key={galleryIndex} className="mb-4">
               <h4>{gallery.title}</h4>
-              <div className="row">
-                <GalleryGrid className="col-12 col-md-10 m-auto">
-                  {getMediaItems(gallery).map((mediaItem, mediaIndex) => (
-                    <div className="col-10 mb-3" key={mediaIndex}>
-                      {mediaItem.type === "image" ? (
-                        <GalleryImage
-                          src={urlFor(mediaItem.asset)}
-                          alt={`Gallery Image ${mediaIndex + 1}`}
-                          style={{ cursor: "pointer" }}
+
+              <GalleryGrid className="col-12 col-md-10 m-auto">
+                {getMediaItems(gallery).map((mediaItem, mediaIndex) => (
+                  <div
+                    className="col-10 mb-3"
+                    key={mediaIndex}
+                  >
+                    {mediaItem.type === "image" ? (
+                      <GalleryImage
+                        src={urlFor(mediaItem.asset)}
+                        alt={`Gallery Image ${mediaIndex + 1}`}
+                        style={{ cursor: "pointer" }}
+                        onClick={() =>
+                          openGalleryModal(galleryIndex, mediaIndex)
+                        }
+                      />
+                    ) : (
+                      <div className="row">
+                        <VideoThumbnail
+                          style={{
+                            cursor: "pointer",
+                            position: "relative",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
                           onClick={() =>
                             openGalleryModal(galleryIndex, mediaIndex)
                           }
-                        />
-                      ) : (
-                        <div className="row">
-                          <VideoThumbnail
+                        >
+                          <video
                             style={{
-                              cursor: "pointer",
-                              position: "relative",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
                             }}
-                            onClick={() =>
-                              openGalleryModal(galleryIndex, mediaIndex)
-                            }
-                          >
-                            <video
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                              }}
-                              src={mediaItem.url}
-                              muted
-                            />
-                            <FaPlayCircle
-                              size={50}
-                              color="white"
-                              style={{
-                                position: "absolute",
-                                zIndex: 2,
-                                pointerEvents: "none",
-                              }}
-                            />
-                          </VideoThumbnail>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </GalleryGrid>{" "}
-              </div>
+                            src={mediaItem.url}
+                            muted
+                          />
+                          <FaPlayCircle
+                            size={50}
+                            color="white"
+                            style={{
+                              position: "absolute",
+                              zIndex: 2,
+                              pointerEvents: "none",
+                            }}
+                          />
+                        </VideoThumbnail>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </GalleryGrid>
               {gallery.text && <p className="mt-2">{gallery.text}</p>}
             </GalleryContainer>
           ))

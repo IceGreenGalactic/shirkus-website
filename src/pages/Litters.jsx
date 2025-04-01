@@ -3,22 +3,26 @@ import { Link } from "react-router-dom";
 import sanityClient from "../sanityClient";
 import { LitterCard, LitterContainer } from "./Litters.styled";
 import { urlFor } from "../utils/sanityImage";
+import LoadingSpinner from "../utils/LoadingSpinner";
 
 // Helper function to get name
 const getDogName = (dog) => {
+  if (!dog) return 'Ukjent'
   return dog.dogReference
-    ? dog.dogReference.nickname || dog.dogReference.name
-    : dog.nickname || dog.name;
-};
+    ? dog.dogReference.nickname || dog.dogReference.name || 'Ukjent'
+    : dog.nickname || dog.name || 'Ukjent'
+}
 
-// Helper function to get image
 const getDogImage = (dog) => {
+  if (!dog) return null
   return dog.overrideImage?.asset
     ? urlFor(dog.overrideImage)
-    : dog.dogReference?.image
+    : dog.dogReference?.image?.asset
     ? urlFor(dog.dogReference.image)
-    : urlFor(dog.image);
-};
+    : dog.image?.asset
+    ? urlFor(dog.image)
+    : null
+}
 
 const LitterCardItem = ({ litter }) => {
   const motherName = getDogName(litter.mother);
@@ -41,7 +45,7 @@ const LitterCardItem = ({ litter }) => {
               <img
                 src={motherImage}
                 alt={litter.mother.nickname || litter.mother.name}
-                className="img-fluid"
+                className="img-fluid no-theme"
                 style={{ marginRight: "1%" }}
               />
             )}
@@ -49,7 +53,7 @@ const LitterCardItem = ({ litter }) => {
               <img
                 src={fatherImage}
                 alt={litter.father.nickname || litter.father.name}
-                className="img-fluid"
+                className="img-fluid no-theme"
               />
             )}
           </div>
@@ -139,7 +143,7 @@ const Litters = () => {
   }, []);
 
   if (loading) {
-    return <div>Laster...</div>;
+    return <LoadingSpinner />;
   }
 
   // Function to check if the litter is less than 10 weeks old

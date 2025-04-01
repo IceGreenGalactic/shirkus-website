@@ -2,11 +2,14 @@ import styled from "styled-components";
 
 export const DetailContainer = styled.section`
   margin: auto;
-
-  .nickname {
+  .litters-list a {
     color: ${(props) => props.theme.colors.accent};
+    text-decoration: none !important;
+  }
+  .nickname {
     font-family: ${(props) => props.theme.fonts.accent};
     font-size: 3rem;
+    color: ${(props) => props.theme.colors.accent};
   }
 `;
 
@@ -15,6 +18,7 @@ export const DogImage = styled.img`
   height: auto;
   border-radius: 10px;
   object-fit: cover;
+  max-height: 50vh;
 `;
 
 export const DogName = styled.h2`
@@ -33,7 +37,9 @@ export const DogInfo = styled.p`
   font-size: 1rem;
   line-height: 1.5;
   display: flex;
-  
+    strong {
+    margin-right: 5px;
+  }
 `;
 
 export const HealthResults = styled.div`

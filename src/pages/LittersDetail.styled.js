@@ -65,12 +65,6 @@ export const ParentInfo = styled.div`
   padding: 0.1rem;
 `;
 
-export const DogAbout = styled.div`
-  margin-bottom: 2rem;
-  padding: 0.1rem;
-  flex-direction: column;
-`;
-
 export const ParentImage = styled.img`
   width: 100%;
   height: auto;
