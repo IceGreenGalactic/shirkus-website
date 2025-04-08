@@ -1,37 +1,36 @@
-// src/styles/GlobalStyles.js
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@400;700&family=Tangerine:wght@400;700&family=Parisienne&family=Pinyon+Script&family=Alex+Brush&family=Cormorant+Garamond:wght@400;700&display=swap');:root {
-   
- 
- --primary-color: #3a3a3a; 
-    --secondary-color: #f7f7f7; 
-    --accent-color: #6a994e; 
-    --header-font: 'Playfair Display', serif; 
-    --text-font: 'Roboto', sans-serif; 
-    --accent-font: "'Tangerine', cursive, sans-serif"
-  }
-
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Roboto:wght@400;700&family=Tangerine&display=swap');
+    
+root:
+*{
+  background: ${(props) => props.theme.colors.background};
+}
   body {
-    font-family: var(--text-font);
-    color: var(--primary-color);
-    background-color: var(--secondary-color);
-    margin: 0;
+    font-family: ${(props) => props.theme?.fonts?.body || "sans-serif"}; 
+    color: ${(props) => props.theme?.colors?.text || "#333"};
+  background: ${(props) => props.theme.colors.background};
     padding: 0;
-    height: 100vh;
+    height: 100vh; 
   }
 
   h1, h2, h3 {
-    font-family: var(--header-font);
+    font-family: ${(props) => props.theme?.fonts?.heading || "serif"}; 
   }
 
   a {
-    text-decoration: none; 
+    text-decoration: none;
   }
 
   p, h1, h2, h3, li, span, div {
     white-space: pre-line;
   }
 
+    img:not(.hero-image, .gallery-image, .no-theme) {
+    border-radius: ${(props) => props.theme?.imageStyles?.borderRadius || "0"};
+    border: ${(props) => props.theme?.imageStyles?.border || "none"};
+    box-shadow: ${(props) => props.theme?.imageStyles?.boxShadow || "none"};
+    object-fit: cover;
+  }
 `;

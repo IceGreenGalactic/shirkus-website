@@ -4,6 +4,7 @@ import sanityClient from "../sanityClient";
 import Modal from "../utils/ImageModal";
 import GalleryModal from "../components/GalleryModal";
 import { urlFor } from "../utils/sanityImage";
+import LoadingSpinner from "../utils/LoadingSpinner";
 import {
   DetailContainer,
   DogImage,
@@ -108,7 +109,7 @@ const DogDetail = () => {
       .catch(console.error);
   }, [id]);
 
-  if (loading) return <div>Laster...</div>;
+  if (loading) return <LoadingSpinner />;
   if (!dog) return <div>Fant ingen hund.</div>;
 
   return (
@@ -290,8 +291,7 @@ const DogDetail = () => {
         </DogInfo>
       )}
 
-
- <GalleryModal dogId={id} />
+      <GalleryModal dogId={id} />
       {/* Pedigree Section */}
       {dog.pedigreeUrl && (
         <div className="mt-5 text-center col-12 col-sm-8 m-auto">
@@ -307,8 +307,6 @@ const DogDetail = () => {
           />
         </div>
       )}
-
-     
 
       {isModalOpen && (
         <Modal imageUrl={currentImage} onClose={() => setIsModalOpen(false)} />

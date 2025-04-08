@@ -8,12 +8,14 @@ import {
   Image,
   Title,
 } from "./GalleryDetail.styled";
+import LoadingSpinner from "../utils/LoadingSpinner";
 import Carousel from "../components/Carousel";
 
 const GalleryDetail = () => {
   const { id } = useParams();
   const [gallery, setGallery] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     sanityClient
@@ -29,11 +31,14 @@ const GalleryDetail = () => {
         }[0]`,
         { id }
       )
-      .then((data) => setGallery(data))
-      .catch(console.error);
+      .then((data) => {
+        setGallery(data);
+        setLoading(false);
+      });
   }, [id]);
 
   if (!gallery) return <p>Laster...</p>;
+  if (loading) return <LoadingSpinner />; 
 
   const allImages = [
     { imageUrl: gallery.mainImageUrl, caption: gallery.mainImageCaption || "" },

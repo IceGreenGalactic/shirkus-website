@@ -29,11 +29,13 @@ export const ImageItem = styled.div`
 
 export const Image = styled.img`
   width: 100%;
+  max-width: 250px;
   height: 150px;
   object-fit: cover;
   border-radius: 8px;
-  @media (max-width: 992px){
-  width:
+
+  @media (max-width: 992px) {
+    width: ;
   }
 `;
 
