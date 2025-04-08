@@ -9,6 +9,7 @@ import { GlobalStyles } from "./styles/GlobalStyles.js";
 import { ThemeProvider } from "styled-components";
 import { HelmetProvider } from "react-helmet-async";
 
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <HelmetProvider>

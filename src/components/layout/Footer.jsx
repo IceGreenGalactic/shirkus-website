@@ -3,7 +3,7 @@ import { FooterContainer } from "./Footer.styled";
 import sanityClient from "../../sanityClient";
 
 const Footer = () => {
-  const [pageTitle, setpageTitle] = useState("");
+  const [pageTitle, setPageTitle] = useState("");
 
   useEffect(() => {
     sanityClient
@@ -14,7 +14,7 @@ const Footer = () => {
       )
       .then((data) => {
         if (data && data.pageTitle) {
-          setpageTitle(data.pageTitle);
+          setPageTitle(data.pageTitle);
         }
       })
       .catch(console.error);
@@ -22,11 +22,25 @@ const Footer = () => {
 
   return (
     <FooterContainer>
-      <p>© {pageTitle} - ALL RIGHTS RESERVED</p>
-      <p className="made-by">
-        Nettside laget av Kristine Tyrholm <br />
-        kennel.editor@gmail.com
-      </p>
+      <div className="container">
+        <div className="row footer-content">
+          <div className="col-12">
+            <p>© {pageTitle} - ALL RIGHTS RESERVED</p>
+          </div>
+
+          {/* Right Column with site info and link */}
+          <div className="">
+            <div className="made-by d-flex flex-column ">
+              <p className="">Nettside laget av Kristine Tyrholm</p>
+              <p className="">
+                <a href="https://kennel-editor.netlify.app/">
+                  Ønsker du en nettside? Klikk her for informasjon
+                </a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </FooterContainer>
   );
 };
