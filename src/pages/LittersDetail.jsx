@@ -185,7 +185,7 @@ father {
   };
 
   return (
-    <LitterContainer className="col-10 m-auto">
+    <LitterContainer className="col-10 m-auto col-md-8 col-lg-6">
       <h2 className="text-center">Kull Detaljer</h2>
       <ParentInfoContainer>
         <h3>Mor:</h3>
