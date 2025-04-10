@@ -17,64 +17,62 @@ export const LitterContainer = styled.div`
 `;
 
 export const ParentInfoContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
+  margin: 20px 0px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto auto;
+  text-align: center;
   h3 {
-    font-size: 1.5rem;
-    
-  }
-  .title-text {
-    height: 1.5rem;
-    font-size: 1rem;
-    marign: 0px;
-    padding: 0px;
-    font-weight: 600;
-     @media (max-width: 667px){
-      min-height: 2.5rem;
-     }
-    @media (max-width: 400px) {
-      font-size: 0.8rem;
-      min-height: 2rem;
-    }
-       @media (min-width: 1280){
-       
-       }
-  }
-  .litter-name {
-    min-height: 3.5rem;
-    marign: 0px;
-    padding: 0px 0px 0px 10px;
-    
-
-    @media (max-width: 400px) {
-      min-height: 1rem;
-      font-size: 1.1rem;
-    }
-      
-    @media (max-width: 880px) {
-      font-size: 1.4rem;
-    }
-  }
+    font-size: 1.8rem;
+    color: ${(props) => props.theme.colors.title};
   }
 `;
 
-export const ParentInfo = styled.div`
-  margin-bottom: 2rem;
-  padding: 0.1rem;
+export const TitleRow = styled.div`
+  font-weight: 600;
+  font-size: 1rem;
+
+  color: ${(props) => props.theme.colors.secondary};
+
+  @media (max-width: 600px) {
+    font-size: 0.9rem;
+  }
+  @media (max-width: 400px) {
+    font-size: 0.8rem;
+  }
 `;
 
-export const ParentImage = styled.img`
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  border-radius: 10px;
-  object-fit: cover;
-  object-position: center;
-  min-height: 200px;
-  max-height: 500px;
-  aspect-ratio: 1 / 1;
+export const NameRow = styled.div`
+  font-size: 1.3rem;
+  font-weight: 700;
+  min-height: 2rem;
+  @media (max-width: 600px) {
+    font-size: 1.1rem;
+  }
+`;
+
+export const ImageRow = styled.div`
+  img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    object-position: top;
+    min-height: 200px;
+    max-height: 500px;
+    aspect-ratio: 1 / 1;
+  }
+`;
+export const NickNameRow = styled.div`
+  .nickname {
+    font-size: 2rem;
+    color: ${(props) => props.theme.colors.title};
+  }
+`;
+
+export const InfoRow = styled.div`
+  line-height: 1.7rem;
 `;
 
 export const PuppiesContainer = styled.div`

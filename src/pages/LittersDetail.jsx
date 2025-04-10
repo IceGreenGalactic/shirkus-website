@@ -7,10 +7,13 @@ import Modal from "../utils/ImageModal";
 import {
   LitterContainer,
   ParentInfoContainer,
-  ParentInfo,
-  ParentImage,
   PuppiesContainer,
   MainImgContainer,
+  InfoRow,
+  TitleRow,
+  NameRow,
+  ImageRow,
+  NickNameRow,
 } from "./LittersDetail.styled";
 import GalleryModal from "../components/GalleryModal";
 
@@ -181,89 +184,88 @@ father {
     });
   };
 
-  const renderParentInfo = (parent) => {
-    const {
-      isOwned,
-      name,
-      nickname,
-      image,
-      dogReference,
-      healthResults,
-      additionalInfo,
-      overrideImage,
-    } = parent;
-    const displayName = isOwned && dogReference ? dogReference.name : name;
-    const displayNickname =
-      isOwned && dogReference ? dogReference.nickname : nickname;
-    const displayImage = overrideImage?.asset ? overrideImage : image;
-
-    return (
-      <>
-        {displayImage && (
-          <ParentImage
-            className="no-theme"
-            src={urlFor(displayImage)}
-            alt={displayName}
-            onClick={() => openImageModal(urlFor(displayImage))}
-          />
-        )}
-        <div className="mt-2">
-          {displayNickname && <h5>{displayNickname}</h5>}
-          {parent.registrationNumber && (
-            <p>
-              <strong>Reg.nr:</strong> {parent.registrationNumber}
-            </p>
-          )}
-          {healthResults && healthResults.length > 0 && (
-            <div>
-              <ul className="list-unstyled mt-2">
-                {healthResults.map((result, index) => (
-                  <li key={index}>
-                    <strong>{result.title}: </strong>
-                    <span>{result.description}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-          {additionalInfo && (
-            <div className="mt-2">
-              <span>{additionalInfo}</span>
-            </div>
-          )}
-        </div>
-      </>
-    );
-  };
-
   return (
     <LitterContainer className="col-10 m-auto">
       <h2 className="text-center">Kull Detaljer</h2>
-      <ParentInfoContainer className="m-auto d-flex flex-row col-12 col-md-11 col-lg-9 col-xl-8 col-xxl-7 text-center">
-        <ParentInfo className="col-6 m-auto">
-          <div className="mt-3">
-            <h3>
-              <strong> Mor</strong>
-            </h3>
-            <p className="title-text">
-              {litter.mother.title && <span>{litter.mother.title}</span>}
+      <ParentInfoContainer>
+        <h3>Mor:</h3>
+
+        <h3>Far:</h3>
+
+        <TitleRow>{litter.mother.title || "\u00A0"}</TitleRow>
+        <TitleRow>{litter.father.title || "\u00A0"}</TitleRow>
+
+        <NameRow className="me-1">{litter.mother.name}</NameRow>
+        <NameRow className="ms-1">{litter.father.name}</NameRow>
+
+        <ImageRow className="me-1">
+          <img
+            src={urlFor(litter.mother.overrideImage || litter.mother.image)}
+            alt={litter.mother.name}
+            onClick={() =>
+              openImageModal(
+                urlFor(litter.mother.overrideImage || litter.mother.image)
+              )
+            }
+          />
+        </ImageRow>
+        <ImageRow className="ms-1">
+          <img
+            src={urlFor(litter.father.overrideImage || litter.father.image)}
+            alt={litter.father.name}
+            onClick={() =>
+              openImageModal(
+                urlFor(litter.father.overrideImage || litter.father.image)
+              )
+            }
+          />
+        </ImageRow>
+        <NickNameRow>
+          {litter.mother.nickname && (
+            <h4 className="nickname">{litter.mother.nickname}</h4>
+          )}
+        </NickNameRow>
+
+        <NickNameRow>
+          {litter.father.nickname && (
+            <h4 className="nickname">{litter.father.nickname}</h4>
+          )}
+        </NickNameRow>
+
+        <InfoRow className="mt-2 col-10 m-auto mb-2">
+          {litter.mother.registrationNumber && (
+            <p>
+              <strong>Reg.nr:</strong> {litter.mother.registrationNumber}
             </p>
-            <h3 className="litter-name">{litter.mother.name}</h3>
-          </div>
-          <div className="col-12">{renderParentInfo(litter.mother)}</div>
-        </ParentInfo>
-        <ParentInfo className="col-6">
-          <div className="mt-3">
-            <h3>
-              <strong> Far</strong>
-            </h3>
-            <p className="title-text">
-              {litter.father.title && <span>{litter.father.title}</span>}
+          )}
+          <ul className="list-unstyled mt-2">
+            {litter.mother.healthResults?.map((r, i) => (
+              <li key={i}>
+                <strong>{r.title}:</strong> {r.description}
+              </li>
+            ))}
+          </ul>
+          {litter.mother.additionalInfo && (
+            <p>{litter.mother.additionalInfo}</p>
+          )}
+        </InfoRow>
+        <InfoRow className="mt-2 col-10 m-auto mb-2">
+          {litter.father.registrationNumber && (
+            <p>
+              <strong>Reg.nr:</strong> {litter.father.registrationNumber}
             </p>
-            <h3 className="litter-name">{litter.father.name}</h3>
-          </div>
-          <div className="col-12">{renderParentInfo(litter.father)}</div>
-        </ParentInfo>
+          )}
+          <ul className="list-unstyled mt-2">
+            {litter.father.healthResults?.map((r, i) => (
+              <li key={i}>
+                <strong>{r.title}:</strong> {r.description}
+              </li>
+            ))}
+          </ul>
+          {litter.father.additionalInfo && (
+            <p>{litter.father.additionalInfo}</p>
+          )}
+        </InfoRow>
       </ParentInfoContainer>
 
       <PuppiesContainer className="col-12 col-lg-10 m-auto">
