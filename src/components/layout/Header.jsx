@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { HeaderContainer, HeroText, NavContainer } from "./Header.styled";
-import backgroundImage from "../../assets/images/ShirkusHeader2.jpg";
+import backgroundImage from "../../assets/images/ShirkusHeaderImage.jpg";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import sanityClient from "../../sanityClient";
