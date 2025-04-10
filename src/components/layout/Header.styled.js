@@ -15,13 +15,23 @@ export const HeaderContainer = styled.header`
     object-fit: cover;
     object-position: center;
     object-position: 50% 50%;
-      transition: opacity 0.5s ease-in-out;
-    @media (max-width: 762px) {
-      transform: scale(1.3);
+    transition: opacity 0.5s ease-in-out;
+    @media (min-width: 530px) {
+      transform: scale(1);
+      object-position: 50% 80%;
     }
-  }
-  @media (min-width: 993px) {
-    height: 40vh;
+    @media (min-width: 993px) {
+      height: 40vh;
+      transform: scale(1);
+      object-position: bottom;
+      object-position: 50% 70%;
+    }
+    @media (min-width: 1148px) {
+      height: 30vh;
+      transform: scale(1);
+      object-position: bottom;
+      object-position: 50% 60%;
+    }
   }
 `;
 
