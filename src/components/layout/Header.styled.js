@@ -21,12 +21,12 @@ export const HeaderContainer = styled.header`
       object-position: 50% 80%;
     }
     @media (min-width: 993px) {
-      height: 30vh;
+      height: 40vh;
       transform: scale(1);
       object-position: bottom;
       object-position: 50% 70%;
     }
-      @media (min-width: 1148px) {
+    @media (min-width: 1148px) {
       height: 30vh;
       transform: scale(1);
       object-position: bottom;
