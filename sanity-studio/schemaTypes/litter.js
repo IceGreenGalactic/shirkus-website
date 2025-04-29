@@ -381,7 +381,7 @@ export default {
               title: 'Tittel for Galleri',
               type: 'string',
               description:
-                'Gi galleriet en passende tittel, f.eks. "Uke 1, uke2 osv (maks 10 gallerier)".',
+                'Gi galleriet en passende tittel, f.eks. "Uke 1, uke2 osv (maks 15 gallerier)".',
             },
             {
               name: 'description',
@@ -421,7 +421,7 @@ export default {
           ],
         },
       ],
-      validation: (Rule) => Rule.max(10).error('Maks 10 gallerier'),
+      validation: (Rule) => Rule.max(15).error('Maks 15 gallerier'),
     },
     {
       name: 'freeText2',
