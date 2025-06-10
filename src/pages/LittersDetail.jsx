@@ -249,7 +249,7 @@ father {
             <p>{litter.mother.additionalInfo}</p>
           )}
         </InfoRow>
-        <InfoRow className="mt-2 col-10 m-auto mb-2">
+        <InfoRow className="mt-2 col-10 m-auto mb-2 ms-3">
           {litter.father.registrationNumber && (
             <p>
               <strong>Reg.nr:</strong> {litter.father.registrationNumber}

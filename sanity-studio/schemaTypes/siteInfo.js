@@ -72,6 +72,13 @@ export default {
       options: {hotspot: true},
     },
     {
+      name: 'contactText',
+      title: 'Kontakt-introtekst',
+      type: 'text',
+      description: 'En kort introduksjonstekst som vises over kontaktinformasjonen.',
+    },
+    
+    {
       name: 'name',
       title: 'Navn',
       type: 'string',

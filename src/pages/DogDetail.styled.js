@@ -9,6 +9,7 @@ export const DetailContainer = styled.section`
   .nickname {
     font-family: ${(props) => props.theme.fonts.accent};
     font-size: 3rem;
+    font-weight: 700;
     color: ${(props) => props.theme.colors.accent};
   }
 `;
@@ -37,7 +38,7 @@ export const DogInfo = styled.p`
   font-size: 1rem;
   line-height: 1.5;
   display: flex;
-    strong {
+  strong {
     margin-right: 5px;
   }
 `;

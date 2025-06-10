@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const LitterContainer = styled.div`
   margin: auto;
+    justify-content: space-between;
+
   h2 {
     font-size: 3rem;
     font-family: ${(props) => props.theme.fonts.accent};
@@ -44,7 +46,7 @@ export const TitleRow = styled.div`
 
 export const NameRow = styled.div`
   font-size: 1.3rem;
-  font-weight: 700;
+  font-weight: 500;
   min-height: 2rem;
   @media (max-width: 600px) {
     font-size: 1.1rem;
@@ -68,11 +70,13 @@ export const NickNameRow = styled.div`
   .nickname {
     font-size: 2rem;
     color: ${(props) => props.theme.colors.title};
+    font-family: ${(props) => props.theme.fonts.heading};
   }
 `;
 
 export const InfoRow = styled.div`
   line-height: 1.7rem;
+  text-align: left;
 `;
 
 export const PuppiesContainer = styled.div`

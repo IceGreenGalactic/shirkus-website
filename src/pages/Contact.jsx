@@ -8,6 +8,7 @@ import {
   Paragraph,
   ContactInfo,
   ContactInfoContainer,
+  AddressInfo,
 } from "./Contact.styled";
 
 const Contact = () => {
@@ -35,28 +36,36 @@ const Contact = () => {
         <Paragraph className="mb-5 ">{siteInfo.contactText}</Paragraph>
       )}
 
-      <ContactInfoContainer className=" text-start text-sm-center col-10 m-auto">
+      <ContactInfoContainer className=" text-start display-flex justify-content-center  col-10 m-auto">
         {siteInfo.name && (
-          <ContactInfo className=" text-start text-sm-center ">
-            Navn: {siteInfo.name}
+          <ContactInfo className=" text-start  ">
+            <span className="label">👤 Navn:</span> {siteInfo.name}
           </ContactInfo>
         )}
 
-        {siteInfo.address && (
-          <ContactInfo className=" text-start text-sm-center ">
-            📍 Adresse: {siteInfo.address}
-          </ContactInfo>
-        )}
+{siteInfo.address && (
+  <AddressInfo>
+    <span className="label">📍 Adresse:</span>
+    <div className="address-lines">
+      {siteInfo.address.split(',').map((part, index, arr) => (
+        <div className="address-line" key={index}>
+          {part.trim()}
+          {index < arr.length - 1 ? ',' : ''}
+        </div>
+      ))}
+    </div>
+  </AddressInfo>
+)}
 
         {siteInfo.phoneNumber && (
-          <ContactInfo className=" text-start text-sm-center ">
-            📞 Telefon: {siteInfo.phoneNumber}
+          <ContactInfo className=" text-start  ">
+            <span className="label">📞 Telefon:</span> {siteInfo.phoneNumber}
           </ContactInfo>
         )}
 
         {siteInfo.email && (
-          <ContactInfo className=" text-start text-sm-center ">
-            📧 E-post: {siteInfo.email}
+          <ContactInfo className=" text-start  ">
+            <span className="label">📧 E-post:</span> {siteInfo.email}
           </ContactInfo>
         )}
 
@@ -69,7 +78,7 @@ const Contact = () => {
         )}
 
         {siteInfo.extraInfo && (
-          <ContactInfo className="col-12 col-sm-10 col-md-8 m-auto mt-2 text-start text-sm-center">
+          <ContactInfo className="col-12 col-sm-10 col-md-8 m-auto mt-2 text-start ">
             {siteInfo.extraInfo}
           </ContactInfo>
         )}

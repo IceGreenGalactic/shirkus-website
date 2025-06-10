@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const AboutContainer = styled.div`
   text-align: center;
   border-radius: 8px;
+  padding: 0px 30px;
 `;
 
 export const Title = styled.h1`
@@ -21,7 +22,7 @@ export const Paragraph = styled.p`
   margin-bottom: 4rem;
 `;
 export const SectionTitle = styled.h2`
-  font-size: 2rem; 
+  font-size: 2rem;
   font-family: ${(props) => props.theme.fonts.accent};
   color: ${(props) => props.theme.colors.title};
   font-weight: 500;

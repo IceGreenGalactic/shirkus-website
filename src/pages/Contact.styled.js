@@ -22,11 +22,15 @@ export const Paragraph = styled.p`
   line-height: 1.6;
   margin-bottom: 1rem;
 `;
-
 export const ContactInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 0;
+  margin: 0 auto;
+  width: fit-content;
+  max-width: 90vw;
+  max-width: 700px;
 
   img {
     border-radius: 5px;
@@ -36,8 +40,46 @@ export const ContactInfoContainer = styled.div`
 `;
 
 export const ContactInfo = styled.p`
-  font-family: ${(props) => props.theme.fonts.body};
-  font-size: 1.2rem;
-  color: ${(props) => props.theme.colors.text};
   text-align: start;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 0.5rem;
+
+  text-indent: -2.5rem;
+  padding-left: 2.5rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+
+  font-family: ${(props) => props.theme.fonts.body};
+  font-size: 1.1rem;
+  color: ${(props) => props.theme.colors.secondary};
+
+  .label {
+    color: ${(props) => props.theme.colors.text};
+    margin-right: 0.25rem;
+  }
+`;
+
+export const AddressInfo = styled(ContactInfo)`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 2.5rem;
+  margin-bottom: 0.5rem;
+
+  .label {
+    font-weight: 500;
+    grid-column: 1;
+    white-space: nowrap;
+  }
+
+  .address-lines {
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .address-line {
+    white-space: nowrap;
+  }
 `;
