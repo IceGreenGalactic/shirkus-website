@@ -17,7 +17,7 @@ import Gallery from "./pages/Gallery";
 import GalleryDetail from "./pages/GalleryDetail";
 import useSiteSettings from "./hooks/useSiteSettings";
 import PageSkeleton from "./components/skeletons/PageSkeleton";
-import VisitorStats from "./pages/VisitorStats";
+import VisitorStats from "./pages/info/VisitorStats";
 import RouteTracker from "./components/RouteTracker";
 
 const App = () => {

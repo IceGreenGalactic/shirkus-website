@@ -15,7 +15,7 @@ export default {
             {name: 'page', title: 'Side', type: 'string'},
             {name: 'date', title: 'Dato', type: 'date'},
             {name: 'count', title: 'Antall ganger', type: 'number'},
-             { name: 'lastVisit', title: 'Sist besøkt', type: 'datetime' },
+            {name: 'lastVisit', title: 'Sist besøkt', type: 'datetime'},
           ],
         },
       ],

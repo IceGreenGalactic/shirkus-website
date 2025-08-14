@@ -24,13 +24,16 @@ export async function handler(event) {
     const ipRes = await fetch("https://api.ipify.org?format=json");
     const { ip } = await ipRes.json();
 
+    // Hash IP før lagring
+    const hashedIp = crypto.createHash("sha256").update(ip).digest("hex");
+
     const now = new Date();
     const today = now.toISOString().split("T")[0];
 
-    // Hent dokument for IP
+    // Hent dokument for hashed IP
     const existingDoc = await client.fetch(
       `*[_type == "visitorLog" && ip == $ip][0]`,
-      { ip }
+      { ip: hashedIp }
     );
 
     let shouldCountAsUniqueVisit = false;
@@ -38,7 +41,6 @@ export async function handler(event) {
     if (existingDoc) {
       const visits = existingDoc.visits || [];
 
-      // Finn kun hvis det finnes en linje for denne siden OG denne datoen
       const index = visits.findIndex(
         (v) => v.page === page && v.date === today
       );
@@ -56,7 +58,6 @@ export async function handler(event) {
 
         await client.patch(existingDoc._id).set({ visits }).commit();
       } else {
-        // 👇 Ny dag eller ny side – legg til ny entry
         const newVisit = {
           _key: crypto.randomUUID(),
           page,
@@ -74,10 +75,9 @@ export async function handler(event) {
         shouldCountAsUniqueVisit = true;
       }
     } else {
-      // Første gang IP-en er sett – opprett ny logg
       await client.create({
         _type: "visitorLog",
-        ip,
+        ip: hashedIp,
         visits: [
           {
             _key: crypto.randomUUID(),
@@ -92,7 +92,6 @@ export async function handler(event) {
       shouldCountAsUniqueVisit = true;
     }
 
-    // 🟢 Øk global counter hvis ny time har gått
     if (shouldCountAsUniqueVisit) {
       const stats = await client.fetch(
         `*[_type == "siteStats"][0]{_id, visitors}`

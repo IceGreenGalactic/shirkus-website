@@ -71,3 +71,10 @@ export const SmallText = styled.div`
   font-family: ${({ theme }) => theme.fonts.body};
 `;
 
+export const Arrow = styled.button`
+  font-size: 0.85rem;
+  margin: 0.2rem 0;
+  color: ${({ theme }) => theme.colors.accent};
+  background: transparent;
+  font-family: ${({ theme }) => theme.fonts.body};
+`;
