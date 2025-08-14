@@ -19,6 +19,7 @@ import useSiteSettings from "./hooks/useSiteSettings";
 import PageSkeleton from "./components/skeletons/PageSkeleton";
 import VisitorStats from "./pages/info/VisitorStats";
 import RouteTracker from "./components/RouteTracker";
+import PrivacyPolicy from "./pages/info/PrivacyPolicy";
 
 const App = () => {
   const settings = useSiteSettings();
@@ -59,6 +60,7 @@ const App = () => {
               <Route path="gallery" element={<Gallery />} />
               <Route path="gallery/:id" element={<GalleryDetail />} />
               <Route path="/besokstall" element={<VisitorStats />} />
+              <Route path="PrivacyPolicy" element={<PrivacyPolicy />} />
             </Route>
           </Routes>
         )}
