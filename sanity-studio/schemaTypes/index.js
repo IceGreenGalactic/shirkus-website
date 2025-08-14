@@ -3,5 +3,6 @@ import litter from './litter'
 import siteInfo from './siteInfo'
 import gallery from './gallery'
 import siteSettings from './siteSettings'
+import siteStats from './siteStats'
 
-export const schemaTypes = [dogs, litter, gallery, siteInfo, siteSettings]
+export const schemaTypes = [dogs, litter, gallery, siteInfo, siteSettings, siteStats]
