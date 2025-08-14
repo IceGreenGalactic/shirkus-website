@@ -18,6 +18,7 @@ import GalleryDetail from "./pages/GalleryDetail";
 import useSiteSettings from "./hooks/useSiteSettings";
 import PageSkeleton from "./components/skeletons/PageSkeleton";
 import VisitorStats from "./pages/VisitorStats";
+import RouteTracker from "./components/RouteTracker";
 
 const App = () => {
   const settings = useSiteSettings();
@@ -38,18 +39,11 @@ const App = () => {
       });
   }, []);
 
-  useEffect(() => {
-  fetch('/.netlify/functions/incrementVisitor', {
-    method: 'POST',
-  }).catch((err) => {
-    console.error("Feil ved telling av besøk:", err);
-  });
-}, []);
-
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <Router>
+        <RouteTracker />
         {isLoading ? (
           <PageSkeleton />
         ) : (

@@ -8,7 +8,7 @@ export default {
       title: 'Visitors',
       type: 'number',
       initialValue: 0,
-      readOnly: true, 
+
     },
   ],
 }

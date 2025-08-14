@@ -6,3 +6,9 @@
   from = "/sitemap.xml"
   to = "/public/sitemap.xml"
   status = 200
+
+[dev]
+  command = "npm run dev"
+  port = 8888
+  targetPort = 5174
+  framework = "vite"
