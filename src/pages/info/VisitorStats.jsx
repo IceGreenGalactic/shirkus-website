@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import sanityClient from "../../sanityClient";
 import {
   StatsWrapper,
-  Title,
   SectionGrid,
   StatBox,
   StatBoxCentered,
   SmallText,
   Arrow,
 } from "./VisitorStats.styled";
+import { Title } from "../../styles/generalStyles";
 import {
   getDateRange,
   formatDateKey,
@@ -139,7 +139,7 @@ const VisitorStats = () => {
 
   const renderPerPageStats = (perPage) => {
     return Object.entries(perPage)
-      .filter(([page]) => page !== "/besokstall")
+      .filter(([page]) => page !== "/admin")
       .sort(([pageA], [pageB]) => {
         if (pageA === "/") return -1;
         if (pageB === "/") return 1;
@@ -182,7 +182,7 @@ const VisitorStats = () => {
     }));
 
   return (
-    <StatsWrapper>
+    <StatsWrapper className="col-10">
       <Title>📊 Besøksstatistikk</Title>
 
       <StatBoxCentered>
@@ -205,10 +205,31 @@ const VisitorStats = () => {
           return (
             <StatBox key={periodKey}>
               <div className="d-flex align-items-center gap-3 justify-content-center">
-                <Arrow onClick={() => goBack(periodKey)}>←</Arrow>{" "}
+                <Arrow
+                  disabled={periodOffsets[periodKey] >= MAX_OFFSETS[periodKey]}
+                  onClick={() => {
+                    if (periodOffsets[periodKey] < MAX_OFFSETS[periodKey]) {
+                      goBack(periodKey);
+                    }
+                  }}
+                >
+                  ←
+                </Arrow>
+
                 <h3>{label}</h3>
-                <Arrow onClick={() => goForward(periodKey)}>→</Arrow>
+
+                <Arrow
+                  disabled={periodOffsets[periodKey] === 0}
+                  onClick={() => {
+                    if (periodOffsets[periodKey] > 0) {
+                      goForward(periodKey);
+                    }
+                  }}
+                >
+                  →
+                </Arrow>
               </div>
+
               <p>
                 <strong>Besøk:</strong> {stats.count}
               </p>

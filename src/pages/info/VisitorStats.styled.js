@@ -35,7 +35,7 @@ export const StatBox = styled.div`
 
   h3 {
     margin-bottom: 0.5rem;
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     font-family: ${({ theme }) => theme.fonts.heading};
     color: ${({ theme }) => theme.colors.accent};
   }
@@ -72,9 +72,15 @@ export const SmallText = styled.div`
 `;
 
 export const Arrow = styled.button`
-  font-size: 0.85rem;
+  font-size: 1rem;
+  font-weight: 900;
   margin: 0.2rem 0;
-  color: ${({ theme }) => theme.colors.accent};
-  background: transparent;
+  color: ${({ theme, disabled }) =>
+    disabled ? theme.colors.white : theme.colors.accent};
+  background-color: transparent;
+  border: none;
   font-family: ${({ theme }) => theme.fonts.body};
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
+  cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
+  transition: opacity 0.2s ease;
 `;

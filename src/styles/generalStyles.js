@@ -6,4 +6,5 @@ export const Title = styled.h1`
   color: ${(props) => props.theme.colors.accent};
   font-weight: 900;
   margin-bottom: 1rem;
+  text-align: center;
 `;

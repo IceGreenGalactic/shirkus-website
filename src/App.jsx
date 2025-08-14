@@ -59,7 +59,7 @@ const App = () => {
               <Route path="contact" element={<Contact />} />
               <Route path="gallery" element={<Gallery />} />
               <Route path="gallery/:id" element={<GalleryDetail />} />
-              <Route path="/besokstall" element={<VisitorStats />} />
+              <Route path="/admin" element={<VisitorStats />} />
               <Route path="PrivacyPolicy" element={<PrivacyPolicy />} />
             </Route>
           </Routes>
