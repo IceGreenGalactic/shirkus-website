@@ -2,6 +2,7 @@ export default {
   name: 'visitorLog',
   title: 'Besøk',
   type: 'document',
+  readOnly: true,
   fields: [
     {name: 'ip', title: 'IP-adresse', type: 'string'},
     {
