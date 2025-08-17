@@ -9,7 +9,19 @@ const client = createClient({
   apiVersion: "2023-01-01",
 });
 
+function getClientIp(headers = {}) {
+  const xf =
+    headers["x-forwarded-for"] ||
+    headers["X-Forwarded-For"] ||
+    headers["client-ip"] ||
+    headers["x-real-ip"] ||
+    "";
+  const raw = (Array.isArray(xf) ? xf[0] : xf).split(",")[0].trim();
+  return (raw || "").replace(/^::ffff:/, "").replace(/:\d+$/, "") || "0.0.0.0";
+}
+
 export async function handler(event) {
+
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
@@ -20,17 +32,14 @@ export async function handler(event) {
   try {
     const { page = "unknown" } = JSON.parse(event.body || "{}");
 
-    // Hent IP
-    const ipRes = await fetch("https://api.ipify.org?format=json");
-    const { ip } = await ipRes.json();
+    const ip = getClientIp(event.headers || {});
 
-    // Hash IP før lagring
     const hashedIp = crypto.createHash("sha256").update(ip).digest("hex");
 
     const now = new Date();
     const today = now.toISOString().split("T")[0];
+    const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
 
-    // Hent dokument for hashed IP
     const existingDoc = await client.fetch(
       `*[_type == "visitorLog" && ip == $ip][0]`,
       { ip: hashedIp }
@@ -39,45 +48,38 @@ export async function handler(event) {
     let shouldCountAsUniqueVisit = false;
 
     if (existingDoc) {
-      const visits = existingDoc.visits || [];
+      const lastSessionStart = new Date(existingDoc.lastSessionStart || 0);
+      shouldCountAsUniqueVisit = lastSessionStart < fiveHoursAgo;
 
+      const visits = existingDoc.visits || [];
       const index = visits.findIndex(
         (v) => v.page === page && v.date === today
       );
 
       if (index !== -1) {
-        const lastVisit = new Date(visits[index].lastVisit || 0);
-        const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
-
-        if (lastVisit < fiveHoursAgo) {
-          shouldCountAsUniqueVisit = true;
-        }
-
         visits[index].count += 1;
         visits[index].lastVisit = now.toISOString();
-
-        await client.patch(existingDoc._id).set({ visits }).commit();
       } else {
-        const newVisit = {
+        visits.push({
           _key: crypto.randomUUID(),
           page,
           date: today,
           count: 1,
           lastVisit: now.toISOString(),
-        };
-
-        await client
-          .patch(existingDoc._id)
-          .setIfMissing({ visits: [] })
-          .insert("after", "visits[-1]", [newVisit])
-          .commit();
-
-        shouldCountAsUniqueVisit = true;
+        });
       }
+
+      const patchData = { visits };
+      if (shouldCountAsUniqueVisit) {
+        patchData.lastSessionStart = now.toISOString();
+      }
+
+      await client.patch(existingDoc._id).set(patchData).commit();
     } else {
       await client.create({
         _type: "visitorLog",
         ip: hashedIp,
+        lastSessionStart: now.toISOString(),
         visits: [
           {
             _key: crypto.randomUUID(),
@@ -88,7 +90,6 @@ export async function handler(event) {
           },
         ],
       });
-
       shouldCountAsUniqueVisit = true;
     }
 
@@ -98,6 +99,8 @@ export async function handler(event) {
       );
       if (stats) {
         await client.patch(stats._id).inc({ visitors: 1 }).commit();
+      } else {
+        await client.create({ _type: "siteStats", visitors: 1 });
       }
     }
 
@@ -106,7 +109,7 @@ export async function handler(event) {
       body: JSON.stringify({ message: "Visit logged" }),
     };
   } catch (err) {
-    console.error(err);
+    console.error("💥 Server error", err);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: "Server error", error: err.message }),

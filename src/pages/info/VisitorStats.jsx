@@ -33,10 +33,10 @@ const VisitorStats = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const visitors = await sanityClient.fetch(
+      const statsDoc = await sanityClient.fetch(
         `*[_type == "siteStats"][0]{visitors}`
       );
-      setTotalVisits(visitors.visitors);
+      setTotalVisits(statsDoc?.visitors ?? 0);
 
       const logs = await sanityClient.fetch(
         `*[_type == "visitorLog"]{ip, visits}`
@@ -160,7 +160,8 @@ const VisitorStats = () => {
         const label = getPageLabel(page, litterNameMap, dogNameMap);
         return (
           <SmallText key={page}>
-            – <strong className="text-accent">{label}</strong>: {count} besøk ({ips.size} unike)
+            – <strong className="text-accent">{label}</strong>: {count} besøk (
+            {ips.size} unike)
           </SmallText>
         );
       });
@@ -170,7 +171,7 @@ const VisitorStats = () => {
     const max = MAX_OFFSETS[type];
     setPeriodOffsets((prev) => ({
       ...prev,
-      [type]: prev[type] === max ? 0 : prev[type] + 1, 
+      [type]: prev[type] === max ? 0 : prev[type] + 1,
     }));
   };
 

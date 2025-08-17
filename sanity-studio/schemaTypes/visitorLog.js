@@ -2,8 +2,14 @@ export default {
   name: 'visitorLog',
   title: 'Besøk',
   type: 'document',
+  readOnly: true,
   fields: [
     {name: 'ip', title: 'IP-adresse', type: 'string'},
+    {
+      name: 'lastSessionStart',
+      title: 'Starttid for siste økt',
+      type: 'datetime',
+    },
     {
       name: 'visits',
       title: 'Besøk',
