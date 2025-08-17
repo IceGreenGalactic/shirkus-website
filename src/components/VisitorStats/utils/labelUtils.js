@@ -5,6 +5,7 @@ export const pageNameMap = {
   "/about": "Om oss",
   "/contact": "Kontakt",
   "/": "Hjem",
+  "/PrivacyPolicy": "Personvern",
 };
 
 export const getPageLabel = (path, litterNameMap, dogNameMap) => {

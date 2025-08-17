@@ -14,6 +14,7 @@ import {
   formatDateKey,
 } from "../../components/VisitorStats/utils/dateUtils";
 import { getPageLabel } from "../../components/VisitorStats/utils/labelUtils";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 const PERIODS = ["day", "week", "month"];
 const MAX_OFFSETS = { day: 6, week: 3, month: 12 };
@@ -143,7 +144,6 @@ const VisitorStats = () => {
       .sort(([pageA], [pageB]) => {
         if (pageA === "/") return -1;
         if (pageB === "/") return 1;
-
         const labelA = getPageLabel(
           pageA,
           litterNameMap,
@@ -160,39 +160,42 @@ const VisitorStats = () => {
         const label = getPageLabel(page, litterNameMap, dogNameMap);
         return (
           <SmallText key={page}>
-            – <strong>{label}</strong>: {count} besøk ({ips.size} IP-er)
+            – <strong className="text-accent">{label}</strong>: {count} besøk ({ips.size} unike)
           </SmallText>
         );
       });
   };
 
-  const goBack = (type) =>
-    setPeriodOffsets((prev) => {
-      const next = prev[type] + 1;
-      return {
-        ...prev,
-        [type]: next > MAX_OFFSETS[type] ? 0 : next,
-      };
-    });
+  const goBack = (type) => {
+    const max = MAX_OFFSETS[type];
+    setPeriodOffsets((prev) => ({
+      ...prev,
+      [type]: prev[type] === max ? 0 : prev[type] + 1, 
+    }));
+  };
 
-  const goForward = (type) =>
+  const goForward = (type) => {
     setPeriodOffsets((prev) => ({
       ...prev,
       [type]: prev[type] > 0 ? prev[type] - 1 : 0,
     }));
+  };
 
   return (
     <StatsWrapper className="col-10">
       <Title>📊 Besøksstatistikk</Title>
 
       <StatBoxCentered>
-        <h3>Totalt</h3>
+        <h3>Oppsummert</h3>
         <p>
-          <strong>Besøk:</strong> {totalVisits ?? "Laster..."}
+          <strong>Totale besøk:</strong> {totalVisits ?? "Laster..."}
         </p>
         <p>
-          <strong>Unike IP-er:</strong> {uniqueIps.size}
+          <strong>Unike besøkere (IP):</strong> {uniqueIps.size}
         </p>
+        <SmallText>
+          Unike besøkere = antall ulike IP-adresser (ingen persondata lagres).
+        </SmallText>
       </StatBoxCentered>
 
       <SectionGrid>
@@ -204,39 +207,37 @@ const VisitorStats = () => {
 
           return (
             <StatBox key={periodKey}>
-              <div className="d-flex align-items-center gap-3 justify-content-center">
+              <div className="nav">
                 <Arrow
-                  disabled={periodOffsets[periodKey] >= MAX_OFFSETS[periodKey]}
-                  onClick={() => {
-                    if (periodOffsets[periodKey] < MAX_OFFSETS[periodKey]) {
-                      goBack(periodKey);
-                    }
-                  }}
+                  aria-label="Forrige periode"
+                  onClick={() => goBack(periodKey)}
                 >
-                  ←
+                  <FiChevronLeft size={20} />
                 </Arrow>
 
                 <h3>{label}</h3>
 
                 <Arrow
-                  disabled={periodOffsets[periodKey] === 0}
-                  onClick={() => {
-                    if (periodOffsets[periodKey] > 0) {
-                      goForward(periodKey);
-                    }
-                  }}
+                  aria-label="Neste periode"
+                  disabled={offset === 0}
+                  onClick={() => offset > 0 && goForward(periodKey)}
                 >
-                  →
+                  <FiChevronRight size={20} />
                 </Arrow>
               </div>
 
-              <p>
+              <p className="mt-4">
                 <strong>Besøk:</strong> {stats.count}
               </p>
               <p>
-                <strong>Unike IP-er:</strong> {stats.ips.size}
+                <strong>Unike besøkere:</strong> {stats.ips.size}
               </p>
-              {renderPerPageStats(stats.perPage)}
+
+              <div className="scroll">
+                {" "}
+                <SmallText>Sider besøkt:</SmallText>
+                {renderPerPageStats(stats.perPage)}
+              </div>
             </StatBox>
           );
         })}

@@ -2,85 +2,119 @@ import styled from "styled-components";
 
 export const StatsWrapper = styled.div`
   padding: 3rem 1rem;
-  background-color: ${({ theme }) => theme.colors.background};
+  background: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.text};
   max-width: 1200px;
   margin: 0 auto;
 `;
 
-export const Title = styled.h2`
-  text-align: center;
-  margin-bottom: 2rem;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  color: ${({ theme }) => theme.colors.title};
-`;
-
 export const SectionGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+  /* Fleksible kolonner som bryter pent */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+
+  /* Viktig: sentrer kortet inni cellen på hver kolonne */
+  justify-items: center;
+
   margin-bottom: 2rem;
 `;
 
 export const StatBox = styled.div`
-  background-color: ${({ theme }) => theme.colors.white};
-  padding: 1.5rem;
-  border-radius: 8px;
+  background: ${({ theme }) => theme.colors.white};
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
   box-shadow: ${({ theme }) => theme.shadows.boxShadow};
-  transition: transform 0.2s ease;
+  padding: 1rem 2rem;
+  transition: transform 0.15s ease;
+  width: 100%;
+  max-width: 360px;
+
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(220px, 35vh, 340px);
+  max-height: clamp(220px, 40vh, 380px);
 
   &:hover {
-    transform: scale(1.02);
+    transform: translateY(-1px);
+  }
+
+  .nav {
+    display: grid;
+    grid-template-columns: 2rem 1fr 2rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    gap: 0.5rem;
   }
 
   h3 {
-    margin-bottom: 0.5rem;
-    font-size: 1.4rem;
-    font-family: ${({ theme }) => theme.fonts.heading};
-    color: ${({ theme }) => theme.colors.accent};
+    margin: 0;
+    text-align: center;
+    font-size: 1.3rem;
+    color: ${({ theme }) => theme.colors.title};
   }
 
   p {
     margin: 0.25rem 0;
-    font-family: ${({ theme }) => theme.fonts.body};
-    font-size: 1rem;
   }
-
   strong {
     color: ${({ theme }) => theme.colors.primary};
+  }
+
+  /* Scroll-område: tar alltid “resten” av plassen */
+  .scroll {
+    margin-top: 0.25rem;
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 0.25rem;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Valgfritt: litt penere scrollbar */
+  .scroll::-webkit-scrollbar {
+    width: 8px;
+  }
+  .scroll::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
   }
 `;
 
 export const StatBoxCentered = styled(StatBox)`
-  max-width: 600px;
-  margin: 0 auto 3rem;
+  max-width: 640px;
+  margin: 0 auto 2rem;
   text-align: center;
-`;
 
-export const Subtitle = styled.h3`
-  margin: 2rem 0 1rem;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  color: ${({ theme }) => theme.colors.accent};
-  font-size: 1.2rem;
+  min-height: auto;
+  max-height: none;
+
+  .scroll {
+    flex: unset;
+    overflow: visible;
+  }
 `;
 
 export const SmallText = styled.div`
   font-size: 0.85rem;
-  margin: 0.2rem 0;
-  color: ${({ theme }) => theme.colors.secondary};
-  font-family: ${({ theme }) => theme.fonts.body};
+  margin-top: 0.3rem;
+  opacity: 0.85;
+
+  .text-accent {
+    color: ${({ theme }) => theme.colors.title};
+  }
 `;
 
 export const Arrow = styled.button`
-  font-size: 1rem;
-  font-weight: 900;
-  margin: 0.2rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  font-size: 1.2rem;
   color: ${({ theme, disabled }) =>
-    disabled ? theme.colors.white : theme.colors.accent};
-  background-color: transparent;
+    disabled ? theme.colors.secondary : theme.colors.accent};
+  background: transparent;
   border: none;
-  font-family: ${({ theme }) => theme.fonts.body};
-  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
+  opacity: ${({ disabled }) => (disabled ? 0.4 : 1)};
   cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
-  transition: opacity 0.2s ease;
+  transition: color 0.2s ease;
 `;
