@@ -5,6 +5,11 @@ export default {
   fields: [
     {name: 'ip', title: 'IP-adresse', type: 'string'},
     {
+      name: 'lastSessionStart',
+      title: 'Starttid for siste økt',
+      type: 'datetime',
+    },
+    {
       name: 'visits',
       title: 'Besøk',
       type: 'array',
