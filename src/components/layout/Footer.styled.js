@@ -7,15 +7,33 @@ export const FooterContainer = styled.footer`
   padding: 1rem;
   text-align: center;
   margin-top: 20px;
+
+  .footer-content {
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+
+    @media (min-width: 992px) {
+      flex-direction: row;
+      justify-content: space-evenly;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    a {
+      color: ${(props) => props.theme.colors.white};
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  }
+
   .made-by {
     font-size: 0.8rem;
-  }
-  .made-by a {
-    color: ${(props) => props.theme.colors.white};
-    text-decoration: none;
-  }
-    
-  .made-by a:hover {
-    text-decoration: underline;
+    margin-bottom: 0px;
   }
 `;

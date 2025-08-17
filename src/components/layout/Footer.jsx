@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FooterContainer } from "./Footer.styled";
 import sanityClient from "../../sanityClient";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const [pageTitle, setPageTitle] = useState("");
@@ -23,20 +24,18 @@ const Footer = () => {
   return (
     <FooterContainer>
       <div className="container">
-        <div className="row footer-content">
-          <div className="col-12">
-            <p>© {pageTitle} - ALL RIGHTS RESERVED</p>
-          </div>
-
-          {/* Right Column with site info and link */}
-          <div className="">
-            <div className="made-by d-flex flex-column ">
-              <p className="">Nettside laget av Kristine Tyrholm</p>
-              <p className="">
+        <div className="row ">
+          <div>
+            <div className="footer-content">
+              <p>© {pageTitle} - ALL RIGHTS RESERVED</p>
+              <div>
+                <p className="made-by">Nettside laget av Kristine Tyrholm </p>
                 <a href="https://kennel-editor.netlify.app/">
                   Ønsker du en nettside? Klikk her for informasjon
                 </a>
-              </p>
+              </div>
+
+              <Link to="PrivacyPolicy">Personvernerklæring</Link>
             </div>
           </div>
         </div>
