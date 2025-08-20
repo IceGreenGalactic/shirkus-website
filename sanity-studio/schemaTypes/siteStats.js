@@ -1,14 +1,35 @@
+import {InfoBox} from '../components/InfoBox'
+
 export default {
   name: 'siteStats',
-  title: 'Site Stats',
+  title: 'Besøksstatistikk',
   type: 'document',
-  readOnly: true,
   fields: [
     {
+      name: 'adminInfo',
+      type: 'string',
+      title: ' ',
+      readOnly: true,
+      components: {
+        field: InfoBox,
+      },
+    },
+    {
       name: 'visitors',
-      title: 'Visitors',
+      title: 'Totale besøk',
       type: 'number',
       initialValue: 0,
+      readOnly: true,
     },
   ],
+  preview: {
+    select: {
+      visitors: 'visitors',
+    },
+    prepare({visitors}) {
+      return {
+        title: `Totale besøk: ${visitors ?? 0}`,
+      }
+    },
+  },
 }

@@ -9,17 +9,6 @@ const client = createClient({
   apiVersion: "2023-01-01",
 });
 
-function getClientIp(headers = {}) {
-  const xf =
-    headers["x-forwarded-for"] ||
-    headers["X-Forwarded-For"] ||
-    headers["client-ip"] ||
-    headers["x-real-ip"] ||
-    "";
-  const raw = (Array.isArray(xf) ? xf[0] : xf).split(",")[0].trim();
-  return (raw || "").replace(/^::ffff:/, "").replace(/:\d+$/, "") || "0.0.0.0";
-}
-
 export async function handler(event) {
 
   if (event.httpMethod !== "POST") {
@@ -32,7 +21,8 @@ export async function handler(event) {
   try {
     const { page = "unknown" } = JSON.parse(event.body || "{}");
 
-    const ip = getClientIp(event.headers || {});
+    const ipRes = await fetch("https://api.ipify.org?format=json");
+    const { ip } = await ipRes.json();
 
     const hashedIp = crypto.createHash("sha256").update(ip).digest("hex");
 
@@ -90,6 +80,7 @@ export async function handler(event) {
           },
         ],
       });
+
       shouldCountAsUniqueVisit = true;
     }
 
@@ -109,7 +100,7 @@ export async function handler(event) {
       body: JSON.stringify({ message: "Visit logged" }),
     };
   } catch (err) {
-    console.error("💥 Server error", err);
+    console.error("Feil i incrementVisitor:", err);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: "Server error", error: err.message }),
