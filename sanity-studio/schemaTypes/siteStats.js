@@ -2,7 +2,7 @@ export default {
   name: 'siteStats',
   title: 'Site Stats',
   type: 'document',
-  readOnly: true,
+  // readOnly: true,
   fields: [
     {
       name: 'visitors',
