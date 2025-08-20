@@ -52,7 +52,7 @@ export default {
           ],
         },
       ],
-      validation: (Rule) => Rule.max(20),
+      validation: (Rule) => Rule.max(30),
     },
     {
       name: 'createdAt',
