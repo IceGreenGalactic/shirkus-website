@@ -10,7 +10,6 @@ import {
 import LoadingSpinner from "../utils/LoadingSpinner";
 import sanityClient from "../sanityClient";
 
-
 const Gallery = () => {
   const [galleries, setGalleries] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,10 +18,11 @@ const Gallery = () => {
     sanityClient
       .fetch(
         `*[_type == "gallery"]{
-          _id,
-          title,
-          "mainImageUrl": mainImage.asset->url
-        }`
+  _id,
+  title,
+  "mainImageUrl": mainImage.asset->url,
+  "imageCount": count(images)
+}`
       )
       .then((data) => {
         setGalleries(data);
@@ -46,7 +46,15 @@ const Gallery = () => {
               <NavLink to={`/gallery/${gallery._id}`}>
                 <GalleryItem>
                   <Image src={gallery.mainImageUrl} alt={gallery.title} />
-                  <Title>{gallery.title}</Title>
+                  <div className="p-2">
+                    <Title>{gallery.title}</Title>
+                    <h4>
+                      {gallery.imageCount !== undefined &&
+                        ` (${gallery.imageCount} bilde${
+                          gallery.imageCount === 1 ? "" : "r"
+                        })`}
+                    </h4>
+                  </div>
                 </GalleryItem>
               </NavLink>
             </div>
