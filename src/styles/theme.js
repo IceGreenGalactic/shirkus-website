@@ -29,7 +29,7 @@ export const getTheme = (settings) => {
       accent: settings.accentFont || "'Tangerine', cursive, sans-serif",
     },
     shadows: {
-      boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.1)",
+      boxShadow: "0px 6px 20px rgba(0, 0, 0, 0.35)",
       textShadow: "1px 1px 2px rgba(0, 0, 0, 0.6)",
     },
   };

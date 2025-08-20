@@ -7,22 +7,22 @@ import LoadingSpinner from "../utils/LoadingSpinner";
 
 // Helper function to get name
 const getDogName = (dog) => {
-  if (!dog) return 'Ukjent'
+  if (!dog) return "Ukjent";
   return dog.dogReference
-    ? dog.dogReference.nickname || dog.dogReference.name || 'Ukjent'
-    : dog.nickname || dog.name || 'Ukjent'
-}
+    ? dog.dogReference.nickname || dog.dogReference.name || "Ukjent"
+    : dog.nickname || dog.name || "Ukjent";
+};
 
 const getDogImage = (dog) => {
-  if (!dog) return null
+  if (!dog) return null;
   return dog.overrideImage?.asset
     ? urlFor(dog.overrideImage)
     : dog.dogReference?.image?.asset
     ? urlFor(dog.dogReference.image)
     : dog.image?.asset
     ? urlFor(dog.image)
-    : null
-}
+    : null;
+};
 
 const LitterCardItem = ({ litter }) => {
   const motherName = getDogName(litter.mother);
@@ -93,7 +93,7 @@ const LitterCardItem = ({ litter }) => {
 
 // LitterCardList component to reuse the rendering logic for multiple litters
 const LitterCardList = ({ litters, title }) => (
-  <div className="row g-4 costum-border pb-4">
+  <div className="row g-4 costum-border pb-4 mt-1">
     <h2 className="text-center">{title}</h2>
     {litters.map((litter) => (
       <LitterCardItem key={litter._id} litter={litter} />

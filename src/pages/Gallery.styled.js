@@ -31,15 +31,17 @@ export const GalleryItem = styled.div`
   }
 
   h3 {
-    margin: 10px 0 5px;
+    margin: 10px 0 0px;
     font-size: 1.5rem;
     color: ${(props) => props.theme.colors.text};
   }
 
   h4 {
     margin-bottom: 15px;
-    font-size: 1rem;
-    color: ${(props) => props.theme.colors.secondary};
+    font-size: 0.8rem;
+    color: ${(props) => props.theme.colors.accent};
+        font-family: ${(props) => props.theme.fonts.body};
+
   }
 
   a {
@@ -58,7 +60,7 @@ export const Image = styled.img`
 
 export const Title = styled.h3`
   margin: 0;
-  padding: 1rem;
+  padding: 0.2rem;
   background-color: ${(props) => props.theme.colors.white};
   color: ${(props) => props.theme.colors.primary};
   text-align: center;
