@@ -10,7 +10,6 @@ const client = createClient({
 });
 
 export async function handler(event) {
-
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
@@ -21,8 +20,11 @@ export async function handler(event) {
   try {
     const { page = "unknown" } = JSON.parse(event.body || "{}");
 
-    const ipRes = await fetch("https://api.ipify.org?format=json");
-    const { ip } = await ipRes.json();
+    // Hent IP fra headers i stedet for ekstern tjeneste
+    const ip =
+      event.headers["x-forwarded-for"]?.split(",")[0] ||
+      event.headers["client-ip"] ||
+      "unknown";
 
     const hashedIp = crypto.createHash("sha256").update(ip).digest("hex");
 

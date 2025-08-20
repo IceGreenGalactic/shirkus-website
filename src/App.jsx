@@ -40,6 +40,34 @@ const App = () => {
       });
   }, []);
 
+  useEffect(() => {
+  const logVisit = async () => {
+    try {
+      const lastVisit = localStorage.getItem("lastVisitTime");
+      const now = Date.now();
+      const FIVE_HOURS = 1000 * 60 * 60 * 5;
+
+      if (lastVisit && now - parseInt(lastVisit, 10) < FIVE_HOURS) {
+        return; // Ikke logg – for kort tid siden
+      }
+
+      await fetch("/.netlify/functions/incrementVisitor", {
+        method: "POST",
+        body: JSON.stringify({ page: window.location.pathname }),
+      });
+
+      localStorage.setItem("lastVisitTime", now.toString());
+    } catch (err) {
+      console.error("Kunne ikke logge besøk:", err);
+    }
+  };
+
+  if (!isLoading) {
+    logVisit();
+  }
+}, [isLoading]);
+
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
