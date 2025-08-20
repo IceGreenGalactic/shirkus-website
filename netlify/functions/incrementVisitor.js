@@ -9,92 +9,96 @@ const client = createClient({
   apiVersion: "2023-01-01",
 });
 
+function getClientIp(headers) {
+  return (
+    headers["x-nf-client-connection-ip"] ||
+    headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
+    headers["x-real-ip"] ||
+    headers["client-ip"] ||
+    ""
+  );
+}
+
+function normalizeIp(ip) {
+  if (!ip) return "unknown";
+  if (ip === "127.0.0.1" || ip === "::1" || ip === "localhost")
+    return "local-dev";
+  
+
+  const parts = ip.split(".");
+  if (parts.length === 4) {
+    const [a, b] = parts.map(Number);
+    if (a === 10) return "local-dev";
+    if (a === 192 && b === 168) return "local-dev";
+    if (a === 172 && b >= 16 && b <= 31) return "local-dev";
+  }
+  return ip;
+}
+
 export async function handler(event) {
   if (event.httpMethod !== "POST") {
-    return {
-      statusCode: 405,
-      body: "Only POST method allowed",
-    };
+    return { statusCode: 405, body: "Only POST method allowed" };
   }
 
   try {
-    const { page = "unknown" } = JSON.parse(event.body || "{}");
+    const { page = "unknown", deviceId } = JSON.parse(event.body || "{}");
 
-    // Hent IP fra headers i stedet for ekstern tjeneste
-    const ip =
-      event.headers["x-forwarded-for"]?.split(",")[0] ||
-      event.headers["client-ip"] ||
-      "unknown";
+    
+    const ipRaw = getClientIp(event.headers);
+    const ipNorm = normalizeIp(ipRaw);
+    const keySource = deviceId || ipNorm || "unknown";
 
-    const hashedIp = crypto.createHash("sha256").update(ip).digest("hex");
+
+    const keyHash = crypto.createHash("sha256").update(keySource).digest("hex");
+    const docId = `visitor.${keyHash}`;
 
     const now = new Date();
     const today = now.toISOString().split("T")[0];
     const fiveHoursAgo = new Date(now.getTime() - 5 * 60 * 60 * 1000);
 
-    const existingDoc = await client.fetch(
-      `*[_type == "visitorLog" && ip == $ip][0]`,
-      { ip: hashedIp }
-    );
+    await client.createIfNotExists({
+      _id: docId,
+      _type: "visitorLog",
+      ip: keyHash, 
+      lastSessionStart: now.toISOString(),
+      visits: [], 
+    });
+
+
+    const existing = await client.fetch(`*[_id == $id][0]`, { id: docId });
+    const visits = existing?.visits || [];
+    const idx = visits.findIndex((v) => v.page === page && v.date === today);
 
     let shouldCountAsUniqueVisit = false;
+    const lastSessionStart = new Date(existing?.lastSessionStart || 0);
+    if (lastSessionStart < fiveHoursAgo) shouldCountAsUniqueVisit = true;
 
-    if (existingDoc) {
-      const lastSessionStart = new Date(existingDoc.lastSessionStart || 0);
-      shouldCountAsUniqueVisit = lastSessionStart < fiveHoursAgo;
-
-      const visits = existingDoc.visits || [];
-      const index = visits.findIndex(
-        (v) => v.page === page && v.date === today
-      );
-
-      if (index !== -1) {
-        visits[index].count += 1;
-        visits[index].lastVisit = now.toISOString();
-      } else {
-        visits.push({
-          _key: crypto.randomUUID(),
-          page,
-          date: today,
-          count: 1,
-          lastVisit: now.toISOString(),
-        });
-      }
-
-      const patchData = { visits };
-      if (shouldCountAsUniqueVisit) {
-        patchData.lastSessionStart = now.toISOString();
-      }
-
-      await client.patch(existingDoc._id).set(patchData).commit();
+    if (idx !== -1) {
+      visits[idx].count += 1;
+      visits[idx].lastVisit = now.toISOString();
     } else {
-      await client.create({
-        _type: "visitorLog",
-        ip: hashedIp,
-        lastSessionStart: now.toISOString(),
-        visits: [
-          {
-            _key: crypto.randomUUID(),
-            page,
-            date: today,
-            count: 1,
-            lastVisit: now.toISOString(),
-          },
-        ],
+      visits.push({
+        _key: crypto.randomUUID(),
+        page,
+        date: today,
+        count: 1,
+        lastVisit: now.toISOString(),
       });
-
-      shouldCountAsUniqueVisit = true;
     }
+
+    const patch = client.patch(docId).set({ visits });
+    if (shouldCountAsUniqueVisit)
+      patch.set({ lastSessionStart: now.toISOString() });
+    await patch.commit();
+
 
     if (shouldCountAsUniqueVisit) {
       const stats = await client.fetch(
         `*[_type == "siteStats"][0]{_id, visitors}`
       );
-      if (stats) {
+      if (stats?._id)
         await client.patch(stats._id).inc({ visitors: 1 }).commit();
-      } else {
-        await client.create({ _type: "siteStats", visitors: 1 });
-      }
+      else await client.create({ _type: "siteStats", visitors: 1 });
     }
 
     return {
