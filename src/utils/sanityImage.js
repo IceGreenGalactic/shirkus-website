@@ -19,8 +19,8 @@ export function videoUrlFor(video) {
 
   if (Array.isArray(video)) {
     const first = video[0];
-    return first?.asset?.url || null;
+    return first?.url || first?.asset?.url || null;
   }
 
-  return video?.asset?.url || null;
+  return video?.url || video?.asset?.url || null;
 }

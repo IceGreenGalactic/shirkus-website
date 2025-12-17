@@ -22,16 +22,20 @@ const GalleryModal = ({ litterId, dogId }) => {
 
     const query = litterId
       ? `*[_type == "litter" && _id == $id]{
-          galleries[] {
-            title,
-            images[] { asset-> { _id, _ref }, crop, hotspot },
-            video { asset-> { _id, url } },
-            description
-          }
-        }`
-      : `*[_type == "dog" && _id == $id]{
-          gallery
-        }`;
+      galleries[] {
+        title,
+        images[] { asset-> { _id, _ref }, crop, hotspot },
+
+        "videos": select(
+          defined(video[0]) => video[]{ _key, "url": asset->url, "mimeType": asset->mimeType },
+          defined(video.asset) => [video]{ _key, "url": asset->url, "mimeType": asset->mimeType },
+          []
+        ),
+
+        description
+      }
+    }`
+      : `*[_type == "dog" && _id == $id]{ gallery }`;
 
     sanityClient
       .fetch(query, { id: litterId || dogId })
@@ -41,10 +45,11 @@ const GalleryModal = ({ litterId, dogId }) => {
           if (fetchedData?.galleries) {
             const galleryData = fetchedData.galleries.map((gallery, index) => ({
               images: gallery.images || [],
-              video: gallery.video?.asset?.url || null,
+              videos: gallery.videos || [],
               text: gallery.description,
               title: gallery.title || `Galleri ${index + 1}`,
             }));
+
             setGalleryData(galleryData);
           }
         } else if (dogId) {
@@ -91,17 +96,20 @@ const GalleryModal = ({ litterId, dogId }) => {
   };
 
   const getMediaItems = (gallery) => {
-    const mediaItems = gallery.images.map((image) => ({
+    const mediaItems = (gallery.images || []).map((image) => ({
       type: "image",
       asset: image.asset,
     }));
 
-    if (gallery.video) {
-      mediaItems.push({
-        type: "video",
-        url: gallery.video,
-      });
-    }
+    (gallery.videos || []).forEach((v) => {
+      if (v?.url) {
+        mediaItems.push({
+          type: "video",
+          url: v.url,
+          mimeType: v.mimeType,
+        });
+      }
+    });
 
     return mediaItems;
   };
@@ -115,10 +123,7 @@ const GalleryModal = ({ litterId, dogId }) => {
 
               <GalleryGrid className="col-12 col-md-10 m-auto">
                 {getMediaItems(gallery).map((mediaItem, mediaIndex) => (
-                  <div
-                    className="col-10 mb-3"
-                    key={mediaIndex}
-                  >
+                  <div className="col-10 mb-3" key={mediaIndex}>
                     {mediaItem.type === "image" ? (
                       <GalleryImage
                         src={urlFor(mediaItem.asset)}
