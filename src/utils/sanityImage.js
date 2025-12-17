@@ -12,9 +12,15 @@ export function urlFor(image, overrideImage) {
   return builder.image(img).fit("crop").auto("format").url();
 }
 
-
 export function videoUrlFor(video) {
   if (!video) return null;
-  return typeof video === "string" ? video : video?.asset?.url || null;
-}
 
+  if (typeof video === "string") return video;
+
+  if (Array.isArray(video)) {
+    const first = video[0];
+    return first?.asset?.url || null;
+  }
+
+  return video?.asset?.url || null;
+}

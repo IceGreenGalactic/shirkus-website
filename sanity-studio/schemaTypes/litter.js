@@ -381,7 +381,7 @@ export default {
               title: 'Tittel for Galleri',
               type: 'string',
               description:
-                'Gi galleriet en passende tittel, f.eks. "Uke 1, uke2 osv (maks 10 gallerier)".',
+                'Gi galleriet en passende tittel, f.eks. "Uke 1, uke2 osv (maks 20 gallerier)".',
             },
             {
               name: 'description',
@@ -393,35 +393,27 @@ export default {
               title: 'Bilder',
               type: 'array',
               of: [{type: 'image', options: {hotspot: true}}],
-              validation: (Rule) => Rule.max(8).error('Maks 8 bilder per galleri'),
-              description: 'Legg til bilder fra valpens utvikling. Maks 8 bilder pr galleri',
+              validation: (Rule) => Rule.max(12).error('Maks 12 bilder per galleri'),
+              description: 'Legg til bilder fra valpens utvikling. Maks 12 bilder pr galleri',
             },
 
             {
               name: 'video',
-              title: 'Video',
-              type: 'file',
-              description: 'Legg til en video for dette galleriet. Maks 3 minutters video.',
-              options: {
-                accept: 'video/*',
-              },
-              validation: (Rule) =>
-                Rule.custom((file, context) => {
-                  if (!file) return true
-                  const galleries = context.parent?.galleries || []
-                  const videoCount = galleries.filter((gallery) => gallery.video).length
-
-                  if (videoCount > 1) {
-                    return 'Maks én video per galleri'
-                  }
-
-                  return true
-                }),
+              title: 'Video (maks 3 pr galleri)',
+              type: 'array',
+              of: [
+                {
+                  type: 'file',
+                  options: {accept: 'video/*'},
+                },
+              ],
+              validation: (Rule) => Rule.max(3).error('Maks 3 videoer per galleri'),
+              description: 'Legg til opptil 3 videoer for dette galleriet.',
             },
           ],
         },
       ],
-      validation: (Rule) => Rule.max(10).error('Maks 10 gallerier'),
+      validation: (Rule) => Rule.max(20).error('Maks 20 gallerier'),
     },
     {
       name: 'freeText2',
