@@ -17,8 +17,8 @@ import Gallery from "./pages/Gallery";
 import GalleryDetail from "./pages/GalleryDetail";
 import useSiteSettings from "./hooks/useSiteSettings";
 import PageSkeleton from "./components/skeletons/PageSkeleton";
-import VisitorStats from "./pages/info/VisitorStats";
-import RouteTracker from "./components/RouteTracker";
+import Admin from "./pages/info/Admin";
+import TrackAllRoutes from "./counter/TrackAllRoutes";
 import PrivacyPolicy from "./pages/info/PrivacyPolicy";
 
 const App = () => {
@@ -31,7 +31,7 @@ const App = () => {
       .fetch(`*[_type == "siteSettings" && isActive == true][0]`)
       .then((data) => {
         setTheme(getTheme(data));
-        setIsLoading(false); // No delay
+        setIsLoading(false);
       })
       .catch((err) => {
         console.error("Feil ved henting av tema:", err);
@@ -40,13 +40,11 @@ const App = () => {
       });
   }, []);
 
-  
-
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <Router>
-        <RouteTracker />
+        <TrackAllRoutes />
         {isLoading ? (
           <PageSkeleton />
         ) : (
@@ -61,7 +59,7 @@ const App = () => {
               <Route path="contact" element={<Contact />} />
               <Route path="gallery" element={<Gallery />} />
               <Route path="gallery/:id" element={<GalleryDetail />} />
-              <Route path="/admin" element={<VisitorStats />} />
+              <Route path="/admin" element={<Admin />} />
               <Route path="PrivacyPolicy" element={<PrivacyPolicy />} />
             </Route>
           </Routes>
