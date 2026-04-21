@@ -112,24 +112,18 @@ export default {
       type: 'image',
       description: 'Pedigree-bilde av hunden (stamtavle).',
     },
-    {
-      name: 'gallery',
-      title: 'Galleri bilder',
-      type: 'array',
-      of: [{type: 'image', options: {hotspot: true}}],
-      validation: (Rule) =>
-        Rule.custom((value) => {
-          if (!value) return true
-          if (value.length > 8) return '🚫 For mange bilder – maks 8'
-          if (value.length === 7) {
-            return {
-              message: '⚠️ Bare plass til ett bilde til',
-              level: 'warning',
-            }
-          }
-          return true
-        }),
-    },
+{
+  name: 'gallery',
+  title: 'Galleri bilder',
+  type: 'array',
+  of: [{type: 'image', options: {hotspot: true}}],
+  validation: (Rule) =>
+    Rule.custom((value) => {
+      if (!value) return true
+      if (value.length > 12) return '🚫 For mange bilder – maks 12'
+      return true
+    }),
+},
     {
       name: 'breedingNotes',
       title: 'kull informasjon',
