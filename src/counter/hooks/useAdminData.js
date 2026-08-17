@@ -7,6 +7,7 @@ import {
   ymdOslo,
   fetchPosthogToday,
   fetchPosthogRange,
+  fetchTrafficStats,
 } from "../utils/adminStats";
 
 import {
@@ -38,25 +39,34 @@ export default function useAdminData() {
     "/gallery": false,
   });
 
+  const [traffic, setTraffic] = useState({
+    periodDays: 30,
+    countries: [],
+    sources: [],
+  });
+
   async function fetchAllStats() {
     const todayYmd = ymdOslo();
+
+    const trafficResult = await fetchTrafficStats();
 
     if (todayYmd <= LEGACY_END) {
       return {
         today: getLegacyToday(todayYmd),
         sincePosthogStart: EMPTY_STATS,
+        traffic: trafficResult,
       };
     }
 
     const [todayResult, posthogResult] = await Promise.all([
       fetchPosthogToday(),
-
       fetchPosthogRange(POSTHOG_START, todayYmd),
     ]);
 
     return {
       today: todayResult,
       sincePosthogStart: posthogResult,
+      traffic: trafficResult,
     };
   }
 
@@ -69,8 +79,8 @@ export default function useAdminData() {
 
         if (!cancelled) {
           setToday(result.today);
-
           setSincePosthogStart(result.sincePosthogStart);
+          setTraffic(result.traffic);
         }
       } catch (error) {
         console.error("Kunne ikke laste admin-statistikk:", error);
@@ -99,6 +109,7 @@ export default function useAdminData() {
 
       setToday(result.today);
       setSincePosthogStart(result.sincePosthogStart);
+      setTraffic(result.traffic);
       setRefTs(Date.now());
     } catch (error) {
       console.error("Kunne ikke oppdatere admin-statistikk:", error);
@@ -179,5 +190,6 @@ export default function useAdminData() {
 
     today,
     sincePosthogStart,
+    traffic,
   };
 }

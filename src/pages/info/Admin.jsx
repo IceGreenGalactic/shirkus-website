@@ -13,6 +13,7 @@ import {
   Btn,
 } from "./Admin.styled";
 
+import TrafficOverview from "../../counter/components/TrafficOverview";
 import StatsTable from "../../counter/components/StatsTable";
 import RollingPanels from "../../counter/components/RollingPanels";
 
@@ -35,6 +36,7 @@ export default function Admin() {
     dailyToday,
     lifetime,
     global,
+    traffic,
   } = useAdminData();
   const [justUpdated, setJustUpdated] = useState(false);
 
@@ -118,6 +120,7 @@ export default function Admin() {
       <RangeGrid>
         <RollingPanels refreshKey={refTs} />
       </RangeGrid>
+      <TrafficOverview traffic={traffic} />
     </Wrap>
   );
 }

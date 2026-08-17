@@ -27,6 +27,7 @@ export default function RollingPanels({ refreshKey = 0 }) {
       <RangeSection>
         <RangeCard title="År" items={years} refreshKey={refreshKey} />
       </RangeSection>
+      
     </>
   );
 }

@@ -53,3 +53,23 @@ export async function fetchPosthogRange(start, end) {
 
   return response.json();
 }
+
+export async function fetchTrafficStats() {
+  const response = await fetch(
+    "/.netlify/functions/getPosthogStats?range=today&includeTraffic=true",
+  );
+
+  if (!response.ok) {
+    throw new Error("Kunne ikke hente trafikkstatistikk");
+  }
+
+  const data = await response.json();
+
+  return (
+    data.traffic || {
+      periodDays: 30,
+      countries: [],
+      sources: [],
+    }
+  );
+}
