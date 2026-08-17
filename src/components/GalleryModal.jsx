@@ -84,14 +84,14 @@ const GalleryModal = ({ litterId, dogId }) => {
   const prevImage = () => {
     const mediaItems = getMediaItems(galleryData[currentGalleryIndex]);
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? mediaItems.length - 1 : prevIndex - 1
+      prevIndex === 0 ? mediaItems.length - 1 : prevIndex - 1,
     );
   };
 
   const nextImage = () => {
     const mediaItems = getMediaItems(galleryData[currentGalleryIndex]);
     setCurrentImageIndex((prevIndex) =>
-      prevIndex === mediaItems.length - 1 ? 0 : prevIndex + 1
+      prevIndex === mediaItems.length - 1 ? 0 : prevIndex + 1,
     );
   };
 
@@ -142,26 +142,17 @@ const GalleryModal = ({ litterId, dogId }) => {
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
+                            background: "#222",
+                            minHeight: "100px",
                           }}
                           onClick={() =>
                             openGalleryModal(galleryIndex, mediaIndex)
                           }
                         >
-                          <video
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                            src={mediaItem.url}
-                            muted
-                          />
                           <FaPlayCircle
                             size={50}
                             color="white"
                             style={{
-                              position: "absolute",
-                              zIndex: 2,
                               pointerEvents: "none",
                             }}
                           />

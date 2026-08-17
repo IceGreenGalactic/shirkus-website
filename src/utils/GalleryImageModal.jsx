@@ -41,14 +41,16 @@ const GalleryImageModal = ({
               />
             ) : (
               <video
+                key={videoUrl}
+                src={videoUrl}
                 controls
                 playsInline
+                preload="metadata"
                 style={{
                   maxWidth: "80vw",
                   maxHeight: "80vh",
                 }}
               >
-                <source src={videoUrl} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             )}
