@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Wrap,
   Title,
@@ -35,7 +36,19 @@ export default function Admin() {
     lifetime,
     global,
   } = useAdminData();
+  const [justUpdated, setJustUpdated] = useState(false);
 
+  async function handleReload() {
+    setJustUpdated(false);
+
+    await reloadAll();
+
+    setJustUpdated(true);
+
+    setTimeout(() => {
+      setJustUpdated(false);
+    }, 20000);
+  }
   if (loading) {
     return (
       <Wrap>
@@ -52,10 +65,22 @@ export default function Admin() {
       <Sub>besøkstall f.o.m. 17.12.2025</Sub>
 
       <Sub>
-        <Btn onClick={reloadAll} disabled={reloading} aria-busy={reloading}>
-          {reloading ? <MiniPawSpinner style={{ marginRight: 8 }} /> : null}
-
-          {reloading ? "Oppdaterer…" : "Oppdater"}
+        <Btn
+          type="button"
+          onClick={handleReload}
+          disabled={reloading}
+          aria-busy={reloading}
+        >
+          {reloading ? (
+            <>
+              <MiniPawSpinner style={{ marginRight: 8 }} />
+              Oppdaterer…
+            </>
+          ) : justUpdated ? (
+            "Oppdatert ✓"
+          ) : (
+            "Oppdater"
+          )}
         </Btn>
       </Sub>
 

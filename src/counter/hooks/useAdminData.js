@@ -92,17 +92,26 @@ export default function useAdminData() {
   async function reloadAll() {
     setReloading(true);
 
+    const startedAt = Date.now();
+
     try {
       const result = await fetchAllStats();
 
       setToday(result.today);
-
       setSincePosthogStart(result.sincePosthogStart);
-
       setRefTs(Date.now());
     } catch (error) {
       console.error("Kunne ikke oppdatere admin-statistikk:", error);
     } finally {
+      const elapsed = Date.now() - startedAt;
+      const minimumLoadingTime = 500;
+
+      if (elapsed < minimumLoadingTime) {
+        await new Promise((resolve) =>
+          setTimeout(resolve, minimumLoadingTime - elapsed),
+        );
+      }
+
       setReloading(false);
     }
   }

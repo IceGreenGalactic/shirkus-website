@@ -62,7 +62,7 @@ export const RetryButton = styled.button`
 `;
 
 export const MiniPaw = styled(FaPaw)`
-  animation: ${rotatePaw} 0.8s linear infinite;
+  animation: ${rotatePaw} 1.2s linear infinite;
   font-size: ${(props) => props.size || "1rem"};
   color: ${(props) => props.color || props.theme.colors.accent};
   display: inline-block;
