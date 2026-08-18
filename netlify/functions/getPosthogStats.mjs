@@ -171,30 +171,34 @@ export default async (request) => {
        * deretter sessions per land.
        */
       const countriesQuery = `
-        SELECT
-          country,
-          count() AS sessions
-        FROM (
-          SELECT
-            $session_id AS sessionId,
-            argMin(
-              properties.$geoip_country_name,
-              timestamp
-            ) AS country
-          FROM events
-          WHERE
-            event = '$pageview'
-            AND timestamp >= now() - INTERVAL 30 DAY
-            AND $session_id IS NOT NULL
-          GROUP BY sessionId
-        )
-        WHERE
-          country IS NOT NULL
-          AND country != ''
-        GROUP BY country
-        ORDER BY sessions DESC
-        LIMIT 10
-      `;
+  SELECT
+    country,
+    count() AS visitors
+  FROM (
+    SELECT
+      distinct_id,
+
+      argMin(
+        properties.$geoip_country_name,
+        timestamp
+      ) AS country
+
+    FROM events
+    WHERE
+      event = '$pageview'
+      AND timestamp >= now() - INTERVAL 30 DAY
+
+    GROUP BY distinct_id
+  )
+
+  WHERE
+    country IS NOT NULL
+    AND country != ''
+
+  GROUP BY country
+  ORDER BY visitors DESC
+  LIMIT 10
+`;
 
       /*
        * Første referrer i hver session
@@ -205,77 +209,77 @@ export default async (request) => {
        * vedkommende åpner flere sider.
        */
       const sourcesQuery = `
-        SELECT
-          source,
-          count() AS sessions
-        FROM (
-          SELECT
-            sessionId,
+  SELECT
+    source,
+    count() AS sessions
+  FROM (
+    SELECT
+      sessionId,
 
-            CASE
-              WHEN
-                referrer IS NULL
-                OR referrer = ''
-                OR referrer = '$direct'
-              THEN 'Direkte'
+      CASE
+        WHEN
+          referrer IS NULL
+          OR referrer = ''
+          OR referrer = '$direct'
+        THEN 'Direkte'
 
-              WHEN
-                positionCaseInsensitive(
-                  referrer,
-                  'google.'
-                ) > 0
-              THEN 'Google'
+        WHEN
+          positionCaseInsensitive(
+            referrer,
+            'google.'
+          ) > 0
+        THEN 'Google'
 
-              WHEN
-                positionCaseInsensitive(
-                  referrer,
-                  'facebook.com'
-                ) > 0
-                OR positionCaseInsensitive(
-                  referrer,
-                  'fb.com'
-                ) > 0
-              THEN 'Facebook'
+        WHEN
+          positionCaseInsensitive(
+            referrer,
+            'facebook.com'
+          ) > 0
+          OR positionCaseInsensitive(
+            referrer,
+            'fb.com'
+          ) > 0
+        THEN 'Facebook'
 
-              WHEN
-                positionCaseInsensitive(
-                  referrer,
-                  'instagram.com'
-                ) > 0
-              THEN 'Instagram'
+        WHEN
+          positionCaseInsensitive(
+            referrer,
+            'instagram.com'
+          ) > 0
+        THEN 'Instagram'
 
-              WHEN
-                positionCaseInsensitive(
-                  referrer,
-                  'bing.com'
-                ) > 0
-              THEN 'Bing'
+        WHEN
+          positionCaseInsensitive(
+            referrer,
+            'bing.com'
+          ) > 0
+        THEN 'Bing'
 
-              ELSE 'Andre'
-            END AS source
+        ELSE 'Andre'
+      END AS source
 
-          FROM (
-            SELECT
-              $session_id AS sessionId,
+    FROM (
+      SELECT
+        $session_id AS sessionId,
 
-              argMin(
-                properties.$referrer,
-                timestamp
-              ) AS referrer
+        argMin(
+          properties.$referrer,
+          timestamp
+        ) AS referrer
 
-            FROM events
-            WHERE
-              event = '$pageview'
-              AND timestamp >= now() - INTERVAL 30 DAY
-              AND $session_id IS NOT NULL
+      FROM events
+      WHERE
+        event = '$pageview'
+        AND timestamp >= now() - INTERVAL 30 DAY
+        AND $session_id IS NOT NULL
 
-            GROUP BY sessionId
-          )
-        )
+      GROUP BY sessionId
+    )
+  )
 
-        GROUP BY source
-        ORDER BY sessions DESC
-      `;
+  GROUP BY source
+  ORDER BY sessions DESC
+`;
 
       const [countriesData, sourcesData] = await Promise.all([
         runQuery(countriesQuery, projectId, apiKey),
@@ -285,13 +289,11 @@ export default async (request) => {
 
       countries = (countriesData?.results || []).map((row) => ({
         country: row[0] || "Ukjent",
-
-        sessions: Number(row[1] || 0),
+        visitors: Number(row[1] || 0),
       }));
 
       sources = (sourcesData?.results || []).map((row) => ({
         source: row[0] || "Andre",
-
         sessions: Number(row[1] || 0),
       }));
     }

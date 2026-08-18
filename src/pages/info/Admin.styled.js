@@ -17,6 +17,12 @@ export const Sub = styled.p`
   color: ${({ theme }) => theme.colors.text};
   opacity: 0.8;
 `;
+export const Sub2 = styled.p`
+  margin: 0 0 18px;
+  color: ${({ theme }) => theme.colors.text};
+  opacity: 0.8;
+  fontsize: 8px;
+`;
 
 export const KPIGrid = styled.div`
   display: grid;
