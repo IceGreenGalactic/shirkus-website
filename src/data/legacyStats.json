@@ -13,10 +13,10 @@
     }
   },
   "global": {
-    "sessionsTotal": 1588,
-    "exactSessionsTotal": 1249,
+    "sessionsTotal": 1592,
+    "exactSessionsTotal": 1253,
     "estimatedSessionsTotal": 339,
-    "uniqueVisitorsTotal": 618,
+    "uniqueVisitorsTotal": 619,
     "days": {
       "2025-12-17": {
         "sessions": 2,
@@ -1209,8 +1209,8 @@
         "sessionsEstimated": true
       },
       "2026-08-17": {
-        "sessions": 16,
-        "uniqueVisitors": 11,
+        "sessions": 20,
+        "uniqueVisitors": 13,
         "sessionsEstimated": false
       }
     },
@@ -1391,8 +1391,8 @@
         "hasEstimatedSessions": true
       },
       "2026-W34": {
-        "sessions": 16,
-        "uniqueVisitors": 11,
+        "sessions": 20,
+        "uniqueVisitors": 13,
         "hasEstimatedSessions": false
       }
     },
@@ -1438,8 +1438,8 @@
         "hasEstimatedSessions": true
       },
       "2026-08": {
-        "sessions": 153,
-        "uniqueVisitors": 58,
+        "sessions": 157,
+        "uniqueVisitors": 59,
         "hasEstimatedSessions": true
       }
     },
@@ -1450,8 +1450,8 @@
         "hasEstimatedSessions": false
       },
       "2026": {
-        "sessions": 1430,
-        "uniqueVisitors": 566,
+        "sessions": 1434,
+        "uniqueVisitors": 567,
         "hasEstimatedSessions": true
       }
     }
@@ -1942,8 +1942,8 @@
     },
     {
       "page": "/contact",
-      "sessionsTotal": 175,
-      "uniqueVisitorsTotal": 108,
+      "sessionsTotal": 176,
+      "uniqueVisitorsTotal": 109,
       "days": {
         "2025-12-18": {
           "sessions": 1,
@@ -2354,8 +2354,8 @@
           "uniqueVisitors": 1
         },
         "2026-08-17": {
-          "sessions": 1,
-          "uniqueVisitors": 1
+          "sessions": 2,
+          "uniqueVisitors": 2
         }
       }
     },
@@ -3868,7 +3868,7 @@
     },
     {
       "page": "/dogs/95b90bbf-1081-43da-96f0-428e312e9431",
-      "sessionsTotal": 107,
+      "sessionsTotal": 108,
       "uniqueVisitorsTotal": 56,
       "days": {
         "2025-12-21": {
@@ -4136,7 +4136,7 @@
           "uniqueVisitors": 1
         },
         "2026-08-17": {
-          "sessions": 1,
+          "sessions": 2,
           "uniqueVisitors": 1
         }
       }
@@ -5801,8 +5801,8 @@
     },
     {
       "page": "/",
-      "sessionsTotal": 1249,
-      "uniqueVisitorsTotal": 519,
+      "sessionsTotal": 1253,
+      "uniqueVisitorsTotal": 521,
       "days": {
         "2025-12-17": {
           "sessions": 2,
@@ -6589,15 +6589,15 @@
           "uniqueVisitors": 10
         },
         "2026-08-17": {
-          "sessions": 16,
-          "uniqueVisitors": 11
+          "sessions": 20,
+          "uniqueVisitors": 13
         }
       }
     },
     {
       "page": "/",
-      "sessionsTotal": 924,
-      "uniqueVisitorsTotal": 471,
+      "sessionsTotal": 926,
+      "uniqueVisitorsTotal": 473,
       "days": {
         "2025-12-17": {
           "sessions": 2,
@@ -7384,8 +7384,8 @@
           "uniqueVisitors": 4
         },
         "2026-08-17": {
-          "sessions": 8,
-          "uniqueVisitors": 7
+          "sessions": 10,
+          "uniqueVisitors": 9
         }
       }
     },
@@ -8355,8 +8355,8 @@
     },
     {
       "page": "/litters/10c3685f-fa17-4bfd-914f-94df8dc2124c",
-      "sessionsTotal": 696,
-      "uniqueVisitorsTotal": 201,
+      "sessionsTotal": 700,
+      "uniqueVisitorsTotal": 202,
       "days": {
         "2026-04-28": {
           "sessions": 4,
@@ -8767,8 +8767,8 @@
           "uniqueVisitors": 12
         },
         "2026-08-17": {
-          "sessions": 12,
-          "uniqueVisitors": 10
+          "sessions": 16,
+          "uniqueVisitors": 12
         }
       }
     },
