@@ -9,68 +9,83 @@ import {
   ParentRow,
   Arrow,
 } from "../../pages/info/Admin.styled";
+
 import { FaPaw } from "react-icons/fa";
 import usePrettyNames from "../../hooks/usePrettyNames";
+import { pageNameMap, getPageLabel } from "../utils/labelUtils";
 
 const nf = new Intl.NumberFormat("no-NO");
-const topSlugs = new Set([
-  "/",
-  "/dogs",
-  "/litters",
-  "/gallery",
-  "/about",
-  "/contact",
-]);
-const labels = {
-  "/": "Hjem",
-  "/dogs": "Våre hunder",
-  "/litters": "Valpekull",
-  "/gallery": "Galleri",
-  "/about": "Om oss",
-  "/contact": "Kontakt",
-};
+
+const expandableSlugs = new Set(["/dogs", "/litters", "/gallery"]);
 
 export default function StatsTable({
+  totalRow,
   rows,
   childrenByGroup,
   expanded,
   setExpanded,
 }) {
   const pretty = usePrettyNames(childrenByGroup);
+
   return (
     <Table>
       <thead>
         <tr>
           <Th>Side</Th>
-          <Th>besøk total</Th>
           <Th>I dag</Th>
-          <Th>Unike</Th>
+          <Th>Unike i dag</Th>
+          <Th>Besøk totalt</Th>
+          <Th>Unike totalt</Th>
         </tr>
       </thead>
+
       <tbody>
-        {rows.map((r) => (
-          <React.Fragment key={r.page}>
-            <ParentRow className={expanded[r.page] ? "open" : ""}>
+        <ParentRow>
+          <Td>
+            <strong>Totalt</strong>
+          </Td>
+
+          <Td>
+            <strong>{nf.format(Number(totalRow?.sessionsToday || 0))}</strong>
+          </Td>
+
+          <Td>
+            <strong>{nf.format(Number(totalRow?.uniquesToday || 0))}</strong>
+          </Td>
+
+          <Td>
+            <strong>{nf.format(Number(totalRow?.sessionsTotal || 0))}</strong>
+          </Td>
+
+          <Td>
+            <strong>{nf.format(Number(totalRow?.uniquesTotal || 0))}</strong>
+          </Td>
+        </ParentRow>
+
+        {rows.map((row) => (
+          <React.Fragment key={row.page}>
+            <ParentRow className={expanded[row.page] ? "open" : ""}>
               <Td>
-                {topSlugs.has(r.page) ? (
-                  <RowLabel
-                    slug={r.page}
-                    childrenByGroup={childrenByGroup}
-                    expanded={expanded}
-                    setExpanded={setExpanded}
-                  />
-                ) : (
-                  labels[r.page] || r.page
-                )}
+                <RowLabel
+                  row={row}
+                  childrenByGroup={childrenByGroup}
+                  expanded={expanded}
+                  setExpanded={setExpanded}
+                />
               </Td>
-              <Td>{nf.format(Number(r.sessionsTotal || 0))}</Td>
-              <Td>{nf.format(Number(r.sessionsToday || 0))}</Td>
-              <Td>{nf.format(Number(r.uniquesTotal || 0))}</Td>
+
+              <Td>{nf.format(Number(row.sessionsToday || 0))}</Td>
+
+              <Td>{nf.format(Number(row.uniquesToday || 0))}</Td>
+
+              <Td>{nf.format(Number(row.sessionsTotal || 0))}</Td>
+
+              <Td>{nf.format(Number(row.uniquesTotal || 0))}</Td>
             </ParentRow>
 
-            {topSlugs.has(r.page) && expanded[r.page] && (
+            {expandableSlugs.has(row.page) && expanded[row.page] && (
               <ChildrenRows
-                slug={r.page}
+                slug={row.page}
                 childrenByGroup={childrenByGroup}
                 pretty={pretty}
               />
@@ -82,42 +97,65 @@ export default function StatsTable({
   );
 }
 
-function RowLabel({ slug, childrenByGroup, expanded, setExpanded }) {
+function RowLabel({ row, childrenByGroup, expanded, setExpanded }) {
+  const slug = row.page;
+
   const items = childrenByGroup[slug] || [];
-  const canExpand = items.length > 0;
-  const isOpen = expanded[slug];
+
+  const canExpand = expandableSlugs.has(slug) && items.length > 0;
+
+  const isOpen = Boolean(expanded[slug]);
+
+  const label = pageNameMap[slug] || getPageLabel(slug);
+
+  if (!canExpand) {
+    return label;
+  }
+
   return (
     <span
-      onClick={
-        canExpand
-          ? () => setExpanded((e) => ({ ...e, [slug]: !e[slug] }))
-          : undefined
+      onClick={() =>
+        setExpanded((current) => ({
+          ...current,
+          [slug]: !current[slug],
+        }))
       }
-      style={{ cursor: canExpand ? "pointer" : "default", userSelect: "none" }}
+      style={{
+        cursor: "pointer",
+        userSelect: "none",
+      }}
     >
-      {canExpand && (
-        <Arrow className={isOpen ? "open" : undefined}>
-          <FaPaw />
-        </Arrow>
-      )}
+      <Arrow className={isOpen ? "open" : undefined}>
+        <FaPaw />
+      </Arrow>
 
-      {labels[slug] || slug}
+      {label}
     </span>
   );
 }
 
 function ChildrenRows({ slug, childrenByGroup, pretty }) {
   const items = childrenByGroup[slug] || [];
-  if (items.length === 0) return null;
+
+  if (items.length === 0) {
+    return null;
+  }
 
   return (
     <>
-      {items.map((r) => (
-        <ChildRow key={r.page}>
-          <ChildCellName>{pretty[r.page] || r.page}</ChildCellName>
-          <ChildCell>{nf.format(Number(r.sessionsTotal || 0))}</ChildCell>
-          <ChildCell>{nf.format(Number(r.sessionsToday || 0))}</ChildCell>
-          <ChildCell>{nf.format(Number(r.uniquesTotal || 0))}</ChildCell>
+      {items.map((row) => (
+        <ChildRow key={row.page}>
+          <ChildCellName>
+            {pretty[row.page] || getPageLabel(row.page, pretty)}
+          </ChildCellName>
+
+          <ChildCell>{nf.format(Number(row.sessionsToday || 0))}</ChildCell>
+
+          <ChildCell>{nf.format(Number(row.uniquesToday || 0))}</ChildCell>
+
+          <ChildCell>{nf.format(Number(row.sessionsTotal || 0))}</ChildCell>
+
+          <ChildCell>{nf.format(Number(row.uniquesTotal || 0))}</ChildCell>
         </ChildRow>
       ))}
     </>

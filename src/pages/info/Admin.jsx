@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Wrap,
   Title,
@@ -9,39 +10,79 @@ import {
   TableWrap,
   RangeGrid,
   SectionTitle,
-  Badge,
   Btn,
 } from "./Admin.styled";
-import RollingPanels from "../../counter/components/RollingPanels";
-import { MiniPawSpinner } from "../../utils/LoadingSpinner";
-import useAdminData from "../../hooks/useAdminData";
+
+import TrafficOverview from "../../counter/components/TrafficOverview";
 import StatsTable from "../../counter/components/StatsTable";
+import RollingPanels from "../../counter/components/RollingPanels";
+
+import { MiniPawSpinner } from "../../utils/LoadingSpinner";
+import useAdminData from "../../counter/hooks/useAdminData";
 
 const nf = new Intl.NumberFormat("no-NO");
 
 export default function Admin() {
   const {
     rows,
+    totalRow,
     childrenByGroup,
     expanded,
     setExpanded,
-    global,
     loading,
-    refTs,
     reloading,
+    refTs,
+    reloadAll,
     dailyToday,
     lifetime,
-    reloadAll,
+    global,
+    traffic,
   } = useAdminData();
+  const [justUpdated, setJustUpdated] = useState(false);
+
+  async function handleReload() {
+    setJustUpdated(false);
+
+    await reloadAll();
+
+    setJustUpdated(true);
+
+    setTimeout(() => {
+      setJustUpdated(false);
+    }, 20000);
+  }
+  if (loading) {
+    return (
+      <Wrap>
+        <Title>Kontrollpanel</Title>
+        <MiniPawSpinner />
+      </Wrap>
+    );
+  }
 
   return (
     <Wrap>
       <Title>Kontrollpanel</Title>
-      <Sub>besøkstall f.o.m 07.11.2025</Sub>
+
+      <Sub>besøkstall f.o.m. 17.12.2025</Sub>
+
       <Sub>
-        <Btn onClick={reloadAll} disabled={reloading} aria-busy={reloading}>
-          {reloading ? <MiniPawSpinner style={{ marginRight: 8 }} /> : null}
-          {reloading ? "Oppdaterer…" : "Oppdater"}
+        <Btn
+          type="button"
+          onClick={handleReload}
+          disabled={reloading}
+          aria-busy={reloading}
+        >
+          {reloading ? (
+            <>
+              <MiniPawSpinner style={{ marginRight: 8 }} />
+              Oppdaterer…
+            </>
+          ) : justUpdated ? (
+            "Oppdatert ✓"
+          ) : (
+            "Oppdater"
+          )}
         </Btn>
       </Sub>
 
@@ -52,18 +93,21 @@ export default function Admin() {
             {nf.format(Number(dailyToday.sessionsTotal || 0))}
           </KPIValue>
         </KPICard>
+
         <KPICard>
           <KPIName>Besøk totalt</KPIName>
           <KPIValue>{nf.format(Number(lifetime.sessionsTotal || 0))}</KPIValue>
         </KPICard>
+
         <KPICard>
           <KPIName>Unike besøkere (alle tider)</KPIName>
-          <KPIValue>{nf.format(global.uniquesGlobal)}</KPIValue>
+          <KPIValue>{nf.format(Number(global.uniquesGlobal || 0))}</KPIValue>
         </KPICard>
       </KPIGrid>
 
       <TableWrap>
         <StatsTable
+          totalRow={totalRow}
           rows={rows}
           childrenByGroup={childrenByGroup}
           expanded={expanded}
@@ -72,9 +116,11 @@ export default function Admin() {
       </TableWrap>
 
       <SectionTitle>Rullerende oversikt</SectionTitle>
+
       <RangeGrid>
         <RollingPanels refreshKey={refTs} />
       </RangeGrid>
+      <TrafficOverview traffic={traffic} />
     </Wrap>
   );
 }

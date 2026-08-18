@@ -17,6 +17,12 @@ export const Sub = styled.p`
   color: ${({ theme }) => theme.colors.text};
   opacity: 0.8;
 `;
+export const Sub2 = styled.p`
+  margin: 0 0 18px;
+  color: ${({ theme }) => theme.colors.text};
+  opacity: 0.8;
+  fontsize: 8px;
+`;
 
 export const KPIGrid = styled.div`
   display: grid;
@@ -96,6 +102,7 @@ export const Badge = styled.span`
   color: ${({ theme }) => theme.colors.text};
   border: 1px solid #eee;
   font-size: 12px;
+  margin: 0px 0px 10px 1px;
 `;
 
 export const SectionTitle = styled.h2`
@@ -245,7 +252,10 @@ export const Arrow = styled.span`
   margin-right: 6px;
   font-size: 14px;
   opacity: 0.45;
-  transition: transform 0.15s ease, opacity 0.15s ease, color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease,
+    color 0.15s ease;
   color: ${({ theme }) => theme.colors.accentTransparent};
   transform-origin: center;
 
@@ -253,5 +263,18 @@ export const Arrow = styled.span`
     transform: rotate(40deg);
     color: ${({ theme }) => theme.colors.accent};
     opacity: 0.9;
+  }
+`;
+
+export const TrafficGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 400px));
+  gap: 16px;
+  justify-content: space-between;
+  text-align: center;
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+    max-width: 80%;
+    margin: auto;
   }
 `;

@@ -1,20 +1,18 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { getOrCreateVisitorId } from "./getVisitorId";
+import posthog from "../analytics/posthog";
 
 export default function TrackAllRoutes() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
 
   useEffect(() => {
     if (pathname.startsWith("/admin")) return;
-    const visitorId = getOrCreateVisitorId();
-    fetch("/.netlify/functions/countVisit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ page: pathname, visitorId }),
-      keepalive: true,
-    }).catch(() => {});
-  }, [pathname]);
+
+    posthog.capture("$pageview", {
+      $current_url: window.location.href,
+      pathname,
+    });
+  }, [pathname, search]);
 
   return null;
 }
