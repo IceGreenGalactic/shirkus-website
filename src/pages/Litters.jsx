@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import sanityClient from "../sanityClient";
 import { LitterCard, LitterContainer } from "./Litters.styled";
 import { urlFor } from "../utils/sanityImage";
+import { getLitterParentImage } from "../utils/litterParentImage";
 import LoadingSpinner from "../utils/LoadingSpinner";
 
 // Helper function to get name
@@ -15,13 +16,8 @@ const getDogName = (dog) => {
 
 const getDogImage = (dog) => {
   if (!dog) return null;
-  return dog.overrideImage?.asset
-    ? urlFor(dog.overrideImage)
-    : dog.dogReference?.image?.asset
-    ? urlFor(dog.dogReference.image)
-    : dog.image?.asset
-    ? urlFor(dog.image)
-    : null;
+  const image = getLitterParentImage(dog, dog.dogReference);
+  return image ? urlFor(image) : null;
 };
 
 const LitterCardItem = ({ litter }) => {
@@ -113,6 +109,8 @@ const Litters = () => {
           mother {
             name,
             nickname,
+            overrideImageButton,
+            imageSelectionVersion,
             image { asset-> { _id, _ref }, crop, hotspot },
             overrideImage { asset-> { _id, _ref }, crop, hotspot },
             dogReference->{name, nickname, image, isOwned}
@@ -120,6 +118,8 @@ const Litters = () => {
           father {
             name,
             nickname,
+            overrideImageButton,
+            imageSelectionVersion,
             image { asset-> { _id, _ref }, crop, hotspot },
             overrideImage { asset-> { _id, _ref }, crop, hotspot },
             dogReference->{name, nickname, image, isOwned}
