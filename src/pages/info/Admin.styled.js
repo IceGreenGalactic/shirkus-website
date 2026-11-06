@@ -1,9 +1,42 @@
 import styled from "styled-components";
 
+const pawPattern = (color) => `url("data:image/svg+xml,${encodeURIComponent(`
+  <svg xmlns="http://www.w3.org/2000/svg" width="520" height="560" viewBox="0 0 520 560">
+    <defs>
+      <g id="paw" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <ellipse cx="18" cy="27" rx="6" ry="9" transform="rotate(-28 18 27)"/>
+        <ellipse cx="32" cy="16" rx="6" ry="9" transform="rotate(-10 32 16)"/>
+        <ellipse cx="48" cy="16" rx="6" ry="9" transform="rotate(10 48 16)"/>
+        <ellipse cx="62" cy="27" rx="6" ry="9" transform="rotate(28 62 27)"/>
+        <path d="M40 33C32 33 29 42 23 47C17 52 18 63 26 65C31 67 35 62 40 62C45 62 49 67 54 65C62 63 63 52 57 47C51 42 48 33 40 33Z"/>
+      </g>
+    </defs>
+    <use href="#paw" transform="translate(24 36) rotate(-22 40 36) scale(1.15)"/>
+    <use href="#paw" transform="translate(332 20) rotate(24 40 36) scale(.6)"/>
+    <use href="#paw" transform="translate(198 180) rotate(16 40 36) scale(.8)"/>
+    <use href="#paw" transform="translate(406 260) rotate(-18 40 36) scale(1.05)"/>
+    <use href="#paw" transform="translate(18 358) rotate(28 40 36) scale(.55)"/>
+    <use href="#paw" transform="translate(234 414) rotate(-24 40 36) scale(1.35)"/>
+  </svg>
+`)}")`;
+
 export const Wrap = styled.div`
+  position: relative;
+  isolation: isolate;
   padding: 32px 24px;
   max-width: 1100px;
   margin: 0 auto;
+
+  &::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: ${({ theme }) => pawPattern(theme.colors.primary)};
+    background-repeat: repeat;
+    opacity: 0.12;
+  }
 `;
 
 export const Title = styled.h1`
@@ -179,6 +212,10 @@ export const BtnIcon = styled.button`
   &:hover {
     opacity: 0.9;
   }
+  &:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
 `;
 
 export const RangeLabel = styled.div`
@@ -266,15 +303,140 @@ export const Arrow = styled.span`
   }
 `;
 
+export const TrafficOverviewWrap = styled.section`
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1560px, calc(100vw - 48px));
+  @media (max-width: 700px) { width: calc(100vw - 32px); }
+`;
+
 export const TrafficGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, minmax(280px, 400px));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  align-items: start;
+  margin-top: 20px;
+  @media (max-width: 1050px) { grid-template-columns: minmax(0, 1fr); }
+`;
+
+export const TrafficSection = styled.section`
+  min-width: 0;
+  padding: 22px 16px 14px;
+  border-radius: 24px;
+  background: linear-gradient(150deg,
+    color-mix(in srgb, ${({ theme }) => theme.colors.accent} 4%, ${({ theme }) => theme.colors.white}),
+    ${({ theme }) => theme.colors.white});
+  border: 1px solid color-mix(in srgb, ${({ theme }) => theme.colors.accent} 40%, transparent);
+  box-shadow: 0 9px 24px rgba(0, 0, 0, 0.12);
+  > ${BtnIcon} { color: ${({ theme }) => theme.colors.title}; border-color: ${({ theme }) => theme.colors.accent}; }
+  @media (max-width: 700px) { padding: 18px 10px 12px; border-radius: 18px; }
+`;
+
+export const TrafficHeading = styled.h3`
+  margin: 0 0 4px;
+  font-family: ${({ theme }) => theme.fonts.heading};
+  font-size: clamp(22px, 2vw, 30px);
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.title};
+`;
+
+export const TrafficCardHeader = styled.header`
+  display: flex;
+  align-items: center;
   gap: 16px;
-  justify-content: space-between;
-  text-align: center;
-  @media (max-width: 700px) {
-    grid-template-columns: 1fr;
-    max-width: 80%;
-    margin: auto;
+  margin: 0 10px 20px;
+  > svg { width: 44px; height: 44px; flex-shrink: 0; color: ${({ theme }) => theme.colors.accent}; }
+  ${RangeLabel} { text-align: left; font-size: 14px; opacity: 0.85; }
+`;
+
+export const TrafficColumnHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 60px;
+  padding: 6px 2px;
+  border-radius: 10px;
+  color: ${({ theme }) => theme.colors.title};
+  background: color-mix(in srgb, ${({ theme }) => theme.colors.accent} 12%, ${({ theme }) => theme.colors.white});
+  > div { display: flex; align-items: center; justify-content: center; gap: 2px; font-weight: 700; font-size: 13px; }
+  small { font-weight: 400; font-size: 10px; line-height: 1.4; margin-top: 4px; }
+  ${BtnIcon} { border: 0; background: transparent; padding: 3px; color: inherit; }
+`;
+
+export const TrafficPeriodGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+  @media (max-width: 500px) { gap: 5px; }
+`;
+
+export const TrafficPeriodColumn = styled.section`
+  min-width: 0;
+  ${TrafficColumnHeader} { margin-bottom: 12px; }
+  > ${RangeLabel} { font-size: 12px; }
+  > ${BtnIcon} {
+    padding: 4px 6px;
+    margin-top: 8px;
+    font-size: 11px;
+    color: ${({ theme }) => theme.colors.title};
+    border-color: ${({ theme }) => theme.colors.accent};
   }
+`;
+
+export const TrafficPeriodList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+export const TrafficPeriodRow = styled.li`
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 2px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: ${({ theme }) => theme.colors.text};
+  strong { font-variant-numeric: tabular-nums; color: ${({ theme }) => theme.colors.title}; }
+  @media (max-width: 500px) { font-size: 12px; gap: 4px; }
+`;
+
+export const TrafficPeriodTotal = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 9px 8px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: ${({ theme }) => theme.colors.title};
+  background: color-mix(in srgb, ${({ theme }) => theme.colors.accent} 20%, ${({ theme }) => theme.colors.white});
+`;
+
+export const TrafficLabel = styled.span`
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  > span:first-child { display: flex; align-items: center; font-size: 18px; color: ${({ theme }) => theme.colors.accent}; }
+  > span:last-child { overflow-wrap: anywhere; }
+`;
+
+export const ScrollTopButton = styled(BtnIcon)`
+  position: fixed;
+  right: 20px;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 5px;
+  background: ${({ theme }) => theme.colors.primary};
+  border-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.white};
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.16);
 `;

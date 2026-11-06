@@ -51,7 +51,16 @@ export default async (request) => {
     const start = url.searchParams.get("start");
     const end = url.searchParams.get("end");
 
-    const includeTraffic = url.searchParams.get("includeTraffic") === "true";
+    const trafficOnly = url.searchParams.get("traffic") === "1";
+    const includeTraffic = trafficOnly || url.searchParams.get("includeTraffic") === "true";
+
+    if ((start || end) && (!start || !end ||
+        !/^\d{4}-\d{2}-\d{2}$/.test(start) || !/^\d{4}-\d{2}-\d{2}$/.test(end) ||
+        !Number.isFinite(Date.parse(start)) || !Number.isFinite(Date.parse(end)) || start > end)) {
+      return new Response(JSON.stringify({error: "Ugyldig datoperiode"}), {
+        status: 400, headers: {"Content-Type": "application/json"},
+      });
+    }
 
     let dateFilter;
 
@@ -125,7 +134,7 @@ export default async (request) => {
       ORDER BY pageviews DESC
     `;
 
-    const baseQueries = await Promise.all([
+    const baseQueries = trafficOnly ? [{results: []}, {results: []}] : await Promise.all([
       runQuery(totalsQuery, projectId, apiKey),
       runQuery(pagesQuery, projectId, apiKey),
     ]);
@@ -152,13 +161,10 @@ export default async (request) => {
       sessions: Number(row[3] || 0),
     }));
 
-    /*
-     * Trafikkdata brukes bare når
-     * includeTraffic=true.
-     *
-     * Dette er alltid siste 30 dager,
-     * uavhengig av range over.
-     */
+    // Traffic supports all recorded history, explicit dates, and the default rolling window.
+    const trafficDateFilter = start && end
+      ? dateFilter
+      : range === "all" ? "1 = 1" : "timestamp >= now() - INTERVAL 30 DAY";
     let countries = [];
     let sources = [];
 
@@ -186,7 +192,7 @@ export default async (request) => {
     FROM events
     WHERE
       event = '$pageview'
-      AND timestamp >= now() - INTERVAL 30 DAY
+      AND ${trafficDateFilter}
 
     GROUP BY distinct_id
   )
@@ -197,7 +203,7 @@ export default async (request) => {
 
   GROUP BY country
   ORDER BY visitors DESC
-  LIMIT 10
+  LIMIT 1000
 `;
 
       /*
@@ -270,7 +276,7 @@ export default async (request) => {
       FROM events
       WHERE
         event = '$pageview'
-        AND timestamp >= now() - INTERVAL 30 DAY
+        AND ${trafficDateFilter}
         AND $session_id IS NOT NULL
 
       GROUP BY sessionId
@@ -307,7 +313,9 @@ export default async (request) => {
         pages,
 
         traffic: {
-          periodDays: 30,
+          periodDays: start && end
+            ? Math.round((Date.parse(end) - Date.parse(start)) / 86400000) + 1
+            : range === "all" ? null : 30,
           countries,
           sources,
         },
