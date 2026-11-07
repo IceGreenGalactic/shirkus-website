@@ -9,6 +9,7 @@ import {
   SectionTitle, TrafficGrid, RangeLabel, BtnIcon, TrafficSection, TrafficHeading,
   TrafficCardHeader, TrafficColumnHeader, TrafficLabel, TrafficOverviewWrap,
   TrafficPeriodGrid, TrafficPeriodColumn, TrafficPeriodList, TrafficPeriodRow, TrafficPeriodTotal,
+  TrafficMobilePeriods,
 } from "../../pages/info/Admin.styled";
 
 const nf = new Intl.NumberFormat("nb-NO");
@@ -61,6 +62,7 @@ function PeriodList({ state, kind, total, title }) {
 }
 
 function ComparisonCard({ kind, refreshKey }) {
+  const [mobilePeriod, setMobilePeriod] = useState(2);
   const [daysOffset, setDaysOffset] = useState(0);
   const [weekOffset, setWeekOffset] = useState(0);
   const days = trafficRollingDays(daysOffset);
@@ -87,8 +89,16 @@ function ComparisonCard({ kind, refreshKey }) {
     <TrafficSection aria-label={title}>
       <TrafficCardHeader><MainIcon aria-hidden="true" /><div><TrafficHeading>{title}</TrafficHeading>
         <RangeLabel>{countries ? "Unike besøkende per land" : "Økter per trafikkilde"}</RangeLabel></div></TrafficCardHeader>
+      <TrafficMobilePeriods role="group" aria-label={`Velg periode – ${subject}`}>
+        {[{index: 2, label: weekOffset === 0 ? "Denne uka" : "Uke"},
+          {index: 1, label: "30 dager"}, {index: 0, label: "All tid"}].map((period) => (
+          <button key={period.index} type="button" aria-pressed={mobilePeriod === period.index}
+            onClick={() => setMobilePeriod(period.index)}>{period.label}</button>
+        ))}
+      </TrafficMobilePeriods>
       <TrafficPeriodGrid>
-            {columns.map((column, index) => <TrafficPeriodColumn key={index} aria-label={column.title}>
+            {columns.map((column, index) => <TrafficPeriodColumn key={index} aria-label={column.title}
+              data-mobile-active={mobilePeriod === index ? "true" : "false"}>
               <TrafficColumnHeader><div>
                 {column.setOffset && <BtnIcon type="button" disabled={!column.canOlder}
                   aria-label={`Forrige ${column.unit} – ${subject}`}

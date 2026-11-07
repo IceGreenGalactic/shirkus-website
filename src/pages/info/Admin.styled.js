@@ -360,7 +360,7 @@ export const TrafficColumnHeader = styled.div`
   color: ${({ theme }) => theme.colors.title};
   background: color-mix(in srgb, ${({ theme }) => theme.colors.accent} 12%, ${({ theme }) => theme.colors.white});
   > div { display: flex; align-items: center; justify-content: center; gap: 2px; font-weight: 700; font-size: 13px; }
-  small { font-weight: 400; font-size: 10px; line-height: 1.4; margin-top: 4px; }
+  small { margin: auto; font-weight: 400; font-size: 10px; line-height: 1.4; margin-top: 4px; }
   ${BtnIcon} { border: 0; background: transparent; padding: 3px; color: inherit; }
 `;
 
@@ -370,6 +370,37 @@ export const TrafficPeriodGrid = styled.div`
   gap: 10px;
   align-items: start;
   @media (max-width: 500px) { gap: 5px; }
+  @media (max-width: 499px) { grid-template-columns: minmax(0, 1fr); gap: 0; }
+`;
+
+export const TrafficMobilePeriods = styled.div`
+  display: none;
+  @media (max-width: 499px) {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    padding: 4px;
+    margin-bottom: 14px;
+    border-radius: 12px;
+    background: color-mix(in srgb, ${({ theme }) => theme.colors.accent} 14%, ${({ theme }) => theme.colors.white});
+    button {
+      min-height: 42px;
+      padding: 8px 4px;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: ${({ theme }) => theme.colors.title};
+      font: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button[aria-pressed="true"] {
+      background: ${({ theme }) => theme.colors.title};
+      color: ${({ theme }) => theme.colors.white};
+    }
+    button:focus-visible { outline: 2px solid ${({ theme }) => theme.colors.accent}; outline-offset: 2px; }
+  }
 `;
 
 export const TrafficPeriodColumn = styled.section`
@@ -383,6 +414,16 @@ export const TrafficPeriodColumn = styled.section`
     color: ${({ theme }) => theme.colors.title};
     border-color: ${({ theme }) => theme.colors.accent};
   }
+  @media (max-width: 499px) {
+    &[data-mobile-active="false"] { display: none; }
+    ${TrafficColumnHeader} {
+      min-height: 66px;
+      > div { gap: 14px; font-size: 15px; }
+      small { font-size: 12px; }
+      ${BtnIcon} { min-width: 40px; min-height: 40px; font-size: 24px; }
+    }
+    > ${BtnIcon} { min-height: 40px; padding: 8px 12px; font-size: 13px; }
+  }
 `;
 
 export const TrafficPeriodList = styled.ul`
@@ -393,7 +434,7 @@ export const TrafficPeriodList = styled.ul`
 
 export const TrafficPeriodRow = styled.li`
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 6px;
   padding: 4px 2px;
   font-size: 13px;
@@ -401,6 +442,7 @@ export const TrafficPeriodRow = styled.li`
   color: ${({ theme }) => theme.colors.text};
   strong { font-variant-numeric: tabular-nums; color: ${({ theme }) => theme.colors.title}; }
   @media (max-width: 500px) { font-size: 12px; gap: 4px; }
+  @media (max-width: 499px) { font-size: 14px; gap: 8px; padding: 6px 4px; }
 `;
 
 export const TrafficPeriodTotal = styled.div`
