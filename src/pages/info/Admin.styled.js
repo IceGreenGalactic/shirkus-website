@@ -354,14 +354,71 @@ export const TrafficColumnHeader = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 60px;
-  padding: 6px 2px;
+  min-height: 72px;
+  padding: 8px 6px;
   border-radius: 10px;
   color: ${({ theme }) => theme.colors.title};
-  background: color-mix(in srgb, ${({ theme }) => theme.colors.accent} 12%, ${({ theme }) => theme.colors.white});
-  > div { display: flex; align-items: center; justify-content: center; gap: 2px; font-weight: 700; font-size: 13px; }
-  small { margin: auto; font-weight: 400; font-size: 10px; line-height: 1.4; margin-top: 4px; }
-  ${BtnIcon} { border: 0; background: transparent; padding: 3px; color: inherit; }
+  background: color-mix(
+    in srgb,
+    ${({ theme }) => theme.colors.accent} 12%,
+    ${({ theme }) => theme.colors.white}
+  );
+
+  /* Pil – tekst – pil, samlet i midten */
+  > div {
+    display: grid;
+    grid-template-columns: 30px minmax(0, max-content) 30px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    font-weight: 700;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  > div > span {
+    grid-column: 2;
+    line-height: 1.3;
+    white-space: normal;
+  }
+
+  /* All tid har ingen piler */
+  > div > span:only-child {
+    grid-column: 1 / -1;
+  }
+
+  ${BtnIcon} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid #cbdede;
+    border-radius: 7px;
+    background: ${({ theme }) => theme.colors.white};
+    color: inherit;
+    font-size: 26px;
+    line-height: 1;
+  }
+
+  ${BtnIcon}:first-child {
+    grid-column: 1;
+  }
+
+  ${BtnIcon}:last-child {
+    grid-column: 3;
+  }
+
+  small {
+    display: block;
+    margin-top: 6px;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.4;
+    text-align: center;
+  }
 `;
 
 export const TrafficPeriodGrid = styled.div`
